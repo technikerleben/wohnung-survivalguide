@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nützliche Links – Erste Wohnung Survival Guide</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+    :root {
+      --sand:    #f5f0e8;
+      --warm:    #ede6d6;
+      --stone:   #c8bfae;
+      --ink:     #1c1a17;
+      --slate:   #4a4640;
+      --muted:   #7a736a;
+      --accent:  #5a4a8a;
+      --accent-light: #f0edf8;
+      --orange:  #c0632a;
+      --blue:    #3b6e8f;
+      --green:   #3d6b52;
+      --gold:    #b5892a;
+      --red:     #a83030;
+      --radius:  14px;
+      --shadow:  0 2px 16px rgba(28,26,23,.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav.topnav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(245,240,232,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--stone);
+      padding: 0 clamp(16px, 4vw, 48px);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; height: 60px;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem; color: var(--orange);
+      text-decoration: none; white-space: nowrap; margin-right: auto;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+    .nav-links a {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 13px; border-radius: 8px;
+      font-size: .82rem; font-weight: 500;
+      color: var(--slate); text-decoration: none;
+      transition: background .18s, color .18s; white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active { background: var(--warm); color: var(--ink); }
+    .nav-burger {
+      display: none; background: none; border: none;
+      cursor: pointer; padding: 8px; font-size: 1.4rem; color: var(--ink);
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: linear-gradient(135deg, #f0edf8 0%, #e0d8f0 100%);
+      border-bottom: 1px solid #c8bce0;
+      padding: clamp(36px,6vw,72px) clamp(16px,4vw,48px) clamp(28px,4vw,48px);
+    }
+    .page-header-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end;
+    }
+    .breadcrumb {
+      font-size: .78rem; color: var(--muted);
+      display: flex; align-items: center; gap: 6px; margin-bottom: 14px;
+    }
+    .breadcrumb a { color: var(--accent); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .page-header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.15; margin-bottom: 14px;
+    }
+    .page-header h1 em { font-style: italic; color: var(--accent); }
+    .page-header p { font-size: 1rem; color: var(--slate); font-weight: 300; max-width: 52ch; }
+    .header-icon {
+      width: 80px; height: 80px; background: #e0d8f0;
+      border-radius: 22px; display: flex; align-items: center;
+      justify-content: center; font-size: 2.4rem;
+      box-shadow: var(--shadow); flex-shrink: 0;
+    }
+
+    /* ── SUBNAV ── */
+    .subnav {
+      background: white; border-bottom: 1px solid var(--warm);
+      padding: 0 clamp(16px,4vw,48px); overflow-x: auto;
+    }
+    .subnav-inner { max-width: 1100px; margin: 0 auto; display: flex; }
+    .subnav a {
+      display: flex; align-items: center; gap: 7px;
+      padding: 14px 18px; font-size: .84rem; font-weight: 500;
+      color: var(--muted); text-decoration: none; white-space: nowrap;
+      border-bottom: 2.5px solid transparent;
+      transition: color .15s, border-color .15s;
+    }
+    .subnav a:hover { color: var(--ink); }
+    .subnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── MAIN LAYOUT ── */
+    .main-wrap {
+      max-width: 1100px; margin: 0 auto;
+      padding: 40px clamp(16px,4vw,48px);
+      display: grid; grid-template-columns: 220px 1fr;
+      gap: 40px; align-items: start;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar { position: sticky; top: 80px; }
+    .sidebar-title {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+    }
+    .sidebar-nav { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-radius: 10px;
+      font-size: .86rem; font-weight: 500;
+      color: var(--slate); text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .sidebar-nav a:hover { background: var(--warm); color: var(--ink); }
+    .sidebar-nav a.active { background: var(--accent-light); color: var(--accent); }
+    .sidebar-nav .sn-icon {
+      width: 28px; height: 28px; border-radius: 7px; background: var(--warm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem; flex-shrink: 0;
+    }
+    .sidebar-divider { height: 1px; background: var(--stone); opacity: .4; margin: 16px 0; }
+    .sidebar-back {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px; border-radius: 10px;
+      font-size: .82rem; color: var(--muted);
+      text-decoration: none; transition: background .15s, color .15s;
+    }
+    .sidebar-back:hover { background: var(--warm); color: var(--ink); }
+
+    /* ── CONTENT ── */
+    .content { min-width: 0; }
+    .content-section { margin-bottom: 52px; scroll-margin-top: 90px; }
+    .section-eyebrow {
+      font-size: .7rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+    }
+    .content-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.3rem, 2.5vw, 1.7rem); margin-bottom: 8px;
+    }
+    .content-section > p {
+      font-size: .92rem; color: var(--slate);
+      font-weight: 300; margin-bottom: 18px; max-width: 60ch;
+    }
+    .section-divider { height: 1px; background: var(--stone); opacity: .35; margin: 0 0 48px; }
+
+    /* ── LINK CARDS ── */
+    .link-grid {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+
+    .link-card {
+      display: flex; align-items: center; gap: 16px;
+      background: white; border-radius: var(--radius);
+      padding: 16px 20px;
+      text-decoration: none; color: inherit;
+      box-shadow: 0 1px 6px rgba(28,26,23,.07);
+      border: 1.5px solid transparent;
+      transition: border-color .18s, box-shadow .18s, transform .18s;
+    }
+    .link-card:hover {
+      border-color: var(--stone);
+      box-shadow: 0 4px 16px rgba(28,26,23,.12);
+      transform: translateY(-2px);
+    }
+
+    .link-favicon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+
+    /* Kategorie-Farben */
+    .lf-beratung  { background: #fff0e6; }
+    .lf-geld      { background: #fdf7e8; }
+    .lf-energie   { background: #eef4f0; }
+    .lf-diy       { background: #eef4f8; }
+    .lf-video     { background: #faf0f0; }
+    .lf-real      { background: #f0eeec; }
+    .lf-ki        { background: #f0edf8; }
+
+    .link-body { flex: 1; min-width: 0; }
+    .link-name {
+      font-size: .92rem; font-weight: 600;
+      margin-bottom: 2px; color: var(--ink);
+    }
+    .link-desc {
+      font-size: .82rem; color: var(--muted);
+      line-height: 1.4; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .link-url {
+      font-size: .74rem; color: var(--stone);
+      margin-top: 3px; font-family: monospace;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .link-tag {
+      font-size: .72rem; font-weight: 600; padding: 3px 10px;
+      border-radius: 100px; flex-shrink: 0; white-space: nowrap;
+    }
+    .lt-beratung { background: #fff0e6; color: var(--orange); }
+    .lt-geld     { background: #fdf7e8; color: var(--gold); }
+    .lt-energie  { background: #eef4f0; color: var(--green); }
+    .lt-diy      { background: #eef4f8; color: var(--blue); }
+    .lt-video    { background: #faf0f0; color: var(--red); }
+    .lt-real     { background: #f0eeec; color: var(--muted); }
+    .lt-ki       { background: #f0edf8; color: var(--accent); }
+
+    .link-arrow {
+      font-size: .85rem; color: var(--stone);
+      transition: color .15s, transform .15s; flex-shrink: 0;
+    }
+    .link-card:hover .link-arrow { color: var(--ink); transform: translateX(3px); }
+
+    /* ── AUFGABE ── */
+    .aufgabe-box {
+      background: linear-gradient(135deg, #f0edf8, #e4ddf4);
+      border: 1.5px solid #c8bce0;
+      border-radius: var(--radius); padding: 28px 32px;
+    }
+    .aufgabe-label {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+    }
+    .aufgabe-box h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem; margin-bottom: 12px;
+    }
+    .aufgabe-box p { font-size: .9rem; color: var(--slate); line-height: 1.6; margin-bottom: 16px; }
+
+    .aufgabe-steps {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px;
+    }
+    .aufgabe-step {
+      background: white; border-radius: 12px; padding: 16px 18px;
+      box-shadow: 0 1px 6px rgba(28,26,23,.07);
+    }
+    .as-num {
+      font-family: 'DM Serif Display', serif; font-size: 1.6rem;
+      color: var(--accent); opacity: .4; margin-bottom: 6px; line-height: 1;
+    }
+    .aufgabe-step h4 { font-size: .88rem; font-weight: 600; margin-bottom: 4px; }
+    .aufgabe-step p  { font-size: .8rem; color: var(--muted); line-height: 1.45; }
+
+    .aufgabe-frage {
+      background: white; border-radius: 10px; padding: 14px 18px;
+      font-size: .9rem; font-weight: 500; color: var(--ink);
+      border-left: 4px solid var(--accent);
+    }
+
+    /* ── HINWEIS ── */
+    .hinweis {
+      display: flex; align-items: flex-start; gap: 13px;
+      padding: 16px 20px; border-radius: 12px; border-left: 4px solid;
+      font-size: .88rem; line-height: 1.55; margin: 10px 0;
+    }
+    .h-warn   { background: #fdf3e8; border-color: #d98a3a; }
+    .h-ki     { background: #f5f1fc; border-color: #9b76d4; }
+    .hinweis-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .hinweis strong { display: block; margin-bottom: 2px; font-weight: 600; }
+
+    /* ── GESPRÄCHSANLASS ── */
+    .gespraech {
+      background: linear-gradient(135deg, #f0edf8, #e4ddf4);
+      border: 1.5px solid #c8bce0; border-radius: var(--radius); padding: 24px 28px;
+    }
+    .gespraech-label {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+    }
+    .gespraech h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+    .gespraech p  { font-size: .88rem; color: var(--slate); line-height: 1.6; }
+    .gespraech-items { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+    .g-item { display: flex; gap: 10px; align-items: flex-start; font-size: .86rem; color: var(--slate); }
+    .g-bullet { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--stone); padding: 32px clamp(16px,4vw,48px); margin-top: 32px; }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--orange); }
+    footer p { font-size: .8rem; color: var(--muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .main-wrap { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .page-header-inner { grid-template-columns: 1fr; }
+      .header-icon { display: none; }
+      .aufgabe-steps { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 800px) {
+      .nav-links {
+        display: none; position: absolute; top: 60px; left: 0; right: 0;
+        background: var(--sand); border-bottom: 1px solid var(--stone);
+        flex-direction: column; padding: 12px 16px 20px; gap: 4px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 10px 16px; font-size: .9rem; }
+      .nav-burger { display: block; }
+    }
+    @media (max-width: 540px) {
+      .link-url { display: none; }
+      .link-tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav class="topnav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">🏠 Erste Wohnung</a>
+    <button class="nav-burger" id="burger">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">🏠 Start</a></li>
+      <li><a href="wohnen.html">🛋️ Wohnen & Alltag</a></li>
+      <li><a href="technik.html">🔧 Technik & Reparatur</a></li>
+      <li><a href="strom-wasser.html">⚡ Strom, Wasser & Heizung</a></li>
+      <li><a href="geld-vertrag.html">💸 Geld & Vertrag</a></li>
+      <li><a href="ki-hilfe.html">🤖 Digitale Hilfe & KI</a></li>
+      <li><a href="links.html" class="active">🔗 Links</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── SEITENHEADER ── -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div>
+      <div class="breadcrumb">
+        <a href="index.html">Start</a> › Nützliche Links
+      </div>
+      <h1>Nützliche <em>Links</em></h1>
+      <p>Keine endlose URL-Sammlung – sondern handverlesene Seiten, die wirklich weiterhelfen. Sortiert nach Thema, mit kurzer Erklärung, wofür sie gut sind.</p>
+    </div>
+    <div class="header-icon">🔗</div>
+  </div>
+</header>
+
+<!-- ── SUBNAV ── -->
+<nav class="subnav">
+  <div class="subnav-inner">
+    <a href="#beratung" class="active">🏠 Beratung & Rechte</a>
+    <a href="#geld">💸 Geld & Vergleich</a>
+    <a href="#energie">💡 Energie</a>
+    <a href="#diy">🛠️ DIY & Reparatur</a>
+    <a href="#videos">🎥 Erklärvideos</a>
+    <a href="#reallife">🧑‍🔧 Hilfe im echten Leben</a>
+    <a href="#ki">🤖 KI & digital</a>
+    <a href="#aufgabe">📋 Unterrichtsaufgabe</a>
+  </div>
+</nav>
+
+<!-- ── HAUPTINHALT ── -->
+<div class="main-wrap">
+
+  <aside class="sidebar">
+    <div class="sidebar-title">Kategorien</div>
+    <ul class="sidebar-nav">
+      <li><a href="#beratung" class="active"><span class="sn-icon">🏠</span>Beratung & Rechte</a></li>
+      <li><a href="#geld"><span class="sn-icon">💸</span>Geld & Vergleich</a></li>
+      <li><a href="#energie"><span class="sn-icon">💡</span>Energie</a></li>
+      <li><a href="#diy"><span class="sn-icon">🛠️</span>DIY & Reparatur</a></li>
+      <li><a href="#videos"><span class="sn-icon">🎥</span>Erklärvideos</a></li>
+      <li><a href="#reallife"><span class="sn-icon">🧑‍🔧</span>Hilfe im echten Leben</a></li>
+      <li><a href="#ki"><span class="sn-icon">🤖</span>KI & digital</a></li>
+      <li><a href="#aufgabe"><span class="sn-icon">📋</span>Unterrichtsaufgabe</a></li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <a href="ki-hilfe.html" class="sidebar-back">← Digitale Hilfe & KI</a>
+    <a href="index.html" class="sidebar-back">← Zurück zur Startseite</a>
+  </aside>
+
+  <main class="content">
+
+    <!-- ── 1. BERATUNG & RECHTE ── -->
+    <section class="content-section" id="beratung">
+      <div class="section-eyebrow">Kategorie 1</div>
+      <h2>🏠 Beratung & Rechte</h2>
+      <p>Wenn es um Mietvertrag, Rechte und Kostenfallen geht – diese Seiten geben verlässliche Antworten.</p>
+
+      <div class="link-grid">
+        <a class="link-card" href="https://www.mieterbund.de" target="_blank" rel="noopener">
+          <div class="link-favicon lf-beratung">🏠</div>
+          <div class="link-body">
+            <div class="link-name">Deutscher Mieterbund</div>
+            <div class="link-desc">Infos zu Mietvertrag, Nebenkosten, Rechten und Pflichten als Mieter:in</div>
+            <div class="link-url">mieterbund.de</div>
+          </div>
+          <span class="link-tag lt-beratung">Mietrecht</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://www.verbraucherzentrale.de" target="_blank" rel="noopener">
+          <div class="link-favicon lf-beratung">⚖️</div>
+          <div class="link-body">
+            <div class="link-name">Verbraucherzentrale</div>
+            <div class="link-desc">Sehr gute Erklärungen zu Verträgen, Kostenfallen und Energie – unabhängig und kostenlos</div>
+            <div class="link-url">verbraucherzentrale.de</div>
+          </div>
+          <span class="link-tag lt-beratung">Verbraucherrecht</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://www.finanztip.de" target="_blank" rel="noopener">
+          <div class="link-favicon lf-beratung">💡</div>
+          <div class="link-body">
+            <div class="link-name">Finanztip</div>
+            <div class="link-desc">Verständliche Tipps zu Geld, Versicherungen und Wohnen – ohne Werbung und Produktempfehlungen</div>
+            <div class="link-url">finanztip.de</div>
+          </div>
+          <span class="link-tag lt-beratung">Finanzen</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://www.bmwsb.bund.de" target="_blank" rel="noopener">
+          <div class="link-favicon lf-beratung">🏛️</div>
+          <div class="link-body">
+            <div class="link-name">Bundesministerium Wohnen</div>
+            <div class="link-desc">Offizielle Informationen rund ums Wohnen – Mietrecht, Wohngeld, Förderprogramme</div>
+            <div class="link-url">bmwsb.bund.de</div>
+          </div>
+          <span class="link-tag lt-beratung">Offiziell</span>
+          <span class="link-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 2. GELD & VERGLEICH ── -->
+    <section class="content-section" id="geld">
+      <div class="section-eyebrow">Kategorie 2</div>
+      <h2>💸 Geld & Kosten im Alltag</h2>
+      <p>Strom, Internet, Versicherungen – hier kannst du Anbieter vergleichen und zu viel bezahlte Kosten vermeiden.</p>
+
+      <div class="link-grid">
+        <a class="link-card" href="https://www.check24.de" target="_blank" rel="noopener">
+          <div class="link-favicon lf-geld">🔍</div>
+          <div class="link-body">
+            <div class="link-name">Check24</div>
+            <div class="link-desc">Vergleich von Strom, Internet, Versicherungen, Handytarifen – schnell und übersichtlich</div>
+            <div class="link-url">check24.de</div>
+          </div>
+          <span class="link-tag lt-geld">Vergleich</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://www.verivox.de" target="_blank" rel="noopener">
+          <div class="link-favicon lf-geld">⚡</div>
+          <div class="link-body">
+            <div class="link-name">Verivox</div>
+            <div class="link-desc">Ebenfalls Vergleichsportal – besonders stark bei Strom und Gas, alternative Quelle zu Check24</div>
+            <div class="link-url">verivox.de</div>
+          </div>
+          <span class="link-tag lt-geld">Vergleich</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://www.stromspiegel.de" target="_blank" rel="noopener">
+          <div class="link-favicon lf-geld">📊</div>
+          <div class="link-body">
+            <div class="link-name">Stromspiegel</div>
+            <div class="link-desc">Zeigt dir, ob dein Stromverbrauch für deine Wohnungsgröße normal ist – mit Vergleichswerten</div>
+            <div class="link-url">stromspiegel.de</div>
+          </div>
+          <span class="link-tag lt-geld">Verbrauch</span>
+          <span class="link-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 3. ENERGIE ── -->
+    <section class="content-section" id="energie">
+      <div class="section-eyebrow">Kategorie 3</div>
+      <h2>💡 Energie & Nachhaltigkeit</h2>
+      <p>Wie funktioniert Heizung, Strom und Wärme wirklich? Und wie kann man etwas bewegen?</p>
+
+      <div class="link-grid">
+        <a class="link-card" href="https://www.energie-lexikon.info" target="_blank" rel="noopener">
+          <div class="link-favicon lf-energie">📖</div>
+          <div class="link-body">
+            <div class="link-name">Energie-Lexikon</div>
+            <div class="link-desc">Verständliche Erklärungen zu Energie, Strom, Heizung – gut für Begriffe, die man nicht kennt</div>
+            <div class="link-url">energie-lexikon.info</div>
+          </div>
+          <span class="link-tag lt-energie">Wissen</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://www.co2online.de" target="_blank" rel="noopener">
+          <div class="link-favicon lf-energie">🌱</div>
+          <div class="link-body">
+            <div class="link-name">co2online</div>
+            <div class="link-desc">Alltagsnahe Tipps zum Energiesparen – mit konkreten Zahlen und Einsparpotenzial</div>
+            <div class="link-url">co2online.de</div>
+          </div>
+          <span class="link-tag lt-energie">Sparen</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://www.electricitymaps.com" target="_blank" rel="noopener">
+          <div class="link-favicon lf-energie">🗺️</div>
+          <div class="link-body">
+            <div class="link-name">Electricity Maps</div>
+            <div class="link-desc">Zeigt live, woher der Strom kommt und wie „sauber" er gerade ist – Europa-Karte in Echtzeit</div>
+            <div class="link-url">electricitymaps.com</div>
+          </div>
+          <span class="link-tag lt-energie">Live-Daten</span>
+          <span class="link-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 4. DIY & REPARATUR ── -->
+    <section class="content-section" id="diy">
+      <div class="section-eyebrow">Kategorie 4</div>
+      <h2>🛠️ Technik, DIY & Reparatur</h2>
+      <p>Anleitungen, die wirklich funktionieren – mit Bildern, Schritt-für-Schritt und ohne unnötige Fachsprache.</p>
+
+      <div class="link-grid">
+        <a class="link-card" href="https://www.selbst.de" target="_blank" rel="noopener">
+          <div class="link-favicon lf-diy">🔨</div>
+          <div class="link-body">
+            <div class="link-name">selbst.de</div>
+            <div class="link-desc">Anleitungen für Heimwerken und Möbelbau – klar strukturiert, mit Materiallisten</div>
+            <div class="link-url">selbst.de</div>
+          </div>
+          <span class="link-tag lt-diy">Heimwerken</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://www.obi.de/magazin" target="_blank" rel="noopener">
+          <div class="link-favicon lf-diy">🟠</div>
+          <div class="link-body">
+            <div class="link-name">OBI Magazin</div>
+            <div class="link-desc">Gute Schritt-für-Schritt-Anleitungen mit vielen Fotos – einfach erklärt, für Einsteiger geeignet</div>
+            <div class="link-url">obi.de/magazin</div>
+          </div>
+          <span class="link-tag lt-diy">Anleitungen</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://www.hornbach.de/projekte" target="_blank" rel="noopener">
+          <div class="link-favicon lf-diy">🔴</div>
+          <div class="link-body">
+            <div class="link-name">Hornbach Projekte</div>
+            <div class="link-desc">Sehr praxisnahe Anleitungen mit vielen Bildern und eingebetteten Videos – besonders für Handwerksprojekte</div>
+            <div class="link-url">hornbach.de/projekte</div>
+          </div>
+          <span class="link-tag lt-diy">Projekte</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://www.ifixit.com" target="_blank" rel="noopener">
+          <div class="link-favicon lf-diy">🔧</div>
+          <div class="link-body">
+            <div class="link-name">iFixit</div>
+            <div class="link-desc">Reparaturanleitungen für sehr viele Geräte – Smartphones, Haushaltsgeräte, Elektronik. Bevor du kaufst: hier nachschauen</div>
+            <div class="link-url">ifixit.com</div>
+          </div>
+          <span class="link-tag lt-diy">Reparatur</span>
+          <span class="link-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 5. VIDEOS ── -->
+    <section class="content-section" id="videos">
+      <div class="section-eyebrow">Kategorie 5</div>
+      <h2>🎥 Erklärvideos – besonders wichtig</h2>
+      <p>Manche Dinge muss man sehen, nicht lesen. Bewegungsabläufe, Handgriffe, Werkzeug – YouTube ist hier unschlagbar.</p>
+
+      <div class="link-grid">
+        <a class="link-card" href="https://www.youtube.com/results?search_query=loch+bohren+anleitung" target="_blank" rel="noopener">
+          <div class="link-favicon lf-video">▶️</div>
+          <div class="link-body">
+            <div class="link-name">YouTube: Loch bohren Anleitung</div>
+            <div class="link-desc">Direktsuche nach Bohr-Tutorials – mit vielen verschiedenen Wandtypen und Schwierigkeitsgraden</div>
+            <div class="link-url">youtube.com</div>
+          </div>
+          <span class="link-tag lt-video">Video</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://www.youtube.com/results?search_query=d%C3%BCbel+richtig+einsetzen" target="_blank" rel="noopener">
+          <div class="link-favicon lf-video">▶️</div>
+          <div class="link-body">
+            <div class="link-name">YouTube: Dübel richtig einsetzen</div>
+            <div class="link-desc">Welcher Dübel für welche Wand – visuelle Erklärungen für Beton, Gips und Co.</div>
+            <div class="link-url">youtube.com</div>
+          </div>
+          <span class="link-tag lt-video">Video</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://www.youtube.com/results?search_query=heizk%C3%B6rper+entl%C3%BCften" target="_blank" rel="noopener">
+          <div class="link-favicon lf-video">▶️</div>
+          <div class="link-body">
+            <div class="link-name">YouTube: Heizkörper entlüften</div>
+            <div class="link-desc">Schritt für Schritt: Wann und wie man entlüftet und was dabei zu beachten ist</div>
+            <div class="link-url">youtube.com</div>
+          </div>
+          <span class="link-tag lt-video">Video</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://www.youtube.com/results?search_query=m%C3%B6bel+aufbauen+tipps" target="_blank" rel="noopener">
+          <div class="link-favicon lf-video">▶️</div>
+          <div class="link-body">
+            <div class="link-name">YouTube: Möbel aufbauen Tipps</div>
+            <div class="link-desc">Häufige Fehler beim Selbstbau – und wie man sie vermeidet, bevor man 2 Stunden verloren hat</div>
+            <div class="link-url">youtube.com</div>
+          </div>
+          <span class="link-tag lt-video">Video</span>
+          <span class="link-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="hinweis h-warn" style="margin-top: 12px;">
+        <span class="hinweis-icon">💡</span>
+        <div><strong>Empfehlung: immer mehrere Videos vergleichen</strong>Nicht nur ein Video anschauen – verschiedene Quellen zeigen dasselbe Thema oft aus unterschiedlichen Perspektiven. Was beim ersten unklar bleibt, erklärt ein anderes Video oft besser.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 6. HILFE IM ECHTEN LEBEN ── -->
+    <section class="content-section" id="reallife">
+      <div class="section-eyebrow">Kategorie 6</div>
+      <h2>🧑‍🔧 Hilfe im echten Leben</h2>
+      <p>Nicht alles lässt sich digital lösen. Manchmal braucht man einen Menschen, der daneben steht.</p>
+
+      <div class="link-grid">
+        <a class="link-card" href="https://www.repaircafe.org/de/besuchen/" target="_blank" rel="noopener">
+          <div class="link-favicon lf-real">♻️</div>
+          <div class="link-body">
+            <div class="link-name">Repair Café – Standorte finden</div>
+            <div class="link-desc">Ehrenamtliche helfen beim Reparieren statt Wegwerfen – kostenlos, in vielen Städten verfügbar</div>
+            <div class="link-url">repaircafe.org</div>
+          </div>
+          <span class="link-tag lt-real">Vor Ort</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <div class="link-card" style="cursor: default;">
+          <div class="link-favicon lf-real">🏪</div>
+          <div class="link-body">
+            <div class="link-name">Baumärkte vor Ort</div>
+            <div class="link-desc">OBI, Hornbach, Bauhaus – Beratung vor Ort ist kostenlos und oft sehr hilfreich. Viele verleihen auch Werkzeug.</div>
+            <div class="link-url">OBI · Hornbach · Bauhaus · Toom</div>
+          </div>
+          <span class="link-tag lt-real">Beratung</span>
+          <span class="link-arrow" style="opacity:0">→</span>
+        </div>
+
+        <div class="link-card" style="cursor: default;">
+          <div class="link-favicon lf-real">👥</div>
+          <div class="link-body">
+            <div class="link-name">Erfahrene Personen im Umfeld</div>
+            <div class="link-desc">Familie, Nachbarn, Freunde mit Erfahrung – unterschätzt. Wer einmal zuschaut, lernt mehr als durch zehn Videos.</div>
+            <div class="link-url">Persönliches Netzwerk</div>
+          </div>
+          <span class="link-tag lt-real">Netzwerk</span>
+          <span class="link-arrow" style="opacity:0">→</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 7. KI & DIGITAL ── -->
+    <section class="content-section" id="ki">
+      <div class="section-eyebrow">Kategorie 7</div>
+      <h2>🤖 KI & digitale Hilfe</h2>
+      <p>KI-Tools und Suchmaschinen können viel – aber nicht alles. Hier ein ehrlicher Überblick.</p>
+
+      <div class="link-grid">
+        <a class="link-card" href="https://chatgpt.com" target="_blank" rel="noopener">
+          <div class="link-favicon lf-ki">🤖</div>
+          <div class="link-body">
+            <div class="link-name">ChatGPT</div>
+            <div class="link-desc">Gut für Erklärungen, Ideen, Budgetplanung, Vertragsfragen, Materiallisten – kostenlose Basisversion reicht für die meisten Fragen</div>
+            <div class="link-url">chatgpt.com</div>
+          </div>
+          <span class="link-tag lt-ki">KI</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://claude.ai" target="_blank" rel="noopener">
+          <div class="link-favicon lf-ki">✦</div>
+          <div class="link-body">
+            <div class="link-name">Claude (Anthropic)</div>
+            <div class="link-desc">Weitere KI-Alternative – gut für längere Texte erklären und strukturierte Antworten auf komplexe Alltagsfragen</div>
+            <div class="link-url">claude.ai</div>
+          </div>
+          <span class="link-tag lt-ki">KI</span>
+          <span class="link-arrow">→</span>
+        </a>
+
+        <a class="link-card" href="https://www.google.de" target="_blank" rel="noopener">
+          <div class="link-favicon lf-ki">🔍</div>
+          <div class="link-body">
+            <div class="link-name">Google</div>
+            <div class="link-desc">Schnelle Infos, Bilder, Vergleiche – kombiniere Suche mit konkreten Begriffen für bessere Ergebnisse</div>
+            <div class="link-url">google.de</div>
+          </div>
+          <span class="link-tag lt-ki">Suche</span>
+          <span class="link-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="hinweis h-ki" style="margin-top: 12px;">
+        <span class="hinweis-icon">⚠️</span>
+        <div><strong>KI ersetzt keine praktische Erfahrung</strong>KI kann erklären, planen und orientieren – aber nicht zeigen, bohren oder die Hand festhalten. Für handwerkliche Dinge immer zusätzlich ein Video anschauen oder jemanden fragen, der es kann.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 8. UNTERRICHTSAUFGABE ── -->
+    <section class="content-section" id="aufgabe">
+      <div class="section-eyebrow">Idee für den Unterricht</div>
+
+      <div class="aufgabe-box">
+        <div class="aufgabe-label">📋 Aufgabe</div>
+        <h3>KI, Website oder Video – was hilft dir wirklich?</h3>
+        <p>Wähle eine Frage aus deinem Alltag rund ums Wohnen – zum Beispiel: <em>Wie bohre ich ein Loch in Beton? Wie spare ich Strom? Was ist eine Kaution?</em><br>Und beantworte sie dann auf drei verschiedenen Wegen:</p>
+
+        <div class="aufgabe-steps">
+          <div class="aufgabe-step">
+            <div class="as-num">1</div>
+            <h4>🤖 Mit einer KI fragen</h4>
+            <p>Stelle deine Frage ChatGPT oder Claude. Wie vollständig und verständlich ist die Antwort?</p>
+          </div>
+          <div class="aufgabe-step">
+            <div class="as-num">2</div>
+            <h4>🌐 Eine Website suchen</h4>
+            <p>Google die Frage und klick eine Seite aus der Liste oben an. Was findest du dort?</p>
+          </div>
+          <div class="aufgabe-step">
+            <div class="as-num">3</div>
+            <h4>🎥 Ein Video anschauen</h4>
+            <p>Such auf YouTube nach deiner Frage. Welches Video hilft – und warum?</p>
+          </div>
+        </div>
+
+        <div class="aufgabe-frage">
+          👉 Was hat dir am besten geholfen – und warum? Wo hatte jede Methode ihre Stärken und Grenzen?
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">🏠 Erste Wohnung – Survival Guide</div>
+    <p>WP10-Begleitmaterial · Kein Arbeitsheft · Alle Inhalte zur freien Nutzung</p>
+  </div>
+</footer>
+
+<script>
+  // ── Burger Menu ──
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    burger.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => { navLinks.classList.remove('open'); burger.textContent = '☰'; });
+  });
+
+  // ── Scroll aktiv ──
+  const sections = document.querySelectorAll('.content-section');
+  const subLinks = document.querySelectorAll('.subnav a');
+  const sideLinks = document.querySelectorAll('.sidebar-nav a');
+  function updateActive() {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 130) current = s.id; });
+    subLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+    sideLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strom, Wasser & Heizung – Erste Wohnung Survival Guide</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+    :root {
+      --sand:    #f5f0e8;
+      --warm:    #ede6d6;
+      --stone:   #c8bfae;
+      --ink:     #1c1a17;
+      --slate:   #4a4640;
+      --muted:   #7a736a;
+      --accent:  #3d6b52;
+      --accent-light: #eef4f0;
+      --orange:  #c0632a;
+      --blue:    #3b6e8f;
+      --gold:    #b5892a;
+      --red:     #a83030;
+      --radius:  14px;
+      --shadow:  0 2px 16px rgba(28,26,23,.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav.topnav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(245,240,232,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--stone);
+      padding: 0 clamp(16px, 4vw, 48px);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; height: 60px;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem; color: var(--orange);
+      text-decoration: none; white-space: nowrap; margin-right: auto;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+    .nav-links a {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 13px; border-radius: 8px;
+      font-size: .82rem; font-weight: 500;
+      color: var(--slate); text-decoration: none;
+      transition: background .18s, color .18s; white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active { background: var(--warm); color: var(--ink); }
+    .nav-burger {
+      display: none; background: none; border: none;
+      cursor: pointer; padding: 8px; font-size: 1.4rem; color: var(--ink);
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: linear-gradient(135deg, #eef4f0 0%, #d9ece3 100%);
+      border-bottom: 1px solid #b0d4c0;
+      padding: clamp(36px,6vw,72px) clamp(16px,4vw,48px) clamp(28px,4vw,48px);
+    }
+    .page-header-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end;
+    }
+    .breadcrumb {
+      font-size: .78rem; color: var(--muted);
+      display: flex; align-items: center; gap: 6px; margin-bottom: 14px;
+    }
+    .breadcrumb a { color: var(--accent); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .page-header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.15; margin-bottom: 14px;
+    }
+    .page-header h1 em { font-style: italic; color: var(--accent); }
+    .page-header p { font-size: 1rem; color: var(--slate); font-weight: 300; max-width: 52ch; }
+    .header-icon {
+      width: 80px; height: 80px; background: #d9ece3;
+      border-radius: 22px; display: flex; align-items: center;
+      justify-content: center; font-size: 2.4rem;
+      box-shadow: var(--shadow); flex-shrink: 0;
+    }
+
+    /* ── SUBNAV ── */
+    .subnav {
+      background: white; border-bottom: 1px solid var(--warm);
+      padding: 0 clamp(16px,4vw,48px); overflow-x: auto;
+    }
+    .subnav-inner { max-width: 1100px; margin: 0 auto; display: flex; }
+    .subnav a {
+      display: flex; align-items: center; gap: 7px;
+      padding: 14px 18px; font-size: .84rem; font-weight: 500;
+      color: var(--muted); text-decoration: none; white-space: nowrap;
+      border-bottom: 2.5px solid transparent;
+      transition: color .15s, border-color .15s;
+    }
+    .subnav a:hover { color: var(--ink); }
+    .subnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── MAIN LAYOUT ── */
+    .main-wrap {
+      max-width: 1100px; margin: 0 auto;
+      padding: 40px clamp(16px,4vw,48px);
+      display: grid; grid-template-columns: 220px 1fr;
+      gap: 40px; align-items: start;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar { position: sticky; top: 80px; }
+    .sidebar-title {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+    }
+    .sidebar-nav { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-radius: 10px;
+      font-size: .86rem; font-weight: 500;
+      color: var(--slate); text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .sidebar-nav a:hover { background: var(--warm); color: var(--ink); }
+    .sidebar-nav a.active { background: var(--accent-light); color: var(--accent); }
+    .sidebar-nav .sn-icon {
+      width: 28px; height: 28px; border-radius: 7px; background: var(--warm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem; flex-shrink: 0;
+    }
+    .sidebar-divider { height: 1px; background: var(--stone); opacity: .4; margin: 16px 0; }
+    .sidebar-back {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px; border-radius: 10px;
+      font-size: .82rem; color: var(--muted);
+      text-decoration: none; transition: background .15s, color .15s;
+    }
+    .sidebar-back:hover { background: var(--warm); color: var(--ink); }
+
+    /* ── CONTENT ── */
+    .content { min-width: 0; }
+    .content-section { margin-bottom: 56px; scroll-margin-top: 90px; }
+    .section-eyebrow {
+      font-size: .7rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+    }
+    .content-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem); margin-bottom: 12px;
+    }
+    .content-section > p {
+      font-size: .95rem; color: var(--slate);
+      font-weight: 300; margin-bottom: 24px; max-width: 60ch;
+    }
+    .section-divider { height: 1px; background: var(--stone); opacity: .35; margin: 0 0 52px; }
+
+    /* ── NOTFALL-KARTEN (groß, prominent) ── */
+    .notfall-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px; margin-bottom: 20px;
+    }
+    .notfall-card {
+      border-radius: var(--radius); padding: 22px 24px;
+      box-shadow: var(--shadow); border-top: 4px solid;
+    }
+    .nf-strom  { background: #fffbec; border-color: var(--gold); }
+    .nf-wasser { background: #eef4fb; border-color: var(--blue); }
+    .nf-gas    { background: #faf0f0; border-color: var(--red); }
+
+    .notfall-card h3 {
+      font-size: 1rem; font-weight: 600;
+      display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+    }
+    .notfall-steps { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .notfall-steps li {
+      display: flex; gap: 10px; align-items: flex-start;
+      font-size: .86rem; color: var(--slate); line-height: 1.45;
+    }
+    .ns-num {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: white; font-size: .72rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px; box-shadow: 0 1px 4px rgba(0,0,0,.1);
+    }
+
+    /* ── SITUATION-BLÖCKE ── */
+    .situation-block {
+      background: white; border-radius: var(--radius);
+      box-shadow: var(--shadow); overflow: hidden; margin-bottom: 12px;
+    }
+    .situation-header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 22px; cursor: pointer;
+      background: white; border: none; width: 100%;
+      text-align: left; transition: background .15s;
+    }
+    .situation-header:hover { background: var(--sand); }
+    .situation-header[aria-expanded="true"] { background: var(--accent-light); }
+    .situ-label {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: var(--accent-light); color: var(--accent);
+      font-size: .8rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-family: 'DM Serif Display', serif;
+    }
+    .situ-title { font-size: .95rem; font-weight: 600; flex: 1; }
+    .situ-sub   { font-size: .8rem; color: var(--muted); margin-top: 2px; }
+    .situ-toggle { font-size: .85rem; color: var(--muted); transition: transform .25s; }
+    .situation-header[aria-expanded="true"] .situ-toggle { transform: rotate(180deg); }
+    .situation-body {
+      display: none; padding: 4px 22px 24px 70px;
+      font-size: .9rem; color: var(--slate); line-height: 1.65;
+    }
+    .situation-body.open { display: block; }
+    .situation-body p + p { margin-top: 10px; }
+
+    /* ── SPAR-TIPPS GRID ── */
+    .spar-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+    .spar-card {
+      background: white; border-radius: 12px; padding: 18px 20px;
+      box-shadow: 0 1px 8px rgba(28,26,23,.08);
+      border-left: 4px solid var(--accent);
+    }
+    .spar-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: 6px; }
+    .spar-card p  { font-size: .82rem; color: var(--muted); line-height: 1.5; }
+    .spar-card .spar-saving {
+      margin-top: 10px; font-size: .78rem; font-weight: 600;
+      color: var(--accent); display: flex; align-items: center; gap: 4px;
+    }
+
+    /* ── LÜFTEN-VISUALIZER ── */
+    .lueften-wrap {
+      background: white; border-radius: var(--radius);
+      padding: 24px; box-shadow: var(--shadow); margin-bottom: 16px;
+    }
+    .lueften-title {
+      font-size: .82rem; font-weight: 600; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+    }
+    .lueften-tabs {
+      display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .lt-tab {
+      padding: 8px 16px; border-radius: 8px; border: 1.5px solid var(--stone);
+      background: none; font-size: .84rem; font-weight: 500;
+      cursor: pointer; color: var(--slate); transition: all .15s;
+    }
+    .lt-tab.active { background: var(--accent); border-color: var(--accent); color: white; }
+    .lueften-content { display: none; }
+    .lueften-content.show { display: block; }
+    .lueften-content h4 { font-size: .95rem; font-weight: 600; margin-bottom: 8px; }
+    .lueften-content p  { font-size: .88rem; color: var(--slate); line-height: 1.6; margin-bottom: 8px; }
+    .lueften-visual {
+      display: flex; align-items: center; gap: 10px;
+      margin-top: 12px; padding: 12px 16px;
+      background: var(--accent-light); border-radius: 10px;
+      font-size: .85rem; font-weight: 500; color: var(--accent);
+    }
+
+    /* ── HINWEIS-BOXEN ── */
+    .hinweis {
+      display: flex; align-items: flex-start; gap: 13px;
+      padding: 16px 20px; border-radius: 12px; border-left: 4px solid;
+      font-size: .88rem; line-height: 1.55; margin: 10px 0;
+    }
+    .h-ki     { background: #f5f1fc; border-color: #9b76d4; }
+    .h-video  { background: #eef5fb; border-color: #5fa3c7; }
+    .h-person { background: #edf5f0; border-color: #5fa37e; }
+    .h-warn   { background: #fdf3e8; border-color: #d98a3a; }
+    .h-danger { background: #faf0f0; border-color: var(--red); }
+    .hinweis-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .hinweis strong { display: block; margin-bottom: 2px; font-weight: 600; }
+
+    /* ── TIPP-LISTE ── */
+    .tipp-liste { display: flex; flex-direction: column; gap: 10px; }
+    .tipp-item {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: white; border-radius: 12px; padding: 16px 18px;
+      box-shadow: 0 1px 6px rgba(28,26,23,.07);
+    }
+    .tipp-bullet {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent-light); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+    }
+    .tipp-item p { font-size: .88rem; color: var(--slate); line-height: 1.55; }
+    .tipp-item strong { color: var(--ink); }
+
+    /* ── GESPRÄCHSANLASS ── */
+    .gespraech {
+      background: linear-gradient(135deg, #eef4f0, #d9ece3);
+      border: 1.5px solid #b0d4c0; border-radius: var(--radius); padding: 24px 28px;
+    }
+    .gespraech-label {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+    }
+    .gespraech h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+    .gespraech p  { font-size: .88rem; color: var(--slate); line-height: 1.6; }
+    .gespraech-items { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+    .g-item { display: flex; gap: 10px; align-items: flex-start; font-size: .86rem; color: var(--slate); }
+    .g-bullet { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--stone); padding: 32px clamp(16px,4vw,48px); margin-top: 32px; }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--orange); }
+    footer p { font-size: .8rem; color: var(--muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .main-wrap { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .page-header-inner { grid-template-columns: 1fr; }
+      .header-icon { display: none; }
+    }
+    @media (max-width: 800px) {
+      .nav-links {
+        display: none; position: absolute; top: 60px; left: 0; right: 0;
+        background: var(--sand); border-bottom: 1px solid var(--stone);
+        flex-direction: column; padding: 12px 16px 20px; gap: 4px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 10px 16px; font-size: .9rem; }
+      .nav-burger { display: block; }
+    }
+    @media (max-width: 540px) {
+      .notfall-grid { grid-template-columns: 1fr; }
+      .spar-grid { grid-template-columns: 1fr; }
+      .situation-body { padding-left: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav class="topnav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">🏠 Erste Wohnung</a>
+    <button class="nav-burger" id="burger">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">🏠 Start</a></li>
+      <li><a href="wohnen.html">🛋️ Wohnen & Alltag</a></li>
+      <li><a href="technik.html">🔧 Technik & Reparatur</a></li>
+      <li><a href="strom-wasser.html" class="active">⚡ Strom, Wasser & Heizung</a></li>
+      <li><a href="geld-vertrag.html">💸 Geld & Vertrag</a></li>
+      <li><a href="ki-hilfe.html">🤖 Digitale Hilfe & KI</a></li>
+      <li><a href="links.html">🔗 Links</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── SEITENHEADER ── -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div>
+      <div class="breadcrumb">
+        <a href="index.html">Start</a> › Strom, Wasser & Heizung
+      </div>
+      <h1>Strom, Wasser &amp; <em>Heizung</em></h1>
+      <p>Was tun, wenn die Sicherung fliegt? Wie heizt man richtig? Und wann wird Schimmel zum echten Problem? Hier findest du kurze, ehrliche Antworten – und weißt, wann du Hilfe brauchst.</p>
+    </div>
+    <div class="header-icon">⚡</div>
+  </div>
+</header>
+
+<!-- ── SUBNAV ── -->
+<nav class="subnav">
+  <div class="subnav-inner">
+    <a href="#notfall" class="active">🚨 Notfallsituationen</a>
+    <a href="#strom-sparen">💡 Strom sparen</a>
+    <a href="#heizung">🌡️ Heizung</a>
+    <a href="#lueften">🌬️ Lüften & Schimmel</a>
+    <a href="#wasser">💧 Wasser</a>
+    <a href="#gespraech">💬 Gesprächsanlass</a>
+  </div>
+</nav>
+
+<!-- ── HAUPTINHALT ── -->
+<div class="main-wrap">
+
+  <aside class="sidebar">
+    <div class="sidebar-title">Themen auf dieser Seite</div>
+    <ul class="sidebar-nav">
+      <li><a href="#notfall" class="active"><span class="sn-icon">🚨</span>Notfallsituationen</a></li>
+      <li><a href="#strom-sparen"><span class="sn-icon">💡</span>Strom sparen</a></li>
+      <li><a href="#heizung"><span class="sn-icon">🌡️</span>Heizung richtig nutzen</a></li>
+      <li><a href="#lueften"><span class="sn-icon">🌬️</span>Lüften & Schimmel</a></li>
+      <li><a href="#wasser"><span class="sn-icon">💧</span>Wasser sparen</a></li>
+      <li><a href="#gespraech"><span class="sn-icon">💬</span>Gesprächsanlass</a></li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <a href="technik.html" class="sidebar-back">← Technik & Reparatur</a>
+    <a href="geld-vertrag.html" class="sidebar-back">Geld & Vertrag →</a>
+  </aside>
+
+  <main class="content">
+
+    <!-- ── 1. NOTFALLSITUATIONEN ── -->
+    <section class="content-section" id="notfall">
+      <div class="section-eyebrow">Thema 1</div>
+      <h2>Was tun in Notfallsituationen?</h2>
+      <p>Keine Panik – aber schnell handeln. Hier die wichtigsten drei Situationen mit klaren Schritten.</p>
+
+      <div class="notfall-grid">
+
+        <div class="notfall-card nf-strom">
+          <h3>⚡ Sicherung rausgeflogen</h3>
+          <ul class="notfall-steps">
+            <li><span class="ns-num">1</span>Sicherungskasten finden – meist im Flur oder Abstellraum.</li>
+            <li><span class="ns-num">2</span>Gerät abschalten, das den Ausfall wahrscheinlich verursacht hat (z. B. Wasserkocher + Föhn gleichzeitig).</li>
+            <li><span class="ns-num">3</span>Ausgelöste Sicherung (Kippsicherung nach unten) wieder hochklappen.</li>
+            <li><span class="ns-num">4</span>Fliegt sie sofort wieder raus: Elektrik ist kaputt oder ein Gerät hat einen Defekt. Gerät ausstecken und Hausverwaltung informieren.</li>
+          </ul>
+          <div class="hinweis h-warn" style="margin-top: 12px; font-size: .82rem;">
+            <span class="hinweis-icon">⚠️</span>
+            <div><strong>Nie selbst schrauben</strong>Sicherungskasten öffnen oder Verdrahtung anfassen – das ist ausnahmslos Facharbeit.</div>
+          </div>
+        </div>
+
+        <div class="notfall-card nf-wasser">
+          <h3>💧 Wasserrohr läuft oder tropft</h3>
+          <ul class="notfall-steps">
+            <li><span class="ns-num">1</span>Hauptabsperrhahn zudrehen – meist unter der Spüle oder im Bad.</li>
+            <li><span class="ns-num">2</span>Hausverwaltung oder Notdienst anrufen – sofort, nicht erst morgen.</li>
+            <li><span class="ns-num">3</span>Wasser aufwischen, Strom in der Nähe ausschalten falls nötig.</li>
+            <li><span class="ns-num">4</span>Schäden dokumentieren: Fotos machen, bevor alles getrocknet ist.</li>
+          </ul>
+          <div class="hinweis h-danger" style="margin-top: 12px; font-size: .82rem;">
+            <span class="hinweis-icon">🚫</span>
+            <div><strong>Rohre nie selbst öffnen</strong>Wasserinstallationen in der Wand oder unter dem Boden sind ausnahmslos Facharbeit.</div>
+          </div>
+        </div>
+
+        <div class="notfall-card nf-gas">
+          <h3>🔥 Gasgeruch in der Wohnung</h3>
+          <ul class="notfall-steps">
+            <li><span class="ns-num">1</span>Kein Licht anschalten, kein Feuer, keine Elektroschalter betätigen.</li>
+            <li><span class="ns-num">2</span>Fenster sofort aufreißen, Wohnung verlassen.</li>
+            <li><span class="ns-num">3</span>Gasnotdienst anrufen: <strong>0800 2 10 21 02</strong> (kostenlos, 24h).</li>
+            <li><span class="ns-num">4</span>Im Zweifel Feuerwehr rufen: <strong>112</strong></li>
+          </ul>
+          <div class="hinweis h-danger" style="margin-top: 12px; font-size: .82rem;">
+            <span class="hinweis-icon">🚫</span>
+            <div><strong>Nie selbst suchen</strong>Gasleitung nie selbst suchen, reparieren oder absperren. Sofort raus und Fachleute rufen.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Weitere Situationen als Akkordeons -->
+      <div style="margin-top: 24px;">
+        <div class="section-eyebrow" style="margin-bottom: 12px;">Weitere häufige Situationen</div>
+
+        <div class="situation-block">
+          <button class="situation-header" aria-expanded="false" data-target="sit_heiz">
+            <div class="situ-label">A</div>
+            <div>
+              <div class="situ-title">Heizung wird nicht warm</div>
+              <div class="situ-sub">Heizkörper bleibt kalt, obwohl die Heizung an ist.</div>
+            </div>
+            <span class="situ-toggle">▾</span>
+          </button>
+          <div class="situation-body" id="sit_heiz">
+            <p><strong>Zuerst prüfen:</strong> Thermostatventil am Heizkörper aufdrehen (Zahl 3–4 ist normal). Manche Ventile sind durch Thermostatköpfe gesichert – diese leicht drücken und drehen. Prüfen, ob die Heizungsanlage im Gebäude überhaupt läuft (andere Heizkörper warm?).</p>
+            <p><strong>Heizkörper entlüften:</strong> Wenn der Heizkörper oben kalt und unten warm bleibt, ist Luft im System. Kleiner Entlüftungsschlüssel (günstig im Baumarkt) auf das Ventil oben – vorsichtig öffnen bis Wasser kommt, sofort wieder schließen.</p>
+            <div class="hinweis h-person">
+              <span class="hinweis-icon">🧑‍🔧</span>
+              <div><strong>Hausverwaltung informieren</strong>Wenn Entlüften nicht hilft oder die gesamte Heizanlage betroffen ist – das ist Aufgabe des Vermieters, nicht deine.</div>
+            </div>
+            <div class="hinweis h-ki">
+              <span class="hinweis-icon">🤖</span>
+              <div><strong>Gut mit KI klärbar</strong>„Wie entlüfte ich einen Heizkörper?" – Schritt-für-Schritt-Anleitung bekommst du sofort und detailliert.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="situation-block">
+          <button class="situation-header" aria-expanded="false" data-target="sit_schimmel">
+            <div class="situ-label">B</div>
+            <div>
+              <div class="situ-title">Schimmelflecken entdeckt</div>
+              <div class="situ-sub">Dunkle Flecken an der Wand, im Bad oder hinter Möbeln.</div>
+            </div>
+            <span class="situ-toggle">▾</span>
+          </button>
+          <div class="situation-body" id="sit_schimmel">
+            <p><strong>Das solltest du wissen:</strong> Schimmel entsteht durch Feuchtigkeit. Das ist nicht automatisch dein Fehler – aber oft durch falsches Lüften oder zu niedrige Heiztemperatur begünstigt. Kleine Stellen (unter einer Handfläche) kannst du mit Schimmelspray behandeln. Größere Flächen müssen fachgerecht entfernt werden.</p>
+            <p><strong>Was du selbst tun kannst:</strong> Befallene Stelle mit Schimmelentferner behandeln (Schutzhandschuhe, Fenster auf). Danach Lüftungsverhalten verbessern. Möbel nicht direkt an Außenwände stellen – 5 cm Abstand genügen.</p>
+            <div class="hinweis h-warn">
+              <span class="hinweis-icon">⚠️</span>
+              <div><strong>Vermieter informieren</strong>Größere Schimmelflächen oder Schimmel durch Bauschäden (nasse Wand ohne erkennbaren Grund) müssen dem Vermieter gemeldet werden – schriftlich, mit Datum und Fotos.</div>
+            </div>
+            <div class="hinweis h-ki">
+              <span class="hinweis-icon">🤖</span>
+              <div><strong>Gut mit KI klärbar</strong>„Schimmel in der Ecke hinter dem Bett – was sind die Ursachen und was kann ich tun?" – gute KI-Frage mit konkreter Antwort.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="situation-block">
+          <button class="situation-header" aria-expanded="false" data-target="sit_tropf">
+            <div class="situ-label">C</div>
+            <div>
+              <div class="situ-title">Tropfender Wasserhahn</div>
+              <div class="situ-sub">Der Hahn tropft auch wenn er zugedreht ist.</div>
+            </div>
+            <span class="situ-toggle">▾</span>
+          </button>
+          <div class="situation-body" id="sit_tropf">
+            <p><strong>Was dahintersteckt:</strong> Meist eine verschlissene Dichtung. Bei älteren Einhebelmischern oft die Kartusche. Beides ist günstig ersetzbar – aber nur wenn du den Wassertyp kennst und das Wasser absperren kannst.</p>
+            <p><strong>Wenn du es selbst versuchst:</strong> Wasser unter dem Waschbecken absperren, Hahn auseinanderbauen, Dichtung ersetzen. Viele YouTube-Videos zeigen das modellspezifisch.</p>
+            <p><strong>Wichtig:</strong> Tropfende Hähne melden – Vermieter muss Reparaturen ermöglichen. Wenn du selbst reparierst, dokumentiere es kurz schriftlich.</p>
+            <div class="hinweis h-video">
+              <span class="hinweis-icon">🎥</span>
+              <div><strong>Lieber als Video anschauen</strong>„Wasserhahn Dichtung wechseln" auf YouTube – es gibt Anleitungen für fast jedes Modell. Den Hahntyp vorher identifizieren.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 2. STROM SPAREN ── -->
+    <section class="content-section" id="strom-sparen">
+      <div class="section-eyebrow">Thema 2</div>
+      <h2>Strom sparen im Alltag</h2>
+      <p>Strom ist einer der größten variablen Kostenpunkte. Viele Einsparmöglichkeiten kosten nichts – nur etwas Aufmerksamkeit.</p>
+
+      <div class="spar-grid" style="margin-bottom: 20px;">
+        <div class="spar-card">
+          <h4>Standby konsequent abschalten</h4>
+          <p>Fernseher, Spielekonsole, Ladegeräte – im Standby verbrauchen sie still Strom. Steckerleiste mit Schalter macht es einfach.</p>
+          <div class="spar-saving">💚 bis zu 10% der Stromrechnung</div>
+        </div>
+        <div class="spar-card">
+          <h4>Kühlschrank richtig einstellen</h4>
+          <p>7°C im Kühlschrank, -18°C im Gefrierfach reichen aus. Jedes Grad kälter verbraucht etwa 6% mehr Strom. Türdichtung prüfen.</p>
+          <div class="spar-saving">💚 spürbare Ersparnis ohne Komfortverlust</div>
+        </div>
+        <div class="spar-card">
+          <h4>Volle Maschine = halber Verbrauch</h4>
+          <p>Wasch- und Spülmaschine nur voll beladen laufen lassen. 30–40°C reicht für normale Wäsche.</p>
+          <div class="spar-saving">💚 ca. 30% weniger Stromverbrauch</div>
+        </div>
+        <div class="spar-card">
+          <h4>LED statt Glühbirne</h4>
+          <p>Falls noch alte Birnen drin sind: beim nächsten Austausch auf LED wechseln. Gleiche Helligkeit, 80% weniger Strom.</p>
+          <div class="spar-saving">💚 rechnet sich nach wenigen Monaten</div>
+        </div>
+        <div class="spar-card">
+          <h4>Kochen mit Deckel</h4>
+          <p>Topf mit Deckel kocht schneller und braucht weniger Energie. Restwärme beim Herd nutzen (letzte 5 Minuten ausschalten).</p>
+          <div class="spar-saving">💚 kleine Summe, große Wirkung über Zeit</div>
+        </div>
+        <div class="spar-card">
+          <h4>Kurz duschen statt Baden</h4>
+          <p>Ein Bad verbraucht dreimal so viel Wasser und Energie wie eine 5-Minuten-Dusche. Duschkopf mit Sparfunktion hilft zusätzlich.</p>
+          <div class="spar-saving">💚 spart Strom und Warmwasser</div>
+        </div>
+      </div>
+
+      <div class="hinweis h-ki">
+        <span class="hinweis-icon">🤖</span>
+        <div><strong>Gut mit KI klärbar</strong>„Welche Geräte in meiner Wohnung verbrauchen am meisten Strom?" oder „Wie viel kostet mich mein Kühlschrank im Jahr?" – KI rechnet das gerne durch.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 3. HEIZUNG ── -->
+    <section class="content-section" id="heizung">
+      <div class="section-eyebrow">Thema 3</div>
+      <h2>Heizkörper richtig nutzen</h2>
+      <p>Heizung ist oft der größte Posten auf der Nebenkostenabrechnung. Ein paar Grundregeln helfen wirklich.</p>
+
+      <div class="tipp-liste" style="margin-bottom: 20px;">
+        <div class="tipp-item">
+          <div class="tipp-bullet">1</div>
+          <p><strong>Thermostat-Stufen verstehen.</strong> Stufe 1 = ca. 12°C (Frostschutz), Stufe 2 = ca. 16°C, Stufe 3 = ca. 20°C (normal), Stufe 4 = ca. 24°C, Stufe 5 = Maximum. Für den Alltag reicht Stufe 3 in den meisten Räumen.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">2</div>
+          <p><strong>Nie unter 16°C abkühlen lassen.</strong> Kalte Wände ziehen Feuchtigkeit an – das begünstigt Schimmel. Auch wenn du weg bist: Stufe 2 lassen, nicht komplett aus.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">3</div>
+          <p><strong>Heizkörper freihalten.</strong> Vorhänge, Möbel oder Handtücher direkt am Heizkörper blockieren die Wärme. Mindestens 20–30 cm Abstand halten.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">4</div>
+          <p><strong>Nachts reduzieren.</strong> Im Schlafzimmer reichen 16–18°C zum Schlafen. Thermostat abends auf Stufe 2 – morgens wieder hochstellen. Oder ein programmierbares Thermostat einsetzen.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">5</div>
+          <p><strong>Stoßlüften statt Kippen.</strong> Fenster dauerhaft auf Kipp ist der teuerste Weg zu heizen. Lieber 5–10 Minuten komplett öffnen – das senkt die Feuchtigkeit, ohne die Wände auszukühlen.</p>
+        </div>
+      </div>
+
+      <div class="hinweis h-person">
+        <span class="hinweis-icon">🧑‍🔧</span>
+        <div><strong>Heizkörper entlüften lassen</strong>Zu Beginn der Heizsaison (Herbst) lohnt es sich, alle Heizkörper einmal zu entlüften. Das verbessert die Effizienz spürbar. Kleiner Entlüftungsschlüssel kostet ca. 2 Euro.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 4. LÜFTEN & SCHIMMEL ── -->
+    <section class="content-section" id="lueften">
+      <div class="section-eyebrow">Thema 4</div>
+      <h2>Richtig lüften – Schimmel vermeiden</h2>
+      <p>Schimmel ist das häufigste Problem in kleinen Wohnungen. Meistens hat er eine einfache Ursache: zu viel Feuchtigkeit, zu wenig Luftaustausch.</p>
+
+      <!-- Interaktiver Lüften-Ratgeber -->
+      <div class="lueften-wrap">
+        <div class="lueften-title">Wann und wie lüften?</div>
+        <div class="lueften-tabs">
+          <button class="lt-tab active" data-tab="morgen">☀️ Morgens</button>
+          <button class="lt-tab" data-tab="kochen">🍳 Beim Kochen</button>
+          <button class="lt-tab" data-tab="duschen">🚿 Nach dem Duschen</button>
+          <button class="lt-tab" data-tab="nacht">🌙 Abends / Nacht</button>
+          <button class="lt-tab" data-tab="winter">❄️ Im Winter</button>
+        </div>
+
+        <div class="lueften-content show" id="tab_morgen">
+          <h4>Morgens nach dem Aufstehen</h4>
+          <p>Nachts gibt der Körper viel Feuchtigkeit ab. Im Schlafzimmer sammelt sich Feuchtigkeit in Luft und Wänden. Direkt nach dem Aufstehen 5–10 Minuten alle Fenster weit öffnen – das ist der wirkungsvollste Lüftungsmoment des Tages.</p>
+          <div class="lueften-visual">⏱️ 5–10 Minuten · Fenster weit auf · Tür schließen</div>
+        </div>
+
+        <div class="lueften-content" id="tab_kochen">
+          <h4>Beim Kochen</h4>
+          <p>Kochen erzeugt viel Feuchtigkeit und Gerüche. Dunstabzugshaube immer einschalten – und wenn keine vorhanden ist, Küchenfenster öffnen. Während des Kochens und kurz danach lüften.</p>
+          <div class="lueften-visual">🍳 Dunstabzug an · Fenster auf während des Kochens</div>
+        </div>
+
+        <div class="lueften-content" id="tab_duschen">
+          <h4>Nach dem Duschen</h4>
+          <p>Das Bad ist die feuchteste Stelle in der Wohnung. Nach dem Duschen sofort lüften – Fenster auf oder Lüftung einschalten. Tür zum Rest der Wohnung geschlossen halten, damit die Feuchtigkeit nicht verteilt wird.</p>
+          <div class="lueften-visual">🚿 Badfenster auf · Tür zum Flur zu · 15 Minuten</div>
+        </div>
+
+        <div class="lueften-content" id="tab_nacht">
+          <h4>Abends und nachts</h4>
+          <p>Im Sommer: Abends lüften, wenn es draußen kühler ist als drinnen. Im Winter: kurz Stoßlüften vor dem Schlafen. Fenster nachts nicht dauerhaft auf Kipp lassen – das kühlt die Wände aus und begünstigt Schimmel.</p>
+          <div class="lueften-visual">🌙 Stoßlüften vor dem Schlafen · nicht dauerhaft kippen</div>
+        </div>
+
+        <div class="lueften-content" id="tab_winter">
+          <h4>Im Winter richtig lüften</h4>
+          <p>Kalte Außenluft nimmt nach dem Erwärmen viel weniger Feuchtigkeit mit als warme – deshalb reichen 5 Minuten Stoßlüften im Winter mehr als eine Stunde auf Kipp. Energieeffizient und trotzdem wirksam.</p>
+          <div class="lueften-visual">❄️ 5 min weit auf &gt; 60 min auf Kipp · weniger Heizenergie</div>
+        </div>
+      </div>
+
+      <div class="hinweis h-ki" style="margin-top: 8px;">
+        <span class="hinweis-icon">🤖</span>
+        <div><strong>Gut mit KI klärbar</strong>„Warum entsteht in meiner Wohnung immer wieder Schimmel obwohl ich lüfte?" – KI kann typische Ursachen eingrenzen und konkrete Gegenmaßnahmen vorschlagen.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 5. WASSER SPAREN ── -->
+    <section class="content-section" id="wasser">
+      <div class="section-eyebrow">Thema 5</div>
+      <h2>Wasser sparen – und kleine Probleme lösen</h2>
+      <p>Wasser kostet Geld und ist eine begrenzte Ressource. Und kleine Probleme lassen sich oft einfach beheben.</p>
+
+      <div class="tipp-liste" style="margin-bottom: 20px;">
+        <div class="tipp-item">
+          <div class="tipp-bullet">💧</div>
+          <p><strong>Zähne putzen – Hahn aus.</strong> Wer beim Zähneputzen den Hahn laufen lässt, verbraucht bis zu 15 Liter pro Minute. Einfachste Maßnahme mit sofortiger Wirkung.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">💧</div>
+          <p><strong>Spülmaschine nutzen statt Handspülen.</strong> Eine volle Spülmaschine braucht weniger Wasser als Handspülen. Nur bei voller Beladung laufen lassen.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">💧</div>
+          <p><strong>Tropfende Hähne sofort melden.</strong> Ein tropfender Hahn kann bis zu 4.000 Liter pro Jahr verschwenden – auf deine Rechnung. Immer beim Vermieter melden.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">💧</div>
+          <p><strong>Warmwasser warten kostet.</strong> Wenn das Warmwasser lange braucht, bis es ankommt, liegt das oft an der Leitungslänge. Das Wasser, das vorher wegläuft, bezahlst du trotzdem. Duschkopf mit Sparfunktion hilft.</p>
+        </div>
+      </div>
+
+      <div class="hinweis h-warn">
+        <span class="hinweis-icon">⚠️</span>
+        <div><strong>Wasserverbrauch beobachten</strong>Plötzlich höhere Wasserrechnung? Das kann auf einen stillen Rohrschaden hinweisen (z.B. laufendes Spülkastenventil). Wasserzähler ablesen – wenn er sich dreht obwohl kein Hahn offen ist, gibt es ein Problem.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 6. GESPRÄCHSANLASS ── -->
+    <section class="content-section" id="gespraech">
+      <div class="gespraech">
+        <div class="gespraech-label">💬 Gesprächsanlass</div>
+        <h3>Sprich darüber – im Unterricht oder zu Hause</h3>
+        <p>Diese Themen klingen technisch – sind aber sehr alltagsnah. Oft hat jemand im Umfeld genau solche Situationen schon erlebt.</p>
+        <div class="gespraech-items">
+          <div class="g-item"><span class="g-bullet">→</span><span>Hast du schon einmal erlebt, dass eine Sicherung rausgeflogen ist? Was habt ihr damals gemacht?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Wusstest du, was zu tun wäre, wenn es nach Gas riecht? Wie wichtig ist diese Information für dich?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Lüftet ihr zu Hause regelmäßig? Gibt es Schimmel – und wisst ihr warum?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Welche Stromsparmöglichkeit überrascht dich am meisten – und was davon machst du schon?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Wo ist in deiner Wohnung der Sicherungskasten und der Hauptwasserhahn? Weißt du das gerade?</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">🏠 Erste Wohnung – Survival Guide</div>
+    <p>WP10-Begleitmaterial · Kein Arbeitsheft · Alle Inhalte zur freien Nutzung</p>
+  </div>
+</footer>
+
+<script>
+  // ── Burger Menu ──
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    burger.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => { navLinks.classList.remove('open'); burger.textContent = '☰'; });
+  });
+
+  // ── Situationen Akkordeon ──
+  document.querySelectorAll('.situation-header').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.target);
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.situation-header').forEach(b => b.setAttribute('aria-expanded', 'false'));
+      document.querySelectorAll('.situation-body').forEach(b => b.classList.remove('open'));
+      if (!isOpen) {
+        btn.setAttribute('aria-expanded', 'true');
+        target.classList.add('open');
+      }
+    });
+  });
+
+  // ── Lüften Tabs ──
+  document.querySelectorAll('.lt-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.lt-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.lueften-content').forEach(c => c.classList.remove('show'));
+      tab.classList.add('active');
+      document.getElementById('tab_' + tab.dataset.tab).classList.add('show');
+    });
+  });
+
+  // ── Scroll aktiv ──
+  const sections = document.querySelectorAll('.content-section');
+  const subLinks = document.querySelectorAll('.subnav a');
+  const sideLinks = document.querySelectorAll('.sidebar-nav a');
+  function updateActive() {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 130) current = s.id; });
+    subLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+    sideLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+</script>
+
+</body>
+</html>

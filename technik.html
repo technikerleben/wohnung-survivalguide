@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technik & Reparatur – Erste Wohnung Survival Guide</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+    :root {
+      --sand:    #f5f0e8;
+      --warm:    #ede6d6;
+      --stone:   #c8bfae;
+      --ink:     #1c1a17;
+      --slate:   #4a4640;
+      --muted:   #7a736a;
+      --accent:  #3b6e8f;
+      --accent-light: #eef4f8;
+      --orange:  #c0632a;
+      --green:   #3d6b52;
+      --gold:    #b5892a;
+      --red:     #a83030;
+      --radius:  14px;
+      --shadow:  0 2px 16px rgba(28,26,23,.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav.topnav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(245,240,232,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--stone);
+      padding: 0 clamp(16px, 4vw, 48px);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; height: 60px;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem; color: var(--orange);
+      text-decoration: none; white-space: nowrap; margin-right: auto;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+    .nav-links a {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 13px; border-radius: 8px;
+      font-size: .82rem; font-weight: 500;
+      color: var(--slate); text-decoration: none;
+      transition: background .18s, color .18s; white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active { background: var(--warm); color: var(--ink); }
+    .nav-burger {
+      display: none; background: none; border: none;
+      cursor: pointer; padding: 8px; font-size: 1.4rem; color: var(--ink);
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: linear-gradient(135deg, #eef4f8 0%, #ddeaf3 100%);
+      border-bottom: 1px solid #b8d0e0;
+      padding: clamp(36px,6vw,72px) clamp(16px,4vw,48px) clamp(28px,4vw,48px);
+    }
+    .page-header-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end;
+    }
+    .breadcrumb {
+      font-size: .78rem; color: var(--muted);
+      display: flex; align-items: center; gap: 6px; margin-bottom: 14px;
+    }
+    .breadcrumb a { color: var(--accent); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .page-header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.15; margin-bottom: 14px;
+    }
+    .page-header h1 em { font-style: italic; color: var(--accent); }
+    .page-header p { font-size: 1rem; color: var(--slate); font-weight: 300; max-width: 52ch; }
+    .header-icon {
+      width: 80px; height: 80px; background: #ddeaf3;
+      border-radius: 22px; display: flex; align-items: center;
+      justify-content: center; font-size: 2.4rem;
+      box-shadow: var(--shadow); flex-shrink: 0;
+    }
+
+    /* ── SUBNAV ── */
+    .subnav {
+      background: white; border-bottom: 1px solid var(--warm);
+      padding: 0 clamp(16px,4vw,48px); overflow-x: auto;
+    }
+    .subnav-inner { max-width: 1100px; margin: 0 auto; display: flex; }
+    .subnav a {
+      display: flex; align-items: center; gap: 7px;
+      padding: 14px 18px; font-size: .84rem; font-weight: 500;
+      color: var(--muted); text-decoration: none; white-space: nowrap;
+      border-bottom: 2.5px solid transparent;
+      transition: color .15s, border-color .15s;
+    }
+    .subnav a:hover { color: var(--ink); }
+    .subnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── MAIN LAYOUT ── */
+    .main-wrap {
+      max-width: 1100px; margin: 0 auto;
+      padding: 40px clamp(16px,4vw,48px);
+      display: grid; grid-template-columns: 220px 1fr;
+      gap: 40px; align-items: start;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar { position: sticky; top: 80px; }
+    .sidebar-title {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+    }
+    .sidebar-nav { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-radius: 10px;
+      font-size: .86rem; font-weight: 500;
+      color: var(--slate); text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .sidebar-nav a:hover { background: var(--warm); color: var(--ink); }
+    .sidebar-nav a.active { background: var(--accent-light); color: var(--accent); }
+    .sidebar-nav .sn-icon {
+      width: 28px; height: 28px; border-radius: 7px; background: var(--warm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem; flex-shrink: 0;
+    }
+    .sidebar-divider { height: 1px; background: var(--stone); opacity: .4; margin: 16px 0; }
+    .sidebar-back {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px; border-radius: 10px;
+      font-size: .82rem; color: var(--muted);
+      text-decoration: none; transition: background .15s, color .15s;
+    }
+    .sidebar-back:hover { background: var(--warm); color: var(--ink); }
+
+    /* ── CONTENT ── */
+    .content { min-width: 0; }
+    .content-section { margin-bottom: 56px; scroll-margin-top: 90px; }
+    .section-eyebrow {
+      font-size: .7rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+    }
+    .content-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem); margin-bottom: 12px;
+    }
+    .content-section > p {
+      font-size: .95rem; color: var(--slate);
+      font-weight: 300; margin-bottom: 24px; max-width: 60ch;
+    }
+    .section-divider { height: 1px; background: var(--stone); opacity: .35; margin: 0 0 52px; }
+
+    /* ── SITUATION-KARTEN (A–G Raster) ── */
+    .situation-block {
+      background: white; border-radius: var(--radius);
+      box-shadow: var(--shadow); overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .situation-header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 22px; cursor: pointer;
+      background: white; border: none; width: 100%;
+      text-align: left; transition: background .15s;
+    }
+    .situation-header:hover { background: var(--sand); }
+    .situation-header[aria-expanded="true"] { background: var(--accent-light); }
+
+    .situ-label {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: var(--accent-light); color: var(--accent);
+      font-size: .8rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-family: 'DM Serif Display', serif;
+    }
+    .situ-title { font-size: .95rem; font-weight: 600; flex: 1; }
+    .situ-sub   { font-size: .8rem; color: var(--muted); margin-top: 1px; }
+    .situ-toggle { font-size: .85rem; color: var(--muted); transition: transform .25s; }
+    .situation-header[aria-expanded="true"] .situ-toggle { transform: rotate(180deg); }
+
+    .situation-body {
+      display: none; padding: 4px 22px 24px 70px;
+      font-size: .9rem; color: var(--slate); line-height: 1.65;
+    }
+    .situation-body.open { display: block; }
+    .situation-body p + p { margin-top: 10px; }
+
+    /* ── MATERIALIEN-QUIZ ── */
+    .material-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px; margin-bottom: 16px;
+    }
+    .mat-card {
+      background: white; border-radius: 12px; padding: 18px;
+      box-shadow: var(--shadow); cursor: pointer;
+      border: 2px solid transparent; transition: border-color .15s, background .15s;
+      text-align: center;
+    }
+    .mat-card:hover { border-color: var(--stone); }
+    .mat-card.revealed { background: var(--accent-light); border-color: var(--accent); }
+    .mat-card-icon { font-size: 2rem; margin-bottom: 10px; }
+    .mat-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: 4px; }
+    .mat-card .mat-hint { font-size: .78rem; color: var(--muted); }
+    .mat-card .mat-info {
+      display: none; font-size: .8rem; color: var(--slate);
+      margin-top: 10px; padding-top: 10px;
+      border-top: 1px solid var(--stone); line-height: 1.5; text-align: left;
+    }
+    .mat-card.revealed .mat-info { display: block; }
+
+    /* ── WERKZEUG-LISTE ── */
+    .werkzeug-liste { display: flex; flex-direction: column; gap: 8px; }
+    .wz-item {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: white; border-radius: 12px; padding: 16px 18px;
+      box-shadow: 0 1px 6px rgba(28,26,23,.07);
+    }
+    .wz-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--accent-light); display: flex;
+      align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .wz-name  { font-size: .9rem; font-weight: 600; margin-bottom: 3px; }
+    .wz-desc  { font-size: .82rem; color: var(--muted); line-height: 1.5; }
+    .wz-badge {
+      margin-left: auto; font-size: .72rem; font-weight: 600;
+      padding: 3px 10px; border-radius: 100px; white-space: nowrap;
+      flex-shrink: 0; align-self: center;
+    }
+    .wb-must  { background: #edf5f0; color: var(--green); }
+    .wb-later { background: #fdf5e0; color: var(--gold); }
+    .wb-nice  { background: #f0eeec; color: var(--muted); }
+
+    /* ── AMPEL: selbst / nicht allein ── */
+    .ampel-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    }
+    .ampel-card {
+      border-radius: var(--radius); padding: 20px 22px;
+      box-shadow: var(--shadow);
+    }
+    .ampel-green { background: #edf5f0; border-top: 4px solid var(--green); }
+    .ampel-red   { background: #faf0f0; border-top: 4px solid var(--red); }
+    .ampel-card h3 {
+      font-size: .9rem; font-weight: 600;
+      display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+    }
+    .ampel-card ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+    .ampel-card li {
+      font-size: .84rem; color: var(--slate);
+      display: flex; gap: 8px; align-items: flex-start; line-height: 1.45;
+    }
+    .ampel-card li::before { flex-shrink: 0; margin-top: 2px; }
+    .ampel-green li::before { content: '✓'; color: var(--green); font-weight: 700; }
+    .ampel-red   li::before { content: '✕'; color: var(--red);   font-weight: 700; }
+
+    /* ── HINWEIS-BOXEN ── */
+    .hinweis {
+      display: flex; align-items: flex-start; gap: 13px;
+      padding: 16px 20px; border-radius: 12px; border-left: 4px solid;
+      font-size: .88rem; line-height: 1.55; margin: 10px 0;
+    }
+    .h-ki     { background: #f5f1fc; border-color: #9b76d4; }
+    .h-video  { background: #eef5fb; border-color: #5fa3c7; }
+    .h-person { background: #edf5f0; border-color: #5fa37e; }
+    .h-warn   { background: #fdf3e8; border-color: #d98a3a; }
+    .hinweis-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .hinweis strong { display: block; margin-bottom: 2px; font-weight: 600; }
+
+    /* ── TIPP-LISTE ── */
+    .tipp-liste { display: flex; flex-direction: column; gap: 10px; }
+    .tipp-item {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: white; border-radius: 12px; padding: 16px 18px;
+      box-shadow: 0 1px 6px rgba(28,26,23,.07);
+    }
+    .tipp-bullet {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent-light); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+    }
+    .tipp-item p { font-size: .88rem; color: var(--slate); line-height: 1.55; }
+    .tipp-item strong { color: var(--ink); }
+
+    /* ── GESPRÄCHSANLASS ── */
+    .gespraech {
+      background: linear-gradient(135deg, #eef4f8, #ddeaf3);
+      border: 1.5px solid #b8d0e0; border-radius: var(--radius); padding: 24px 28px;
+    }
+    .gespraech-label {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+    }
+    .gespraech h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+    .gespraech p  { font-size: .88rem; color: var(--slate); line-height: 1.6; }
+    .gespraech-items { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+    .g-item { display: flex; gap: 10px; align-items: flex-start; font-size: .86rem; color: var(--slate); }
+    .g-bullet { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--stone); padding: 32px clamp(16px,4vw,48px); margin-top: 32px; }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--orange); }
+    footer p { font-size: .8rem; color: var(--muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .main-wrap { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .page-header-inner { grid-template-columns: 1fr; }
+      .header-icon { display: none; }
+      .ampel-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 800px) {
+      .nav-links {
+        display: none; position: absolute; top: 60px; left: 0; right: 0;
+        background: var(--sand); border-bottom: 1px solid var(--stone);
+        flex-direction: column; padding: 12px 16px 20px; gap: 4px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 10px 16px; font-size: .9rem; }
+      .nav-burger { display: block; }
+    }
+    @media (max-width: 540px) {
+      .material-grid { grid-template-columns: 1fr 1fr; }
+      .situation-body { padding-left: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav class="topnav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">🏠 Erste Wohnung</a>
+    <button class="nav-burger" id="burger">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">🏠 Start</a></li>
+      <li><a href="wohnen.html">🛋️ Wohnen & Alltag</a></li>
+      <li><a href="technik.html" class="active">🔧 Technik & Reparatur</a></li>
+      <li><a href="strom-wasser.html">⚡ Strom, Wasser & Heizung</a></li>
+      <li><a href="geld-vertrag.html">💸 Geld & Vertrag</a></li>
+      <li><a href="ki-hilfe.html">🤖 Digitale Hilfe & KI</a></li>
+      <li><a href="links.html">🔗 Links</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── SEITENHEADER ── -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div>
+      <div class="breadcrumb">
+        <a href="index.html">Start</a> › Technik & Reparatur
+      </div>
+      <h1>Technik &amp; <em>Reparatur</em></h1>
+      <p>Löcher bohren, Dübel setzen, kleine Reparaturen erledigen – mit dem richtigen Wissen ist das machbar. Und du weißt, wann du besser jemanden fragst.</p>
+    </div>
+    <div class="header-icon">🔧</div>
+  </div>
+</header>
+
+<!-- ── SUBNAV ── -->
+<nav class="subnav">
+  <div class="subnav-inner">
+    <a href="#situationen" class="active">📋 Typische Situationen</a>
+    <a href="#materialien">🧱 Materialien erkennen</a>
+    <a href="#werkzeuge">🧰 Werkzeuge</a>
+    <a href="#selbst-oder-nicht">🚦 Selbst oder Hilfe?</a>
+    <a href="#tipps">💡 Sicherheitstipps</a>
+    <a href="#gespraech">💬 Gesprächsanlass</a>
+  </div>
+</nav>
+
+<!-- ── HAUPTINHALT ── -->
+<div class="main-wrap">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Themen auf dieser Seite</div>
+    <ul class="sidebar-nav">
+      <li><a href="#situationen" class="active"><span class="sn-icon">📋</span>Typische Situationen</a></li>
+      <li><a href="#materialien"><span class="sn-icon">🧱</span>Materialien erkennen</a></li>
+      <li><a href="#werkzeuge"><span class="sn-icon">🧰</span>Werkzeuge</a></li>
+      <li><a href="#selbst-oder-nicht"><span class="sn-icon">🚦</span>Selbst oder Hilfe?</a></li>
+      <li><a href="#tipps"><span class="sn-icon">💡</span>Sicherheitstipps</a></li>
+      <li><a href="#gespraech"><span class="sn-icon">💬</span>Gesprächsanlass</a></li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <a href="wohnen.html" class="sidebar-back">← Wohnen & Alltag</a>
+    <a href="strom-wasser.html" class="sidebar-back">Strom, Wasser & Heizung →</a>
+  </aside>
+
+  <main class="content">
+
+    <!-- ── 1. TYPISCHE SITUATIONEN ── -->
+    <section class="content-section" id="situationen">
+      <div class="section-eyebrow">Thema 1</div>
+      <h2>Typische Situationen – Schritt für Schritt</h2>
+      <p>Klapp eine Situation auf und sieh, was du wissen und vorbereiten musst. Jede folgt demselben Raster: Situation → Grundwissen → Material → Worauf achten → Was KI kann → Was nicht.</p>
+
+      <!-- Situation 1: Bohren -->
+      <div class="situation-block">
+        <button class="situation-header" aria-expanded="false" data-target="sit1">
+          <div class="situ-label">A</div>
+          <div>
+            <div class="situ-title">Loch bohren und Dübel setzen</div>
+            <div class="situ-sub">Du möchtest ein Regal, eine Lampe oder eine Garderobenstange anbringen.</div>
+          </div>
+          <span class="situ-toggle">▾</span>
+        </button>
+        <div class="situation-body" id="sit1">
+          <p><strong>Das solltest du wissen:</strong> Nicht jede Wand ist gleich. Beton, Gipskarton und Ziegel brauchen unterschiedliche Dübel und Bohrer. Vor dem Bohren immer prüfen, ob Strom- oder Wasserleitungen in der Wand verlaufen – mit einem Leitungssucher (gibt es günstig im Baumarkt).</p>
+          <p><strong>Das brauchst du:</strong> Bohrmaschine (bei Beton mit Schlagbohrfunktion), passender Bohrer (Steinbohrer, Holzbohrer oder Metallbohrer), Dübel + Schraube passend zur Last, Wasserwaage, Bleistift, Maßband, Leitungssucher.</p>
+          <p><strong>Worauf achten:</strong> Bohrtiefe mit Klebeband am Bohrer markieren. Dübel muss bündig mit der Wand abschließen – nicht zu tief, nicht herausstehend. Bei Gipskarton: spezielle Hohlraumdübel verwenden, normale Dübel halten dort nicht.</p>
+          <div class="hinweis h-ki">
+            <span class="hinweis-icon">🤖</span>
+            <div><strong>Was KI gut kann</strong>Dübel-Typen erklären, Schraubenstärke für eine bestimmte Last berechnen, Unterschied zwischen Wandarten beschreiben, Materialliste zusammenstellen.</div>
+          </div>
+          <div class="hinweis h-video">
+            <span class="hinweis-icon">🎥</span>
+            <div><strong>Lieber als Video anschauen</strong>Den Bohrer ansetzen, Druck dosieren, Dübel einschlagen – das sind Bewegungsabläufe, die man sehen muss, nicht lesen.</div>
+          </div>
+          <div class="hinweis h-warn">
+            <span class="hinweis-icon">⚠️</span>
+            <div><strong>Nicht allein machen, wenn …</strong>… du dir bei der Wand nicht sicher bist, keinen Leitungssucher hast, oder wenn tragende Wände betroffen sein könnten.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Situation 2: Reparatur -->
+      <div class="situation-block">
+        <button class="situation-header" aria-expanded="false" data-target="sit2">
+          <div class="situ-label">B</div>
+          <div>
+            <div class="situ-title">Kleine Reparaturen im Alltag</div>
+            <div class="situ-sub">Schraube locker, Türscharnier quietscht, Griff wackelt.</div>
+          </div>
+          <span class="situ-toggle">▾</span>
+        </button>
+        <div class="situation-body" id="sit2">
+          <p><strong>Das solltest du wissen:</strong> Viele Kleinigkeiten lassen sich ohne Fachwissen beheben. Oft liegt es an Schrauben, die sich gelockert haben, oder an Material, das geölt oder erneuert werden muss.</p>
+          <p><strong>Das brauchst du:</strong> Schraubenzieher (Kreuz PH2 und Schlitz), Zange, WD-40 oder Öl für quietschende Scharniere, Ersatzschrauben in verschiedenen Größen.</p>
+          <p><strong>Worauf achten:</strong> Nicht zu viel Kraft – wenn eine Schraube nicht geht, stimmt meist etwas anderes (falscher Typ, falsche Größe, oder das Material ist gerissen). Niemals auf Verdacht mit größeren Werkzeugen nachhelfen.</p>
+          <div class="hinweis h-ki">
+            <span class="hinweis-icon">🤖</span>
+            <div><strong>Was KI gut kann</strong>„Mein Türscharnier quietscht – was kann ich tun?" ist eine perfekte KI-Frage. Klare Beschreibung + klare Antwort.</div>
+          </div>
+          <div class="hinweis h-person">
+            <span class="hinweis-icon">🧑‍🔧</span>
+            <div><strong>Hilfe vor Ort sinnvoll</strong>Wenn Reparaturen die Bausubstanz oder Einbauten betreffen (z.B. Einbauküche, Fensterrahmen), lieber Hausverwaltung oder Fachbetrieb informieren.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Situation 3: Möbel aufbauen -->
+      <div class="situation-block">
+        <button class="situation-header" aria-expanded="false" data-target="sit3">
+          <div class="situ-label">C</div>
+          <div>
+            <div class="situ-title">Möbel aufbauen</div>
+            <div class="situ-sub">IKEA, Gebrauchtmöbel, Kartons mit Anleitung – oder auch ohne.</div>
+          </div>
+          <span class="situ-toggle">▾</span>
+        </button>
+        <div class="situation-body" id="sit3">
+          <p><strong>Das solltest du wissen:</strong> Selbstbaumöbel sind meistens gut machbar – wenn man sich Zeit nimmt. Häufigster Fehler: Teile zu früh fest anziehen, bevor das ganze Möbel steht. Erst alles locker zusammensetzen, dann ausrichten, dann festziehen.</p>
+          <p><strong>Das brauchst du:</strong> Akkuschrauber (Drehmoment nicht zu hoch), Inbusschlüssel (meistens mitgeliefert), Hammer, Wasserwaage, eine zweite Person für große Teile.</p>
+          <p><strong>Worauf achten:</strong> Anleitung vollständig lesen, bevor man anfängt. Schrauben nicht überdrehen – Spanplatte reißt schnell. Rückenplatten zuletzt einsetzen. Bei gebrauchten Möbeln: alle Teile vorab zählen.</p>
+          <div class="hinweis h-ki">
+            <span class="hinweis-icon">🤖</span>
+            <div><strong>Was KI gut kann</strong>„Ich habe eine KALLAX-Anleitung und stehe bei Schritt 7 – was bedeutet dieses Symbol?" – KI kann Anleitungen erklären und bei Unklarheiten helfen.</div>
+          </div>
+          <div class="hinweis h-video">
+            <span class="hinweis-icon">🎥</span>
+            <div><strong>Lieber als Video anschauen</strong>Möbelaufbau-Videos auf YouTube zeigen, wie man Teile hält, ausrichtet und anzieht – besser als jede Beschreibung.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Situation 4: reparieren oder kaufen -->
+      <div class="situation-block">
+        <button class="situation-header" aria-expanded="false" data-target="sit4">
+          <div class="situ-label">D</div>
+          <div>
+            <div class="situ-title">Reparieren oder neu kaufen?</div>
+            <div class="situ-sub">Das kaputte Gerät, der wacklige Stuhl, die defekte Lampe.</div>
+          </div>
+          <span class="situ-toggle">▾</span>
+        </button>
+        <div class="situation-body" id="sit4">
+          <p><strong>Die Faustregel:</strong> Wenn die Reparatur mehr als 50% des Neupreises kostet – und der Gegenstand kein hoher emotionaler Wert hat – ist Neukauf oft sinnvoller. Bei Elektrogeräten gilt: nie selbst öffnen oder reparieren, wenn du keine Ausbildung dafür hast.</p>
+          <p><strong>Gute Quellen für Reparaturentscheidungen:</strong> Repair-Cafés (kostenlose Hilfe von Ehrenamtlichen), Verbraucherzentrale, iFixit für Anleitungen zu vielen Geräten.</p>
+          <div class="hinweis h-ki">
+            <span class="hinweis-icon">🤖</span>
+            <div><strong>Was KI gut kann</strong>„Mein Wasserkocher heizt nicht mehr – lohnt sich eine Reparatur oder kaufe ich neu?" – KI kann die Entscheidung strukturieren und typische Reparaturkosten einschätzen.</div>
+          </div>
+          <div class="hinweis h-warn">
+            <span class="hinweis-icon">⚠️</span>
+            <div><strong>Finger weg bei Elektrogeräten</strong>Strom kann tödlich sein. Defekte Elektrogeräte nie selbst öffnen oder weiter benutzen, wenn sie komisch riechen, funken oder heiß werden.</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 2. MATERIALIEN ERKENNEN ── -->
+    <section class="content-section" id="materialien">
+      <div class="section-eyebrow">Thema 2</div>
+      <h2>Materialien erkennen</h2>
+      <p>Welche Wand hast du? Aus welchem Material ist dieses Teil? Das bestimmt, welches Werkzeug und welchen Dübel du brauchst. Klick auf eine Karte für mehr Infos.</p>
+
+      <div class="material-grid">
+        <div class="mat-card" data-mat="beton">
+          <div class="mat-card-icon">🧱</div>
+          <h4>Beton / Mauerwerk</h4>
+          <div class="mat-hint">Klingt dumpf beim Klopfen</div>
+          <div class="mat-info">Härtestes Material. Braucht Steinbohrer + Schlagbohrfunktion. Normaldübel in verschiedenen Größen. Hält sehr viel Last. Tipp: Schlag-Modus nicht bei Fliesen einschalten.</div>
+        </div>
+        <div class="mat-card" data-mat="gips">
+          <div class="mat-card-icon">🪣</div>
+          <h4>Gipskarton</h4>
+          <div class="mat-hint">Klingt hohl, leicht zu beschädigen</div>
+          <div class="mat-info">Typisch in Trennwänden. Hält wenig Last – max. 15–20 kg mit Spezial-Hohlraumdübeln. Keine normalen Dübel! Bei schweren Lasten immer Ständer dahinter suchen.</div>
+        </div>
+        <div class="mat-card" data-mat="holz">
+          <div class="mat-card-icon">🪵</div>
+          <h4>Holz</h4>
+          <div class="mat-hint">Warm, leicht, riecht beim Bohren</div>
+          <div class="mat-info">Einfach zu bearbeiten. Holzbohrer verwenden. Schrauben halten gut – kein Dübel nötig. Vorbohren verhindert Risse. Unterschied: Massivholz vs. Spanplatte (Spanplatte hält weniger).</div>
+        </div>
+        <div class="mat-card" data-mat="metall">
+          <div class="mat-card-icon">⚙️</div>
+          <h4>Metall</h4>
+          <div class="mat-hint">Kalt, schwer, glänzend</div>
+          <div class="mat-info">HSS-Metallbohrer nötig (erkennbar am silbernen Bohrer). Langsam bohren, mit Öl kühlen. Kanten nach dem Bohren entgraten. An Metallstreben in Wänden: Leitungssucher vorher!</div>
+        </div>
+        <div class="mat-card" data-mat="kunststoff">
+          <div class="mat-card-icon">🧴</div>
+          <h4>Kunststoff</h4>
+          <div class="mat-hint">Leicht, oft flexibel, glatt</div>
+          <div class="mat-info">Scharf und langsam bohren – sonst schmilzt das Material. Niedrige Drehzahl. Kein Schlagmodus. Viele Kunststoffteile kann man mit Spezialkleber reparieren statt bohren.</div>
+        </div>
+        <div class="mat-card" data-mat="fliese">
+          <div class="mat-card-icon">🔲</div>
+          <h4>Fliesen / Kacheln</h4>
+          <div class="mat-hint">Hart, glatt, bricht leicht</div>
+          <div class="mat-info">Spezialbohrer für Fliesen (Diamant- oder Hartmetallbohrer). Kein Schlagmodus! Langsam bohren, viel Wasser zur Kühlung. Klebeband auf der Fliese verhindert Abrutschen.</div>
+        </div>
+      </div>
+
+      <div class="hinweis h-ki" style="margin-top: 8px;">
+        <span class="hinweis-icon">🤖</span>
+        <div><strong>Gut mit KI klärbar</strong>„Wie erkenne ich, ob meine Wand aus Beton oder Gipskarton ist?" – das beantwortet KI detailliert und mit konkreten Erkennungsmerkmalen.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 3. WERKZEUGE ── -->
+    <section class="content-section" id="werkzeuge">
+      <div class="section-eyebrow">Thema 3</div>
+      <h2>Werkzeuge für zu Hause</h2>
+      <p>Was brauche ich wirklich? Was kann ich mir leihen? Und was lohnt sich erst später? Hier eine ehrliche Einschätzung.</p>
+
+      <div class="werkzeug-liste">
+        <div class="wz-item">
+          <div class="wz-icon">🔨</div>
+          <div>
+            <div class="wz-name">Hammer</div>
+            <div class="wz-desc">Für Dübel, Nägel und das Nachklopfen. Ein mittelschwerer Hammer reicht für fast alles im Haushalt.</div>
+          </div>
+          <span class="wz-badge wb-must">Muss sein</span>
+        </div>
+        <div class="wz-item">
+          <div class="wz-icon">🪛</div>
+          <div>
+            <div class="wz-name">Schraubenzieher-Set</div>
+            <div class="wz-desc">Kreuzschlitz PH2 und Schlitz – das deckt 90% aller Schrauben im Haushalt ab. Am besten als kleines Set.</div>
+          </div>
+          <span class="wz-badge wb-must">Muss sein</span>
+        </div>
+        <div class="wz-item">
+          <div class="wz-icon">📏</div>
+          <div>
+            <div class="wz-name">Maßband (5 m)</div>
+            <div class="wz-desc">Unverzichtbar vor jedem Möbelkauf, jedem Aufhängen und jedem Bohren. 5 Meter reichen für jede Wohnung.</div>
+          </div>
+          <span class="wz-badge wb-must">Muss sein</span>
+        </div>
+        <div class="wz-item">
+          <div class="wz-icon">⚖️</div>
+          <div>
+            <div class="wz-name">Wasserwaage</div>
+            <div class="wz-desc">Damit hängen Bilder und Regale gerade. Günstig, klein, unverzichtbar. Alternativ: Wasserwaagen-App auf dem Handy.</div>
+          </div>
+          <span class="wz-badge wb-must">Muss sein</span>
+        </div>
+        <div class="wz-item">
+          <div class="wz-icon">🔌</div>
+          <div>
+            <div class="wz-name">Akkuschrauber</div>
+            <div class="wz-desc">Lohnt sich sehr schnell – bei Möbelaufbau, beim Bohren, bei Reparaturen. Einsteigermodelle reichen völlig.</div>
+          </div>
+          <span class="wz-badge wb-later">Bald sinnvoll</span>
+        </div>
+        <div class="wz-item">
+          <div class="wz-icon">🔍</div>
+          <div>
+            <div class="wz-name">Leitungssucher</div>
+            <div class="wz-desc">Erkennt Strom-, Wasser- und Metallinstallationen hinter der Wand. Günstig – und schützt vor teuren und gefährlichen Fehlern.</div>
+          </div>
+          <span class="wz-badge wb-later">Bald sinnvoll</span>
+        </div>
+        <div class="wz-item">
+          <div class="wz-icon">🪚</div>
+          <div>
+            <div class="wz-name">Säge (Handsäge)</div>
+            <div class="wz-desc">Für Holz, das man zuschneiden möchte. Braucht man selten, aber dann ist es gut, sie zu haben – oder zu leihen.</div>
+          </div>
+          <span class="wz-badge wb-nice">Schön zu haben</span>
+        </div>
+        <div class="wz-item">
+          <div class="wz-icon">🎨</div>
+          <div>
+            <div class="wz-name">Pinsel und Malerrolle</div>
+            <div class="wz-desc">Nur sinnvoll, wenn man streichen darf und will. Mit Vermieter klären, ob und in welcher Farbe.</div>
+          </div>
+          <span class="wz-badge wb-nice">Schön zu haben</span>
+        </div>
+      </div>
+
+      <div class="hinweis h-person" style="margin-top: 16px;">
+        <span class="hinweis-icon">🧑‍🔧</span>
+        <div><strong>Tipp: Werkzeug leihen</strong>Viele Baumärkte verleihen Werkzeug (z.B. Bohrmaschine, Stichsäge). Für einmalige Projekte oft günstiger als kaufen. Auch Nachbarn, Familie oder Leihstationen fragen.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 4. SELBST ODER HILFE ── -->
+    <section class="content-section" id="selbst-oder-nicht">
+      <div class="section-eyebrow">Thema 4</div>
+      <h2>Selbst machen oder Hilfe holen?</h2>
+      <p>Eine klare Linie – damit du weder unnötig Geld ausgibst, noch dich in Gefahr bringst.</p>
+
+      <div class="ampel-grid">
+        <div class="ampel-card ampel-green">
+          <h3>✅ Das kannst du selbst</h3>
+          <ul>
+            <li>Dübel setzen und Schrauben eindrehen</li>
+            <li>Möbel aufbauen (auch große)</li>
+            <li>Bilder, Spiegel und Regale aufhängen</li>
+            <li>Türscharniere ölen oder nachstellen</li>
+            <li>Griffe, Knäufe und Schubladen reparieren</li>
+            <li>Glühbirnen und Leuchtmittel wechseln</li>
+            <li>Dichtungen an Wasserhahn ersetzen (einfache Typen)</li>
+            <li>Wände streichen (wenn Vermieter zustimmt)</li>
+          </ul>
+        </div>
+        <div class="ampel-card ampel-red">
+          <h3>🚫 Lieber Hilfe holen</h3>
+          <ul>
+            <li>Elektrische Leitungen verlegen oder reparieren</li>
+            <li>Steckdosen oder Schalter austauschen</li>
+            <li>Wasserrohre öffnen oder verlegen</li>
+            <li>Tragende Wände verändern</li>
+            <li>Gasleitungen – niemals selbst</li>
+            <li>Defekte Elektrogeräte öffnen</li>
+            <li>Heizungsanlage und Therme reparieren</li>
+            <li>Dach oder Fassade bearbeiten</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="hinweis h-warn" style="margin-top: 16px;">
+        <span class="hinweis-icon">⚠️</span>
+        <div><strong>Im Zweifel: fragen</strong>Wenn du dir nicht sicher bist, ob etwas in die grüne oder rote Spalte gehört – frag lieber einmal zu viel. Hausverwaltung, Fachbetrieb, oder jemanden mit Erfahrung.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 5. SICHERHEITSTIPPS ── -->
+    <section class="content-section" id="tipps">
+      <div class="section-eyebrow">Thema 5</div>
+      <h2>Sicherheit beim Heimwerken</h2>
+      <p>Nicht übertrieben – aber wer ein paar Grundregeln kennt, vermeidet die häufigsten Unfälle.</p>
+
+      <div class="tipp-liste">
+        <div class="tipp-item">
+          <div class="tipp-bullet">1</div>
+          <p><strong>Leitungssucher vor dem Bohren.</strong> Strom- und Wasserleitungen verlaufen oft genau dort, wo man bohren will. Ein günstiger Leitungssucher schützt zuverlässig.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">2</div>
+          <p><strong>Nie mit nassen Händen an Elektrik.</strong> Auch beim einfachen Glühlampenwechsel: Strom aus, trocken arbeiten.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">3</div>
+          <p><strong>Werkzeug nicht überfordern.</strong> Wenn ein Werkzeug für eine Aufgabe zu klein ist, liegt das Problem nicht beim Werkzeug. Lieber das richtige Werkzeug besorgen oder Hilfe holen.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">4</div>
+          <p><strong>Schutzbrille beim Bohren.</strong> Splitter aus Beton, Gips oder Holz fliegen weit und schnell. Eine günstige Schutzbrille ist billiger als ein Arztbesuch.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">5</div>
+          <p><strong>Niemals auf wackligen Stühlen stehen.</strong> Für Arbeiten an der Decke oder hoch oben: Trittschemel oder stabile Leiter. Stühle kippen schnell.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">6</div>
+          <p><strong>Komisch riechende Elektrogeräte sofort ausstecken.</strong> Brennender Geruch, Funken oder Überhitzung sind eindeutige Warnsignale. Nicht weiter benutzen, Hausverwaltung informieren.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 6. GESPRÄCHSANLASS ── -->
+    <section class="content-section" id="gespraech">
+      <div class="gespraech">
+        <div class="gespraech-label">💬 Gesprächsanlass</div>
+        <h3>Sprich darüber – im Unterricht oder zu Hause</h3>
+        <p>Diese Fragen sind kein Pflichtprogramm. Aber sie können ein guter Einstieg sein – besonders, wenn du das Thema einmal praktisch erleben möchtest.</p>
+        <div class="gespraech-items">
+          <div class="g-item"><span class="g-bullet">→</span><span>Hast du schon einmal zugeschaut, wie jemand gebohrt oder ein Möbel aufgebaut hat? Was war überraschend?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Welche Werkzeuge gibt es bei dir zu Hause? Was würdest du dir wünschen, wenn du auszieht?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Wo ist die Grenze zwischen „selbst machen" und „Hilfe holen" für dich persönlich?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Kennst du jemanden, der gut handwerklich ist? Was hat sie oder ihn das gelehrt?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Welche der Situationen oben möchtest du am liebsten einmal praktisch ausprobieren – mit Anleitung?</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">🏠 Erste Wohnung – Survival Guide</div>
+    <p>WP10-Begleitmaterial · Kein Arbeitsheft · Alle Inhalte zur freien Nutzung</p>
+  </div>
+</footer>
+
+<script>
+  // ── Burger Menu ──
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    burger.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => { navLinks.classList.remove('open'); burger.textContent = '☰'; });
+  });
+
+  // ── Situationen Akkordeon ──
+  document.querySelectorAll('.situation-header').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.target);
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+      // alle schließen
+      document.querySelectorAll('.situation-header').forEach(b => b.setAttribute('aria-expanded', 'false'));
+      document.querySelectorAll('.situation-body').forEach(b => b.classList.remove('open'));
+
+      // dieses öffnen / schließen
+      if (!isOpen) {
+        btn.setAttribute('aria-expanded', 'true');
+        target.classList.add('open');
+      }
+    });
+  });
+
+  // ── Materialien-Karten (Toggle) ──
+  document.querySelectorAll('.mat-card').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('revealed');
+    });
+  });
+
+  // ── Subnav + Sidebar aktiv beim Scrollen ──
+  const sections = document.querySelectorAll('.content-section');
+  const subLinks = document.querySelectorAll('.subnav a');
+  const sideLinks = document.querySelectorAll('.sidebar-nav a');
+
+  function updateActive() {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 130) current = s.id;
+    });
+    subLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+    sideLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+</script>
+
+</body>
+</html>

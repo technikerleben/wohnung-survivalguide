@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geld & Vertrag – Erste Wohnung Survival Guide</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+    :root {
+      --sand:    #f5f0e8;
+      --warm:    #ede6d6;
+      --stone:   #c8bfae;
+      --ink:     #1c1a17;
+      --slate:   #4a4640;
+      --muted:   #7a736a;
+      --accent:  #b5892a;
+      --accent-light: #fdf7e8;
+      --orange:  #c0632a;
+      --blue:    #3b6e8f;
+      --green:   #3d6b52;
+      --red:     #a83030;
+      --radius:  14px;
+      --shadow:  0 2px 16px rgba(28,26,23,.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav.topnav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(245,240,232,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--stone);
+      padding: 0 clamp(16px, 4vw, 48px);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; height: 60px;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem; color: var(--orange);
+      text-decoration: none; white-space: nowrap; margin-right: auto;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+    .nav-links a {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 13px; border-radius: 8px;
+      font-size: .82rem; font-weight: 500;
+      color: var(--slate); text-decoration: none;
+      transition: background .18s, color .18s; white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active { background: var(--warm); color: var(--ink); }
+    .nav-burger {
+      display: none; background: none; border: none;
+      cursor: pointer; padding: 8px; font-size: 1.4rem; color: var(--ink);
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: linear-gradient(135deg, #fdf7e8 0%, #f5e8c8 100%);
+      border-bottom: 1px solid #e0c878;
+      padding: clamp(36px,6vw,72px) clamp(16px,4vw,48px) clamp(28px,4vw,48px);
+    }
+    .page-header-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end;
+    }
+    .breadcrumb {
+      font-size: .78rem; color: var(--muted);
+      display: flex; align-items: center; gap: 6px; margin-bottom: 14px;
+    }
+    .breadcrumb a { color: var(--accent); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .page-header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.15; margin-bottom: 14px;
+    }
+    .page-header h1 em { font-style: italic; color: var(--accent); }
+    .page-header p { font-size: 1rem; color: var(--slate); font-weight: 300; max-width: 52ch; }
+    .header-icon {
+      width: 80px; height: 80px; background: #f5e8c8;
+      border-radius: 22px; display: flex; align-items: center;
+      justify-content: center; font-size: 2.4rem;
+      box-shadow: var(--shadow); flex-shrink: 0;
+    }
+
+    /* ── SUBNAV ── */
+    .subnav {
+      background: white; border-bottom: 1px solid var(--warm);
+      padding: 0 clamp(16px,4vw,48px); overflow-x: auto;
+    }
+    .subnav-inner { max-width: 1100px; margin: 0 auto; display: flex; }
+    .subnav a {
+      display: flex; align-items: center; gap: 7px;
+      padding: 14px 18px; font-size: .84rem; font-weight: 500;
+      color: var(--muted); text-decoration: none; white-space: nowrap;
+      border-bottom: 2.5px solid transparent;
+      transition: color .15s, border-color .15s;
+    }
+    .subnav a:hover { color: var(--ink); }
+    .subnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── MAIN LAYOUT ── */
+    .main-wrap {
+      max-width: 1100px; margin: 0 auto;
+      padding: 40px clamp(16px,4vw,48px);
+      display: grid; grid-template-columns: 220px 1fr;
+      gap: 40px; align-items: start;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar { position: sticky; top: 80px; }
+    .sidebar-title {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+    }
+    .sidebar-nav { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-radius: 10px;
+      font-size: .86rem; font-weight: 500;
+      color: var(--slate); text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .sidebar-nav a:hover { background: var(--warm); color: var(--ink); }
+    .sidebar-nav a.active { background: var(--accent-light); color: var(--accent); }
+    .sidebar-nav .sn-icon {
+      width: 28px; height: 28px; border-radius: 7px; background: var(--warm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem; flex-shrink: 0;
+    }
+    .sidebar-divider { height: 1px; background: var(--stone); opacity: .4; margin: 16px 0; }
+    .sidebar-back {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px; border-radius: 10px;
+      font-size: .82rem; color: var(--muted);
+      text-decoration: none; transition: background .15s, color .15s;
+    }
+    .sidebar-back:hover { background: var(--warm); color: var(--ink); }
+
+    /* ── CONTENT ── */
+    .content { min-width: 0; }
+    .content-section { margin-bottom: 56px; scroll-margin-top: 90px; }
+    .section-eyebrow {
+      font-size: .7rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+    }
+    .content-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem); margin-bottom: 12px;
+    }
+    .content-section > p {
+      font-size: .95rem; color: var(--slate);
+      font-weight: 300; margin-bottom: 24px; max-width: 60ch;
+    }
+    .section-divider { height: 1px; background: var(--stone); opacity: .35; margin: 0 0 52px; }
+
+    /* ── KOSTEN-RECHNER ── */
+    .rechner-wrap {
+      background: white; border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 28px; margin-bottom: 20px;
+    }
+    .rechner-title {
+      font-size: .82rem; font-weight: 600; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 20px;
+    }
+    .rechner-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;
+    }
+    .rechner-field label {
+      display: block; font-size: .78rem; font-weight: 600;
+      color: var(--slate); margin-bottom: 6px;
+    }
+    .rechner-field input {
+      width: 100%; padding: 10px 14px;
+      border: 1.5px solid var(--stone); border-radius: 8px;
+      font-size: 1rem; font-family: inherit;
+      background: var(--sand); color: var(--ink);
+      transition: border-color .15s;
+    }
+    .rechner-field input:focus {
+      outline: none; border-color: var(--accent); background: white;
+    }
+    .rechner-ergebnis {
+      background: var(--accent-light); border-radius: 12px;
+      padding: 20px 24px; margin-top: 4px;
+    }
+    .re-title { font-size: .78rem; font-weight: 600; color: var(--muted); margin-bottom: 14px; }
+    .re-rows { display: flex; flex-direction: column; gap: 8px; }
+    .re-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .88rem; padding-bottom: 8px; border-bottom: 1px solid #e8d5a0;
+    }
+    .re-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .re-row.total {
+      font-weight: 700; font-size: 1rem;
+      color: var(--accent); border-top: 2px solid #e8d5a0;
+      padding-top: 12px; border-bottom: none; margin-top: 4px;
+    }
+    .re-label { color: var(--slate); }
+    .re-value { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+    /* ── BEGRIFFE GLOSSAR ── */
+    .glossar { display: flex; flex-direction: column; gap: 8px; }
+    details.glossar-item {
+      background: white; border-radius: 12px;
+      border: 1.5px solid transparent; overflow: hidden;
+      transition: border-color .15s;
+    }
+    details.glossar-item[open] { border-color: #e0c878; }
+    details.glossar-item summary {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 18px; cursor: pointer; list-style: none;
+      font-size: .93rem; font-weight: 500; user-select: none;
+    }
+    details.glossar-item summary::-webkit-details-marker { display: none; }
+    .g-badge {
+      background: var(--accent-light); color: var(--accent);
+      font-size: .72rem; font-weight: 700; padding: 3px 10px;
+      border-radius: 100px; flex-shrink: 0;
+    }
+    .g-arrow { margin-left: auto; font-size: .85rem; color: var(--muted); transition: transform .25s; }
+    details.glossar-item[open] .g-arrow { transform: rotate(180deg); }
+    .glossar-body {
+      padding: 2px 18px 18px 18px;
+      font-size: .88rem; color: var(--slate); line-height: 1.65;
+    }
+    .glossar-body p + p { margin-top: 8px; }
+    .glossar-body .beispiel {
+      margin-top: 10px; background: var(--accent-light);
+      border-radius: 8px; padding: 10px 14px;
+      font-size: .82rem; color: var(--accent); font-weight: 500;
+    }
+
+    /* ── MIETVERTRAG CHECKLISTE ── */
+    .mv-check { display: flex; flex-direction: column; gap: 8px; }
+    .mv-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: white; border-radius: 10px; padding: 14px 16px;
+      box-shadow: 0 1px 4px rgba(28,26,23,.07); cursor: pointer;
+      transition: background .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mv-item:hover { background: var(--warm); }
+    .mv-item.checked { background: #edf5f0; }
+    .mv-check-box {
+      width: 22px; height: 22px; border-radius: 6px;
+      border: 2px solid var(--stone); flex-shrink: 0; margin-top: 1px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; transition: background .15s, border-color .15s;
+    }
+    .mv-item.checked .mv-check-box { background: var(--green); border-color: var(--green); color: white; }
+    .mv-item-text { font-size: .88rem; line-height: 1.5; }
+    .mv-item-text strong { display: block; font-weight: 600; margin-bottom: 2px; }
+    .mv-item-text span { color: var(--muted); font-size: .82rem; }
+    .mv-meta {
+      font-size: .78rem; color: var(--muted); margin-top: 10px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .mv-reset {
+      background: none; border: 1px solid var(--stone); border-radius: 6px;
+      padding: 4px 12px; font-size: .78rem; color: var(--muted); cursor: pointer;
+      transition: background .15s;
+    }
+    .mv-reset:hover { background: var(--warm); }
+
+    /* ── WG KARTEN ── */
+    .wg-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px; margin-bottom: 20px;
+    }
+    .wg-card {
+      background: white; border-radius: var(--radius);
+      padding: 22px; box-shadow: var(--shadow);
+      border-top: 4px solid;
+    }
+    .wg-orange { border-color: var(--orange); }
+    .wg-blue   { border-color: var(--blue); }
+    .wg-green  { border-color: var(--green); }
+    .wg-gold   { border-color: var(--accent); }
+    .wg-card-icon { font-size: 1.5rem; margin-bottom: 12px; }
+    .wg-card h3 { font-size: .95rem; font-weight: 600; margin-bottom: 8px; }
+    .wg-card p  { font-size: .84rem; color: var(--muted); line-height: 1.55; }
+
+    /* ── WG KONFLIKT-KARTEN ── */
+    .konflikt-liste { display: flex; flex-direction: column; gap: 10px; }
+    .konflikt-item {
+      background: white; border-radius: 12px; padding: 18px 20px;
+      box-shadow: 0 1px 6px rgba(28,26,23,.07);
+      border-left: 4px solid var(--stone);
+    }
+    .konflikt-item h4 {
+      font-size: .9rem; font-weight: 600; margin-bottom: 6px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .konflikt-item p { font-size: .84rem; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
+    .konflikt-tipp {
+      font-size: .82rem; font-weight: 600; color: var(--green);
+      background: #edf5f0; border-radius: 6px; padding: 6px 12px;
+      display: inline-block;
+    }
+
+    /* ── STOLPERFALLEN ── */
+    .stolper-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .stolper-card {
+      background: white; border-radius: 12px; padding: 18px 20px;
+      box-shadow: var(--shadow); border-top: 3px solid var(--red);
+    }
+    .stolper-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: 6px; }
+    .stolper-card p  { font-size: .82rem; color: var(--muted); line-height: 1.5; }
+    .stolper-card .besser {
+      margin-top: 10px; font-size: .8rem; font-weight: 500;
+      background: #edf5f0; color: var(--green);
+      border-radius: 6px; padding: 6px 10px;
+    }
+
+    /* ── HINWEIS-BOXEN ── */
+    .hinweis {
+      display: flex; align-items: flex-start; gap: 13px;
+      padding: 16px 20px; border-radius: 12px; border-left: 4px solid;
+      font-size: .88rem; line-height: 1.55; margin: 10px 0;
+    }
+    .h-ki     { background: #f5f1fc; border-color: #9b76d4; }
+    .h-video  { background: #eef5fb; border-color: #5fa3c7; }
+    .h-person { background: #edf5f0; border-color: #5fa37e; }
+    .h-warn   { background: #fdf3e8; border-color: #d98a3a; }
+    .hinweis-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .hinweis strong { display: block; margin-bottom: 2px; font-weight: 600; }
+
+    /* ── TIPP-LISTE ── */
+    .tipp-liste { display: flex; flex-direction: column; gap: 10px; }
+    .tipp-item {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: white; border-radius: 12px; padding: 16px 18px;
+      box-shadow: 0 1px 6px rgba(28,26,23,.07);
+    }
+    .tipp-bullet {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent-light); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+    }
+    .tipp-item p { font-size: .88rem; color: var(--slate); line-height: 1.55; }
+    .tipp-item strong { color: var(--ink); }
+
+    /* ── GESPRÄCHSANLASS ── */
+    .gespraech {
+      background: linear-gradient(135deg, #fdf7e8, #f5e8c8);
+      border: 1.5px solid #e0c878; border-radius: var(--radius); padding: 24px 28px;
+    }
+    .gespraech-label {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+    }
+    .gespraech h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+    .gespraech p  { font-size: .88rem; color: var(--slate); line-height: 1.6; }
+    .gespraech-items { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+    .g-item { display: flex; gap: 10px; align-items: flex-start; font-size: .86rem; color: var(--slate); }
+    .g-bullet { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--stone); padding: 32px clamp(16px,4vw,48px); margin-top: 32px; }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--orange); }
+    footer p { font-size: .8rem; color: var(--muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .main-wrap { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .page-header-inner { grid-template-columns: 1fr; }
+      .header-icon { display: none; }
+      .rechner-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 800px) {
+      .nav-links {
+        display: none; position: absolute; top: 60px; left: 0; right: 0;
+        background: var(--sand); border-bottom: 1px solid var(--stone);
+        flex-direction: column; padding: 12px 16px 20px; gap: 4px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 10px 16px; font-size: .9rem; }
+      .nav-burger { display: block; }
+    }
+    @media (max-width: 540px) {
+      .wg-grid { grid-template-columns: 1fr; }
+      .stolper-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav class="topnav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">🏠 Erste Wohnung</a>
+    <button class="nav-burger" id="burger">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">🏠 Start</a></li>
+      <li><a href="wohnen.html">🛋️ Wohnen & Alltag</a></li>
+      <li><a href="technik.html">🔧 Technik & Reparatur</a></li>
+      <li><a href="strom-wasser.html">⚡ Strom, Wasser & Heizung</a></li>
+      <li><a href="geld-vertrag.html" class="active">💸 Geld & Vertrag</a></li>
+      <li><a href="ki-hilfe.html">🤖 Digitale Hilfe & KI</a></li>
+      <li><a href="links.html">🔗 Links</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── SEITENHEADER ── -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div>
+      <div class="breadcrumb">
+        <a href="index.html">Start</a> › Geld & Vertrag
+      </div>
+      <h1>Geld &amp; <em>Vertrag</em></h1>
+      <p>Was kostet eine erste Wohnung wirklich? Was steht im Mietvertrag – und was bedeutet das? Und was sollte man in einer WG von Anfang an klären? Hier findest du klare Antworten ohne unnötige Fachsprache.</p>
+    </div>
+    <div class="header-icon">💸</div>
+  </div>
+</header>
+
+<!-- ── SUBNAV ── -->
+<nav class="subnav">
+  <div class="subnav-inner">
+    <a href="#kosten" class="active">💰 Was kostet das?</a>
+    <a href="#begriffe">📖 Begriffe erklärt</a>
+    <a href="#mietvertrag">📄 Mietvertrag</a>
+    <a href="#budget">📊 Budget planen</a>
+    <a href="#wg">🏘️ WG-Themen</a>
+    <a href="#stolperfallen">⚠️ Stolperfallen</a>
+    <a href="#gespraech">💬 Gesprächsanlass</a>
+  </div>
+</nav>
+
+<!-- ── HAUPTINHALT ── -->
+<div class="main-wrap">
+
+  <aside class="sidebar">
+    <div class="sidebar-title">Themen auf dieser Seite</div>
+    <ul class="sidebar-nav">
+      <li><a href="#kosten" class="active"><span class="sn-icon">💰</span>Was kostet das?</a></li>
+      <li><a href="#begriffe"><span class="sn-icon">📖</span>Begriffe erklärt</a></li>
+      <li><a href="#mietvertrag"><span class="sn-icon">📄</span>Mietvertrag prüfen</a></li>
+      <li><a href="#budget"><span class="sn-icon">📊</span>Budget planen</a></li>
+      <li><a href="#wg"><span class="sn-icon">🏘️</span>WG-Themen</a></li>
+      <li><a href="#stolperfallen"><span class="sn-icon">⚠️</span>Stolperfallen</a></li>
+      <li><a href="#gespraech"><span class="sn-icon">💬</span>Gesprächsanlass</a></li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <a href="strom-wasser.html" class="sidebar-back">← Strom, Wasser & Heizung</a>
+    <a href="ki-hilfe.html" class="sidebar-back">Digitale Hilfe & KI →</a>
+  </aside>
+
+  <main class="content">
+
+    <!-- ── 1. KOSTEN ── -->
+    <section class="content-section" id="kosten">
+      <div class="section-eyebrow">Thema 1</div>
+      <h2>Was kostet eine erste Wohnung wirklich?</h2>
+      <p>Neben der Monatsmiete kommen beim Einzug oft hohe Einmalkosten dazu – die viele unterschätzen. Rechne hier durch, was auf dich zukommt.</p>
+
+      <div class="rechner-wrap">
+        <div class="rechner-title">💰 Kostenrechner – erste eigene Wohnung</div>
+        <div class="rechner-grid">
+          <div class="rechner-field">
+            <label>Monatliche Kaltmiete (€)</label>
+            <input type="number" id="r_miete" value="700" min="0" placeholder="z.B. 700">
+          </div>
+          <div class="rechner-field">
+            <label>Nebenkosten pro Monat (€)</label>
+            <input type="number" id="r_nk" value="150" min="0" placeholder="z.B. 150">
+          </div>
+          <div class="rechner-field">
+            <label>Kaution (Monatsmieten × …)</label>
+            <input type="number" id="r_kaution_faktor" value="2" min="0" max="3" step="0.5" placeholder="2 oder 3">
+          </div>
+          <div class="rechner-field">
+            <label>Budget Ersteinrichtung (€)</label>
+            <input type="number" id="r_einrichtung" value="1500" min="0" placeholder="z.B. 1500">
+          </div>
+        </div>
+
+        <div class="rechner-ergebnis" id="ergebnis">
+          <div class="re-title">Deine Übersicht</div>
+          <div class="re-rows">
+            <div class="re-row"><span class="re-label">Monatliche Warmmiete</span><span class="re-value" id="out_warm">–</span></div>
+            <div class="re-row"><span class="re-label">Kaution (einmalig)</span><span class="re-value" id="out_kaution">–</span></div>
+            <div class="re-row"><span class="re-label">Ersteinrichtung (einmalig)</span><span class="re-value" id="out_einrichtung">–</span></div>
+            <div class="re-row"><span class="re-label">Umzugskosten (geschätzt)</span><span class="re-value" id="out_umzug">–</span></div>
+            <div class="re-row total"><span class="re-label">Einmalkosten gesamt (Einzug)</span><span class="re-value" id="out_gesamt">–</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hinweis h-ki">
+        <span class="hinweis-icon">🤖</span>
+        <div><strong>Gut mit KI klärbar</strong>„Ich habe 2.000 Euro gespart und möchte in eine WG mit 400 Euro Kaltmiete einziehen – reicht das für den Start?" – KI kann solche Szenarien durchrechnen und konkrete Tipps geben.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 2. BEGRIFFE ── -->
+    <section class="content-section" id="begriffe">
+      <div class="section-eyebrow">Thema 2</div>
+      <h2>Wichtige Begriffe erklärt</h2>
+      <p>Mietverträge und Wohnungsanzeigen sind voller Fachbegriffe. Hier sind die wichtigsten – klar und ohne Umwege erklärt.</p>
+
+      <div class="glossar">
+
+        <details class="glossar-item">
+          <summary>
+            <span class="g-badge">Miete</span>
+            Kaltmiete, Warmmiete, Nebenkosten
+            <span class="g-arrow">▾</span>
+          </summary>
+          <div class="glossar-body">
+            <p><strong>Kaltmiete</strong> ist der Grundpreis für die Wohnung – ohne Strom, Wasser oder Heizung. Das ist der Betrag, der in Anzeigen oft groß steht.</p>
+            <p><strong>Nebenkosten</strong> (auch Betriebskosten) kommen dazu: Wasser, Abwasser, Müll, Hausreinigung, manchmal auch Heizung. Meist zahlt man monatlich eine Vorauszahlung – und bekommt einmal im Jahr eine Abrechnung, die positiv oder negativ ausfallen kann.</p>
+            <p><strong>Warmmiete</strong> = Kaltmiete + Nebenkosten. Das ist das, was du wirklich monatlich zahlst.</p>
+            <div class="beispiel">Beispiel: Kaltmiete 650 € + Nebenkosten 120 € = Warmmiete 770 € / Monat</div>
+          </div>
+        </details>
+
+        <details class="glossar-item">
+          <summary>
+            <span class="g-badge">Kaution</span>
+            Was ist das – und bekomme ich sie zurück?
+            <span class="g-arrow">▾</span>
+          </summary>
+          <div class="glossar-body">
+            <p>Die Kaution ist eine Sicherheitsleistung, die du beim Einzug an die Vermieter:in zahlst. Sie beträgt maximal drei Nettokaltmieten. Das Geld muss auf einem separaten Konto angelegt werden und gehört dir – die Vermieter:in verwaltet es nur.</p>
+            <p>Nach dem Auszug bekommst du die Kaution zurück – abzüglich Schäden, die über normale Abnutzung hinausgehen. Wichtig: normaler Verschleiß (verblasste Farben, leichte Kratzer) ist keine Schadensersatzpflicht.</p>
+            <div class="beispiel">Kaltmiete 650 € × 2 = 1.300 € Kaution (häufiger Fall)</div>
+          </div>
+        </details>
+
+        <details class="glossar-item">
+          <summary>
+            <span class="g-badge">Vertrag</span>
+            Befristet vs. unbefristet
+            <span class="g-arrow">▾</span>
+          </summary>
+          <div class="glossar-body">
+            <p>Ein <strong>unbefristeter Mietvertrag</strong> läuft so lange, bis eine Seite kündigt. Für Mieter:innen gilt eine Kündigungsfrist von 3 Monaten. Das ist die stabilere und schützendere Option.</p>
+            <p>Ein <strong>befristeter Mietvertrag</strong> hat ein festes Enddatum – z.B. 1 Jahr. Er kann in der Regel nicht vorzeitig gekündigt werden. Nach Ablauf endet er automatisch oder wird verlängert.</p>
+            <div class="beispiel">Tipp: Befristete Verträge nur akzeptieren, wenn du den Grund dafür kennst und nachvollziehbar findest.</div>
+          </div>
+        </details>
+
+        <details class="glossar-item">
+          <summary>
+            <span class="g-badge">Abrechnung</span>
+            Nebenkostenabrechnung verstehen
+            <span class="g-arrow">▾</span>
+          </summary>
+          <div class="glossar-body">
+            <p>Einmal im Jahr bekommst du eine Abrechnung über die tatsächlichen Nebenkosten. Hast du zu viel Vorauszahlung geleistet, bekommst du Geld zurück. Hast du zu wenig gezahlt, musst du nachzahlen.</p>
+            <p>Die Abrechnung muss nachvollziehbar aufgeschlüsselt sein. Du hast das Recht, die Belege einzusehen. Bei Unklarheiten: Mieterverein oder Verbraucherzentrale fragen.</p>
+            <div class="beispiel">Tipp: Wer viel duscht, kocht oder heizt, sollte mit einer Nachzahlung rechnen. Lieber etwas mehr Rücklage bilden.</div>
+          </div>
+        </details>
+
+        <details class="glossar-item">
+          <summary>
+            <span class="g-badge">Kündigung</span>
+            Wann und wie kündige ich richtig?
+            <span class="g-arrow">▾</span>
+          </summary>
+          <div class="glossar-body">
+            <p>Als Mieter:in musst du mit einer Frist von 3 Monaten zum Monatsende kündigen – schriftlich per Brief (nicht E-Mail, nicht WhatsApp). Das Kündigungsschreiben muss unterschrieben sein.</p>
+            <p>Wichtig: Die Frist zählt ab Eingang beim Vermieter. Empfehlung: per Einschreiben schicken oder persönlich abgeben mit Empfangsbestätigung.</p>
+            <div class="beispiel">Beispiel: Kündigung kommt am 3. März an → Mietverhältnis endet am 31. Mai.</div>
+          </div>
+        </details>
+
+        <details class="glossar-item">
+          <summary>
+            <span class="g-badge">Übergabe</span>
+            Wohnungsübergabe – Protokoll
+            <span class="g-arrow">▾</span>
+          </summary>
+          <div class="glossar-body">
+            <p>Beim Ein- und Auszug wird gemeinsam mit der Vermieter:in ein Übergabeprotokoll erstellt. Darin werden alle Mängel und der Zustand der Wohnung dokumentiert. Das Protokoll schützt dich: Was beim Einzug schon kaputt war, kannst du beim Auszug nicht bezahlen müssen.</p>
+            <p>Beim Einzug: Fotos von allem machen, was nicht perfekt ist. Beim Auszug: eigene Fotos vor der Übergabe, damit du vergleichen kannst.</p>
+            <div class="beispiel">Tipp: Übergabeprotokoll immer selbst unterschreiben und eine Kopie behalten.</div>
+          </div>
+        </details>
+
+      </div>
+
+      <div class="hinweis h-ki" style="margin-top: 12px;">
+        <span class="hinweis-icon">🤖</span>
+        <div><strong>Gut mit KI klärbar</strong>„Was bedeutet dieser Satz in meinem Mietvertrag?" – Vertragsklauseln in einfacher Sprache erklären lassen funktioniert sehr gut. KI ersetzt aber keine Rechtsberatung.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 3. MIETVERTRAG ── -->
+    <section class="content-section" id="mietvertrag">
+      <div class="section-eyebrow">Thema 3</div>
+      <h2>Mietvertrag prüfen – Checkliste</h2>
+      <p>Bevor du unterschreibst: Diese Punkte solltest du im Vertrag durchgegangen sein. Hak ab, was du überprüft hast.</p>
+
+      <div class="mv-check" id="mv-checklist">
+        <div class="mv-item" data-key="mv_namen"><div class="mv-check-box"></div><div class="mv-item-text"><strong>Alle Namen korrekt</strong><span>Vor- und Nachname aller Mieter:innen vollständig und richtig geschrieben?</span></div></div>
+        <div class="mv-item" data-key="mv_adresse"><div class="mv-check-box"></div><div class="mv-item-text"><strong>Adresse und Wohnungsnummer</strong><span>Stimmt die genaue Bezeichnung der Wohnung (Etage, links/rechts/Mitte)?</span></div></div>
+        <div class="mv-item" data-key="mv_miete"><div class="mv-check-box"></div><div class="mv-item-text"><strong>Miethöhe und Nebenkosten</strong><span>Kaltmiete, Nebenkostenvorauszahlung und Warmmiete klar aufgeführt?</span></div></div>
+        <div class="mv-item" data-key="mv_kaution"><div class="mv-check-box"></div><div class="mv-item-text"><strong>Kautionshöhe und Zahlungsweise</strong><span>Maximale Höhe beachten (3 Nettokaltmieten). In Raten zahlen ist erlaubt.</span></div></div>
+        <div class="mv-item" data-key="mv_befristet"><div class="mv-check-box"></div><div class="mv-item-text"><strong>Befristet oder unbefristet?</strong><span>Falls befristet: Begründung im Vertrag vorhanden und nachvollziehbar?</span></div></div>
+        <div class="mv-item" data-key="mv_kuendigung"><div class="mv-check-box"></div><div class="mv-item-text"><strong>Kündigungsfristen</strong><span>Standardmäßig 3 Monate für Mieter:innen. Abweichungen prüfen.</span></div></div>
+        <div class="mv-item" data-key="mv_haustiere"><div class="mv-check-box"></div><div class="mv-item-text"><strong>Haustiere erlaubt?</strong><span>Wenn du Tiere hast oder planst: im Vertrag oder separat schriftlich klären.</span></div></div>
+        <div class="mv-item" data-key="mv_renovierung"><div class="mv-check-box"></div><div class="mv-item-text"><strong>Renovierungspflichten</strong><span>Wer muss streichen beim Auszug? Starre Fristen für Schönheitsreparaturen sind oft unwirksam.</span></div></div>
+        <div class="mv-item" data-key="mv_untervermietung"><div class="mv-check-box"></div><div class="mv-item-text"><strong>Untervermietung / WG</strong><span>Darf ein Zimmer weitervermietet oder dürfen Mitbewohner:innen aufgenommen werden?</span></div></div>
+        <div class="mv-item" data-key="mv_schluessel"><div class="mv-check-box"></div><div class="mv-item-text"><strong>Schlüsselübergabe dokumentiert</strong><span>Anzahl und Art der übergebenen Schlüssel im Protokoll festhalten.</span></div></div>
+      </div>
+      <div class="mv-meta">
+        <span id="mv-count">0 von 10 geprüft</span>
+        <button class="mv-reset" id="mv-reset">Zurücksetzen</button>
+      </div>
+
+      <div class="hinweis h-person" style="margin-top: 16px;">
+        <span class="hinweis-icon">🧑‍🔧</span>
+        <div><strong>Im Zweifel: Mieterverein fragen</strong>Mietervereine bieten günstige Mitgliedschaften und prüfen Mietverträge vor der Unterzeichnung. Das lohnt sich besonders bei der ersten Wohnung.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 4. BUDGET ── -->
+    <section class="content-section" id="budget">
+      <div class="section-eyebrow">Thema 4</div>
+      <h2>Haushaltsbudget planen</h2>
+      <p>Wer seine monatlichen Kosten kennt, gerät seltener in Engpässe. Es braucht kein kompliziertes System – nur Überblick.</p>
+
+      <div class="tipp-liste" style="margin-bottom: 20px;">
+        <div class="tipp-item">
+          <div class="tipp-bullet">1</div>
+          <p><strong>Fixkosten zuerst.</strong> Miete, Strom, Internet, Versicherungen – das sind Beträge, die jeden Monat kommen, egal was. Sie stehen ganz oben in deinem Budget.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">2</div>
+          <p><strong>Faustregel: Miete max. 30% des Nettoeinkommens.</strong> Wer mehr als ein Drittel des Einkommens für Miete ausgibt, hat wenig Puffer für alles andere.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">3</div>
+          <p><strong>Rücklage aufbauen.</strong> Schon 20–50 Euro pro Monat beiseitelegen macht einen Unterschied. Unerwartetes wie Reparaturen, Nachzahlungen oder Krankheit kommt immer.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">4</div>
+          <p><strong>Lebensmittel realistisch einschätzen.</strong> Kochen spart langfristig viel – aber wer kein Essen zu Hause hat, kauft unterwegs teuer. Wocheneinkauf mit Plan ist günstiger als tägliche Einkäufe.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">5</div>
+          <p><strong>Abo-Falle beachten.</strong> Streaming, Fitnessstudio, Apps – kleine Beträge summieren sich. Einmal im Jahr alle Abos überprüfen und kündigen, was nicht mehr genutzt wird.</p>
+        </div>
+      </div>
+
+      <div class="hinweis h-ki">
+        <span class="hinweis-icon">🤖</span>
+        <div><strong>Gut mit KI klärbar</strong>„Ich verdiene 1.400 Euro netto. Erstelle mir ein realistisches Monatsbudget für eine 1-Zimmer-Wohnung in einer Mittelstadt." – KI erstellt solche Budgetübersichten schnell und kann sie auf deine Situation anpassen.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 5. WG-THEMEN ── -->
+    <section class="content-section" id="wg">
+      <div class="section-eyebrow">Thema 5 · Neu</div>
+      <h2>Wohngemeinschaft – WG-Themen</h2>
+      <p>Die WG ist für viele der erste Schritt ins eigene Wohnen. Günstiger, sozialer – aber auch mit eigenen Herausforderungen. Was du von Anfang an wissen solltest.</p>
+
+      <!-- WG-Karten -->
+      <div class="wg-grid" style="margin-bottom: 28px;">
+        <div class="wg-card wg-orange">
+          <div class="wg-card-icon">📝</div>
+          <h3>Wer steht im Mietvertrag?</h3>
+          <p>Das ist die wichtigste rechtliche Frage in einer WG. Steht nur eine Person im Vertrag, haftet nur sie gegenüber dem Vermieter – auch wenn Mitbewohner:innen nicht zahlen oder Schäden verursachen. Besser: alle im Vertrag.</p>
+        </div>
+        <div class="wg-card wg-blue">
+          <div class="wg-card-icon">💶</div>
+          <h3>Wer zahlt was?</h3>
+          <p>Miete, Nebenkosten, Internet, Haushaltsmittel – klärt das vor dem Einzug schriftlich. Ein gemeinsames Konto für WG-Ausgaben oder eine geteilte Notiz in einer App hilft. Unklare Abmachungen führen fast immer zu Streit.</p>
+        </div>
+        <div class="wg-card wg-green">
+          <div class="wg-card-icon">🧹</div>
+          <h3>Putzen und Aufräumen</h3>
+          <p>Kein Thema löst mehr WG-Konflikte aus als Sauberkeit. Ein reihum-Putzplan, der am Anfang festgelegt wird, ist nicht pedantisch – er verhindert, dass eine Person immer putzt und sich irgendwann ärgert.</p>
+        </div>
+        <div class="wg-card wg-gold">
+          <div class="wg-card-icon">🚪</div>
+          <h3>Auszug aus der WG</h3>
+          <p>Wenn jemand auszieht: Wer übernimmt den Mietanteil? Nachmieter:in selbst suchen oder Vermieter informieren? Und die Kaution: Diese wird geteilt zurückgezahlt – oder eine Person muss die Abrechnung mit dem/der Ausziehenden regeln.</p>
+        </div>
+      </div>
+
+      <!-- WG-Regeln Empfehlung -->
+      <div class="section-eyebrow" style="margin-bottom: 12px;">Empfehlung: WG-Regeln von Anfang an</div>
+      <div class="tipp-liste" style="margin-bottom: 20px;">
+        <div class="tipp-item">
+          <div class="tipp-bullet">💬</div>
+          <p><strong>Sprecht über Erwartungen, bevor Probleme entstehen.</strong> Wie ruhig soll es abends sein? Dürfen Gäste über Nacht bleiben? Wie wird Essen aufgeteilt – gemeinsam oder jede:r für sich? Keine falschen Antworten, aber alle sollten wissen, was die anderen erwarten.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">📱</div>
+          <p><strong>WG-Chat mit festen Themen.</strong> Für Putzdienst, Einkaufslisten und wichtige Informationen einen gemeinsamen Chat nutzen – nicht mehrere. Mündliche Abmachungen gehen verloren, schriftliche nicht.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">🔑</div>
+          <p><strong>Schlüssel, Zugänge und Codes klären.</strong> Wer hat einen Briefkastenschlüssel? Gibt es einen Kellerschlüssel? Was ist der WLAN-Code? Klingt trivial – aber fehlende Informationen nerven täglich.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">📋</div>
+          <p><strong>WG-Vertrag oder schriftliche Abmachung.</strong> Kein bürokratisches Dokument – aber eine kurze Notiz, wer was zahlt, wie Putzdienst geregelt ist und wie Auszug kommuniziert werden soll. Das schützt alle.</p>
+        </div>
+      </div>
+
+      <!-- Konfliktszenarien -->
+      <div class="section-eyebrow" style="margin-bottom: 12px;">Typische WG-Konflikte – und wie man damit umgeht</div>
+      <div class="konflikt-liste">
+        <div class="konflikt-item">
+          <h4>🧹 „Ich muss immer alles aufräumen"</h4>
+          <p>Entsteht, wenn Erwartungen nie ausgesprochen wurden. Nicht hineinsteigern – ansprechen. Direkt, ruhig, konkret: nicht „du machst nie was", sondern „ich wünsche mir, dass wir den Putzdienst aufteilen."</p>
+          <div class="konflikt-tipp">✅ Lösung: Putzplan einführen, Aufgaben rotieren lassen</div>
+        </div>
+        <div class="konflikt-item">
+          <h4>🔊 „Du bist immer so laut"</h4>
+          <p>Lautstärke ist sehr subjektiv. Was für eine:n normal ist, stört die andere Person vielleicht stark. Feste Ruhezeiten vereinbaren – auch wenn man nicht immer daran denkt.</p>
+          <div class="konflikt-tipp">✅ Lösung: Ruhezeiten schriftlich vereinbaren (z.B. nach 22 Uhr leise)</div>
+        </div>
+        <div class="konflikt-item">
+          <h4>💸 „Du hast deinen WG-Anteil noch nicht überwiesen"</h4>
+          <p>Geld ist das empfindlichste Thema in WGs. Klare Konten, feste Überweisungstermine und Transparenz helfen. Dauerhaftes Nicht-Zahlen ist ein ernstes Problem – dann muss es ein offenes Gespräch geben.</p>
+          <div class="konflikt-tipp">✅ Lösung: Stehende Daueraufträge für alle Fixkosten einrichten</div>
+        </div>
+        <div class="konflikt-item">
+          <h4>🥘 „Wer hat mein Essen gegessen?"</h4>
+          <p>Ohne klare Absprache entstehen Missverständnisse. Entweder alles gemeinsam (mit Kostenteilung) oder strikt getrennt mit eigenen Kühlschrankbereichen. Mischformen führen oft zu Frust.</p>
+          <div class="konflikt-tipp">✅ Lösung: Beim Einzug klar vereinbaren – gemeinsam oder getrennt</div>
+        </div>
+      </div>
+
+      <div class="hinweis h-ki" style="margin-top: 16px;">
+        <span class="hinweis-icon">🤖</span>
+        <div><strong>Gut mit KI klärbar</strong>„Erstelle einen WG-Vertrag mit Regelungen zu Miete, Putzdienst und Gästen für eine 3er-WG" – KI kann solche Vorlagen in wenigen Sekunden erstellen und auf eure Situation anpassen.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 6. STOLPERFALLEN ── -->
+    <section class="content-section" id="stolperfallen">
+      <div class="section-eyebrow">Thema 6</div>
+      <h2>Typische Stolperfallen bei Geld & Vertrag</h2>
+      <p>Nicht um zu erschrecken – sondern damit du weißt, worauf es ankommt.</p>
+
+      <div class="stolper-grid">
+        <div class="stolper-card">
+          <h4>Kaution bar zahlen ohne Quittung</h4>
+          <p>Immer schriftliche Bestätigung verlangen oder per Überweisung zahlen. Ohne Nachweis ist es schwer, die Kaution später zurückzufordern.</p>
+          <div class="besser">✅ Immer Überweisung mit Verwendungszweck „Kaution"</div>
+        </div>
+        <div class="stolper-card">
+          <h4>Wohnungsübergabe ohne Protokoll</h4>
+          <p>Mängel beim Einzug, die nicht dokumentiert sind, kannst du beim Auszug bezahlen müssen – obwohl du sie nicht verursacht hast.</p>
+          <div class="besser">✅ Immer Übergabeprotokoll erstellen + Fotos machen</div>
+        </div>
+        <div class="stolper-card">
+          <h4>Mietvertrag nicht vollständig lesen</h4>
+          <p>Sonderklauseln zu Renovierung, Tierhaltung oder Untervermietung sind oft im Kleingedruckten. Was du nicht weißt, kann dich Geld kosten.</p>
+          <div class="besser">✅ Jeden Satz lesen – bei Unklarheiten KI oder Mieterverein fragen</div>
+        </div>
+        <div class="stolper-card">
+          <h4>In der WG nur mündliche Abmachungen</h4>
+          <p>„Das haben wir ja besprochen" – aber danach erinnert sich jede:r anders. Geldthemen und Regeln gehören schriftlich festgehalten.</p>
+          <div class="besser">✅ WG-Abmachungen kurz als Nachricht dokumentieren</div>
+        </div>
+        <div class="stolper-card">
+          <h4>Nebenkostenabrechnung nicht prüfen</h4>
+          <p>Fehler in Abrechnungen kommen vor. Wer nicht prüft, zahlt möglicherweise zu viel. Du hast 12 Monate Zeit, Einspruch einzulegen.</p>
+          <div class="besser">✅ Abrechnung mit Vorjahr vergleichen, bei großen Abweichungen nachfragen</div>
+        </div>
+        <div class="stolper-card">
+          <h4>Kündigung zu spät oder falsch abschicken</h4>
+          <p>Kündigungen müssen schriftlich und fristgerecht eingehen. Eine E-Mail reicht nicht – ein Brief mit Unterschrift ist Pflicht.</p>
+          <div class="besser">✅ Einschreiben nutzen, Datum dokumentieren</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 7. GESPRÄCHSANLASS ── -->
+    <section class="content-section" id="gespraech">
+      <div class="gespraech">
+        <div class="gespraech-label">💬 Gesprächsanlass</div>
+        <h3>Sprich darüber – im Unterricht oder zu Hause</h3>
+        <p>Geld und Verträge klingen trocken – aber dahinter stecken echte Lebenssituationen, die fast alle irgendwann betreffen.</p>
+        <div class="gespraech-items">
+          <div class="g-item"><span class="g-bullet">→</span><span>Würdest du lieber alleine wohnen oder in eine WG? Was sind für dich die Vor- und Nachteile?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Welche WG-Regeln wären dir persönlich am wichtigsten – und was würdest du auf keinen Fall tolerieren?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Hast du schon mal einen Vertrag unterschrieben, ohne ihn vollständig gelesen zu haben? Was war das?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Wie viel Geld glaubst du, bräuchtest du für den ersten Monat in einer eigenen Wohnung – und was hast du heute bereits gespart?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Was würdest du tun, wenn ein:e Mitbewohner:in seinen/ihren Mietanteil nicht zahlt?</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">🏠 Erste Wohnung – Survival Guide</div>
+    <p>WP10-Begleitmaterial · Kein Arbeitsheft · Alle Inhalte zur freien Nutzung</p>
+  </div>
+</footer>
+
+<script>
+  // ── Burger Menu ──
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    burger.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => { navLinks.classList.remove('open'); burger.textContent = '☰'; });
+  });
+
+  // ── Kostenrechner ──
+  function formatEur(n) { return n.toLocaleString('de-DE', { minimumFractionDigits: 0 }) + ' €'; }
+
+  function berechne() {
+    const miete      = parseFloat(document.getElementById('r_miete').value) || 0;
+    const nk         = parseFloat(document.getElementById('r_nk').value) || 0;
+    const kFaktor    = parseFloat(document.getElementById('r_kaution_faktor').value) || 2;
+    const einrichtung = parseFloat(document.getElementById('r_einrichtung').value) || 0;
+
+    const warm     = miete + nk;
+    const kaution  = miete * kFaktor;
+    const umzug    = Math.round(miete * 0.3 + 150); // Schätzung
+    const gesamt   = kaution + einrichtung + umzug;
+
+    document.getElementById('out_warm').textContent       = formatEur(warm) + ' / Monat';
+    document.getElementById('out_kaution').textContent    = formatEur(kaution);
+    document.getElementById('out_einrichtung').textContent = formatEur(einrichtung);
+    document.getElementById('out_umzug').textContent      = formatEur(umzug) + ' (Schätzung)';
+    document.getElementById('out_gesamt').textContent     = formatEur(gesamt);
+  }
+
+  document.querySelectorAll('.rechner-field input').forEach(inp => inp.addEventListener('input', berechne));
+  berechne();
+
+  // ── Mietvertrag-Checkliste mit localStorage ──
+  const MV_KEY = 'geld_mv_check';
+  function loadMV() { try { return JSON.parse(localStorage.getItem(MV_KEY)) || {}; } catch { return {}; } }
+  function saveMV(d) { try { localStorage.setItem(MV_KEY, JSON.stringify(d)); } catch {} }
+
+  let mvState = loadMV();
+  const mvItems = document.querySelectorAll('#mv-checklist .mv-item');
+  const mvCount = document.getElementById('mv-count');
+
+  function applyMV() {
+    let done = 0;
+    mvItems.forEach(li => {
+      const box = li.querySelector('.mv-check-box');
+      if (mvState[li.dataset.key]) {
+        li.classList.add('checked'); box.textContent = '✓'; done++;
+      } else {
+        li.classList.remove('checked'); box.textContent = '';
+      }
+    });
+    mvCount.textContent = `${done} von ${mvItems.length} geprüft`;
+  }
+
+  mvItems.forEach(li => {
+    li.addEventListener('click', () => {
+      mvState[li.dataset.key] = !mvState[li.dataset.key];
+      saveMV(mvState); applyMV();
+    });
+  });
+
+  document.getElementById('mv-reset').addEventListener('click', () => {
+    mvState = {}; saveMV(mvState); applyMV();
+  });
+
+  applyMV();
+
+  // ── Scroll aktiv ──
+  const sections = document.querySelectorAll('.content-section');
+  const subLinks = document.querySelectorAll('.subnav a');
+  const sideLinks = document.querySelectorAll('.sidebar-nav a');
+  function updateActive() {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 130) current = s.id; });
+    subLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+    sideLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+</script>
+
+</body>
+</html>

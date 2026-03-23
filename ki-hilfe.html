@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digitale Hilfe & KI – Erste Wohnung Survival Guide</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+    :root {
+      --sand:    #f5f0e8;
+      --warm:    #ede6d6;
+      --stone:   #c8bfae;
+      --ink:     #1c1a17;
+      --slate:   #4a4640;
+      --muted:   #7a736a;
+      --accent:  #6b3fa0;
+      --accent-light: #f3eefb;
+      --orange:  #c0632a;
+      --blue:    #3b6e8f;
+      --green:   #3d6b52;
+      --gold:    #b5892a;
+      --red:     #a83030;
+      --radius:  14px;
+      --shadow:  0 2px 16px rgba(28,26,23,.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav.topnav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(245,240,232,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--stone);
+      padding: 0 clamp(16px, 4vw, 48px);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; height: 60px;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem; color: var(--orange);
+      text-decoration: none; white-space: nowrap; margin-right: auto;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+    .nav-links a {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 13px; border-radius: 8px;
+      font-size: .82rem; font-weight: 500;
+      color: var(--slate); text-decoration: none;
+      transition: background .18s, color .18s; white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active { background: var(--warm); color: var(--ink); }
+    .nav-burger {
+      display: none; background: none; border: none;
+      cursor: pointer; padding: 8px; font-size: 1.4rem; color: var(--ink);
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: linear-gradient(135deg, #f3eefb 0%, #e5d8f5 100%);
+      border-bottom: 1px solid #c8a8e8;
+      padding: clamp(36px,6vw,72px) clamp(16px,4vw,48px) clamp(28px,4vw,48px);
+    }
+    .page-header-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end;
+    }
+    .breadcrumb {
+      font-size: .78rem; color: var(--muted);
+      display: flex; align-items: center; gap: 6px; margin-bottom: 14px;
+    }
+    .breadcrumb a { color: var(--accent); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .page-header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.15; margin-bottom: 14px;
+    }
+    .page-header h1 em { font-style: italic; color: var(--accent); }
+    .page-header p { font-size: 1rem; color: var(--slate); font-weight: 300; max-width: 52ch; }
+    .header-icon {
+      width: 80px; height: 80px; background: #e5d8f5;
+      border-radius: 22px; display: flex; align-items: center;
+      justify-content: center; font-size: 2.4rem;
+      box-shadow: var(--shadow); flex-shrink: 0;
+    }
+
+    /* ── STAND-BANNER ── */
+    .stand-banner {
+      background: #fffbec; border-bottom: 1px solid #e0d098;
+      padding: 12px clamp(16px,4vw,48px);
+    }
+    .stand-banner-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; gap: 12px;
+      font-size: .84rem; color: var(--slate);
+    }
+    .stand-banner strong { color: var(--ink); }
+    .stand-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0;
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+
+    /* ── SUBNAV ── */
+    .subnav {
+      background: white; border-bottom: 1px solid var(--warm);
+      padding: 0 clamp(16px,4vw,48px); overflow-x: auto;
+    }
+    .subnav-inner { max-width: 1100px; margin: 0 auto; display: flex; }
+    .subnav a {
+      display: flex; align-items: center; gap: 7px;
+      padding: 14px 18px; font-size: .84rem; font-weight: 500;
+      color: var(--muted); text-decoration: none; white-space: nowrap;
+      border-bottom: 2.5px solid transparent;
+      transition: color .15s, border-color .15s;
+    }
+    .subnav a:hover { color: var(--ink); }
+    .subnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── MAIN LAYOUT ── */
+    .main-wrap {
+      max-width: 1100px; margin: 0 auto;
+      padding: 40px clamp(16px,4vw,48px);
+      display: grid; grid-template-columns: 220px 1fr;
+      gap: 40px; align-items: start;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar { position: sticky; top: 80px; }
+    .sidebar-title {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+    }
+    .sidebar-nav { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-radius: 10px;
+      font-size: .86rem; font-weight: 500;
+      color: var(--slate); text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .sidebar-nav a:hover { background: var(--warm); color: var(--ink); }
+    .sidebar-nav a.active { background: var(--accent-light); color: var(--accent); }
+    .sidebar-nav .sn-icon {
+      width: 28px; height: 28px; border-radius: 7px; background: var(--warm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem; flex-shrink: 0;
+    }
+    .sidebar-divider { height: 1px; background: var(--stone); opacity: .4; margin: 16px 0; }
+    .sidebar-back {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px; border-radius: 10px;
+      font-size: .82rem; color: var(--muted);
+      text-decoration: none; transition: background .15s, color .15s;
+    }
+    .sidebar-back:hover { background: var(--warm); color: var(--ink); }
+
+    /* ── CONTENT ── */
+    .content { min-width: 0; }
+    .content-section { margin-bottom: 56px; scroll-margin-top: 90px; }
+    .section-eyebrow {
+      font-size: .7rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+    }
+    .content-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem); margin-bottom: 12px;
+    }
+    .content-section > p {
+      font-size: .95rem; color: var(--slate);
+      font-weight: 300; margin-bottom: 24px; max-width: 60ch;
+    }
+    .section-divider { height: 1px; background: var(--stone); opacity: .35; margin: 0 0 52px; }
+
+    /* ── WICHTIGE HINWEISE (groß, oben) ── */
+    .wichtig-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px; margin-bottom: 8px;
+    }
+    .wichtig-card {
+      border-radius: var(--radius); padding: 22px 24px;
+      box-shadow: var(--shadow); border-top: 5px solid;
+    }
+    .wk-sicherheit { background: #faf0f0; border-color: var(--red); }
+    .wk-daten      { background: #eef4f8; border-color: var(--blue); }
+    .wk-ki         { background: #fffbec; border-color: var(--gold); }
+
+    .wichtig-card h3 {
+      font-size: .95rem; font-weight: 700;
+      display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+    }
+    .wichtig-card p { font-size: .85rem; color: var(--slate); line-height: 1.6; }
+
+    /* ── AMPEL KI KANN / NICHT ── */
+    .ampel-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    }
+    .ampel-card {
+      border-radius: var(--radius); padding: 22px 24px; box-shadow: var(--shadow);
+    }
+    .ampel-green { background: #edf5f0; border-top: 4px solid var(--green); }
+    .ampel-red   { background: #faf0f0; border-top: 4px solid var(--red); }
+    .ampel-card h3 {
+      font-size: .9rem; font-weight: 600;
+      display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+    }
+    .ampel-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .ampel-card li {
+      font-size: .84rem; color: var(--slate);
+      display: flex; gap: 8px; align-items: flex-start; line-height: 1.45;
+    }
+    .ampel-green li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .ampel-red   li::before { content: '✕'; color: var(--red);   font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── WANN WAS NUTZEN (3 Spalten) ── */
+    .wann-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    }
+    .wann-card {
+      background: white; border-radius: var(--radius);
+      padding: 20px; box-shadow: var(--shadow);
+    }
+    .wann-card-icon {
+      font-size: 1.8rem; margin-bottom: 12px;
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .wi-ki     { background: var(--accent-light); }
+    .wi-video  { background: #faf0f0; }
+    .wi-person { background: #eef4f0; }
+
+    .wann-card h3 { font-size: .92rem; font-weight: 600; margin-bottom: 8px; }
+    .wann-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .wann-card li { font-size: .82rem; color: var(--muted); line-height: 1.45; padding-left: 14px; position: relative; }
+    .wann-card li::before { content: '·'; position: absolute; left: 0; color: var(--stone); font-size: 1.2rem; line-height: 1.1; }
+
+    /* ── PROMPT-BEISPIELE ── */
+    .prompt-liste { display: flex; flex-direction: column; gap: 12px; }
+    .prompt-item {
+      background: white; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 1px 6px rgba(28,26,23,.07);
+    }
+    .prompt-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 18px; cursor: pointer; user-select: none;
+      transition: background .15s;
+    }
+    .prompt-header:hover { background: var(--sand); }
+    .prompt-tag {
+      font-size: .7rem; font-weight: 700; padding: 3px 9px;
+      border-radius: 100px; flex-shrink: 0;
+    }
+    .pt-gut    { background: #edf5f0; color: var(--green); }
+    .pt-mittel { background: #fffbec; color: var(--gold); }
+    .pt-schlecht { background: #faf0f0; color: var(--red); }
+
+    .prompt-text {
+      font-size: .88rem; font-weight: 500; flex: 1;
+      font-family: 'DM Serif Display', serif; font-style: italic;
+    }
+    .prompt-arrow { font-size: .85rem; color: var(--muted); transition: transform .25s; }
+    .prompt-item.open .prompt-arrow { transform: rotate(180deg); }
+
+    .prompt-body {
+      display: none; padding: 0 18px 18px 18px;
+      font-size: .86rem; color: var(--slate); line-height: 1.6;
+      border-top: 1px solid var(--warm);
+    }
+    .prompt-item.open .prompt-body { display: block; padding-top: 14px; }
+    .prompt-verbessert {
+      margin-top: 12px; background: #edf5f0; border-radius: 8px;
+      padding: 10px 14px; font-size: .82rem; font-weight: 500; color: var(--green);
+    }
+
+    /* ── DATENSCHUTZ BLOCK ── */
+    .datenschutz-box {
+      background: #eef4f8; border: 1.5px solid #a8c4d8;
+      border-radius: var(--radius); padding: 26px 28px;
+    }
+    .ds-title {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--blue);
+      margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+    }
+    .datenschutz-box h3 { font-family: 'DM Serif Display', serif; font-size: 1.15rem; margin-bottom: 10px; }
+    .datenschutz-box p  { font-size: .88rem; color: var(--slate); line-height: 1.65; margin-bottom: 12px; }
+
+    .ds-regeln { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .ds-regeln li {
+      display: flex; gap: 12px; align-items: flex-start;
+      font-size: .86rem; color: var(--slate); line-height: 1.5;
+    }
+    .ds-icon {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: white; display: flex; align-items: center;
+      justify-content: center; font-size: .9rem; flex-shrink: 0;
+      box-shadow: 0 1px 4px rgba(28,26,23,.08);
+    }
+
+    /* ── HINWEIS-BOXEN ── */
+    .hinweis {
+      display: flex; align-items: flex-start; gap: 13px;
+      padding: 16px 20px; border-radius: 12px; border-left: 4px solid;
+      font-size: .88rem; line-height: 1.55; margin: 10px 0;
+    }
+    .h-ki     { background: #f5f1fc; border-color: #9b76d4; }
+    .h-video  { background: #eef5fb; border-color: #5fa3c7; }
+    .h-person { background: #edf5f0; border-color: #5fa37e; }
+    .h-warn   { background: #fdf3e8; border-color: #d98a3a; }
+    .h-danger { background: #faf0f0; border-color: var(--red); }
+    .h-data   { background: #eef4f8; border-color: var(--blue); }
+    .hinweis-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .hinweis strong { display: block; margin-bottom: 2px; font-weight: 600; }
+
+    /* ── TIPP-LISTE ── */
+    .tipp-liste { display: flex; flex-direction: column; gap: 10px; }
+    .tipp-item {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: white; border-radius: 12px; padding: 16px 18px;
+      box-shadow: 0 1px 6px rgba(28,26,23,.07);
+    }
+    .tipp-bullet {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent-light); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+    }
+    .tipp-item p { font-size: .88rem; color: var(--slate); line-height: 1.55; }
+    .tipp-item strong { color: var(--ink); }
+
+    /* ── GESPRÄCHSANLASS ── */
+    .gespraech {
+      background: linear-gradient(135deg, #f3eefb, #e5d8f5);
+      border: 1.5px solid #c8a8e8; border-radius: var(--radius); padding: 24px 28px;
+    }
+    .gespraech-label {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+    }
+    .gespraech h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+    .gespraech p  { font-size: .88rem; color: var(--slate); line-height: 1.6; }
+    .gespraech-items { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+    .g-item { display: flex; gap: 10px; align-items: flex-start; font-size: .86rem; color: var(--slate); }
+    .g-bullet { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+    /* ── STAND-FOOTER ── */
+    .stand-box {
+      background: white; border-radius: var(--radius); padding: 20px 24px;
+      box-shadow: var(--shadow); border-left: 4px solid var(--gold);
+      margin-top: 40px; font-size: .84rem; color: var(--slate); line-height: 1.6;
+    }
+    .stand-box strong { color: var(--ink); display: block; margin-bottom: 4px; }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--stone); padding: 32px clamp(16px,4vw,48px); margin-top: 32px; }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--orange); }
+    footer p { font-size: .8rem; color: var(--muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .main-wrap { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .page-header-inner { grid-template-columns: 1fr; }
+      .header-icon { display: none; }
+      .ampel-grid { grid-template-columns: 1fr; }
+      .wann-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 800px) {
+      .nav-links {
+        display: none; position: absolute; top: 60px; left: 0; right: 0;
+        background: var(--sand); border-bottom: 1px solid var(--stone);
+        flex-direction: column; padding: 12px 16px 20px; gap: 4px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 10px 16px; font-size: .9rem; }
+      .nav-burger { display: block; }
+    }
+    @media (max-width: 540px) {
+      .wichtig-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav class="topnav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">🏠 Erste Wohnung</a>
+    <button class="nav-burger" id="burger">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">🏠 Start</a></li>
+      <li><a href="wohnen.html">🛋️ Wohnen & Alltag</a></li>
+      <li><a href="technik.html">🔧 Technik & Reparatur</a></li>
+      <li><a href="strom-wasser.html">⚡ Strom, Wasser & Heizung</a></li>
+      <li><a href="geld-vertrag.html">💸 Geld & Vertrag</a></li>
+      <li><a href="ki-hilfe.html" class="active">🤖 Digitale Hilfe & KI</a></li>
+      <li><a href="links.html">🔗 Links</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── STAND-BANNER ── -->
+<div class="stand-banner">
+  <div class="stand-banner-inner">
+    <div class="stand-dot"></div>
+    <span><strong>Stand: März 2026</strong> – Besonders im Bereich KI verändern sich Tools, Funktionen und Empfehlungen sehr schnell. Prüfe aktuelle Informationen immer selbst nach.</span>
+  </div>
+</div>
+
+<!-- ── SEITENHEADER ── -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div>
+      <div class="breadcrumb">
+        <a href="index.html">Start</a> › Digitale Hilfe & KI
+      </div>
+      <h1>Digitale Hilfe &amp; <em>KI</em></h1>
+      <p>KI kann vieles erklären, planen und vereinfachen. Aber sie kann nicht bohren, nicht einschätzen, was wirklich gefährlich ist – und sie irrt sich manchmal. Diese Seite zeigt, wann digitale Hilfe sinnvoll ist und wann du auf Menschen oder Fachleute angewiesen bist.</p>
+    </div>
+    <div class="header-icon">🤖</div>
+  </div>
+</header>
+
+<!-- ── SUBNAV ── -->
+<nav class="subnav">
+  <div class="subnav-inner">
+    <a href="#wichtige-hinweise" class="active">⚠️ Wichtige Hinweise</a>
+    <a href="#ki-kann">✅ Was KI kann</a>
+    <a href="#wann-was">🧭 Wann was nutzen?</a>
+    <a href="#prompts">💬 Gute Prompts</a>
+    <a href="#datenschutz">🔒 Datenschutz</a>
+    <a href="#gespraech">💬 Gesprächsanlass</a>
+  </div>
+</nav>
+
+<!-- ── HAUPTINHALT ── -->
+<div class="main-wrap">
+
+  <aside class="sidebar">
+    <div class="sidebar-title">Themen auf dieser Seite</div>
+    <ul class="sidebar-nav">
+      <li><a href="#wichtige-hinweise" class="active"><span class="sn-icon">⚠️</span>Wichtige Hinweise</a></li>
+      <li><a href="#ki-kann"><span class="sn-icon">✅</span>Was KI kann – und nicht</a></li>
+      <li><a href="#wann-was"><span class="sn-icon">🧭</span>Wann was nutzen?</a></li>
+      <li><a href="#prompts"><span class="sn-icon">💬</span>Gute Prompts</a></li>
+      <li><a href="#datenschutz"><span class="sn-icon">🔒</span>Datenschutz</a></li>
+      <li><a href="#gespraech"><span class="sn-icon">💬</span>Gesprächsanlass</a></li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <a href="geld-vertrag.html" class="sidebar-back">← Geld & Vertrag</a>
+    <a href="links.html" class="sidebar-back">Nützliche Links →</a>
+  </aside>
+
+  <main class="content">
+
+    <!-- ── 1. WICHTIGE HINWEISE ── -->
+    <section class="content-section" id="wichtige-hinweise">
+      <div class="section-eyebrow">Zuerst lesen</div>
+      <h2>Drei Dinge, die du wissen solltest</h2>
+      <p>Bevor es um konkrete Tipps geht – diese drei Punkte gelten für alles auf dieser Seite.</p>
+
+      <div class="wichtig-grid">
+
+        <div class="wichtig-card wk-sicherheit">
+          <h3>🚫 Sicherheit geht vor</h3>
+          <p>Bestimmte Arbeiten in der Wohnung dürfen ausschließlich von Fachleuten durchgeführt werden. Das gilt ohne Ausnahme – egal was KI, YouTube oder eine Anleitung im Internet sagt.</p>
+          <br>
+          <p><strong>Niemals selbst:</strong> Elektroinstallationen, Gasleitungen, tragende Wände, Wasserinstallationen in der Wand. Fehler dabei können lebensgefährlich sein und verursachen außerdem Haftungsschäden, die dich finanziell ruinieren können.</p>
+        </div>
+
+        <div class="wichtig-card wk-daten">
+          <h3>🔒 Datenschutz beachten</h3>
+          <p>KI-Tools sind keine vertraulichen Dienste. Was du eingibst, kann unter Umständen für das Training weiterer Modelle verwendet werden.</p>
+          <br>
+          <p><strong>Niemals in KI eingeben:</strong> Deinen vollen Namen, Adresse, Geburtsdatum, Bankdaten, Passwörter, Krankenversicherungsnummer oder andere persönliche Daten. Auch keine Informationen über andere Personen.</p>
+        </div>
+
+        <div class="wichtig-card wk-ki">
+          <h3>✔️ KI-Antworten prüfen</h3>
+          <p>KI-Systeme können plausibel klingende, aber falsche Antworten geben – manchmal sogar sehr überzeugend. Das nennt sich „Halluzination".</p>
+          <br>
+          <p><strong>Immer gegenchecken:</strong> Wichtige Informationen aus KI-Antworten – besonders zu Recht, Gesundheit, Finanzen und Technik – immer an einer zweiten, unabhängigen Quelle prüfen.</p>
+        </div>
+
+      </div>
+
+      <div class="hinweis h-warn" style="margin-top: 6px;">
+        <span class="hinweis-icon">⚠️</span>
+        <div><strong>KI verändert sich ständig</strong>Diese Seite hat den Stand März 2026. Gerade im Bereich KI ändern sich Tools, Funktionen, Preise und Empfehlungen sehr schnell. Prüfe aktuelle Infos immer selbst – was heute stimmt, kann morgen schon überholt sein.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 2. WAS KI KANN ── -->
+    <section class="content-section" id="ki-kann">
+      <div class="section-eyebrow">Thema 1</div>
+      <h2>Was KI kann – und was nicht</h2>
+      <p>Eine klare Übersicht. KI ist ein mächtiges Werkzeug – aber kein allwissendes, unfehlbares System.</p>
+
+      <div class="ampel-grid" style="margin-bottom: 20px;">
+        <div class="ampel-card ampel-green">
+          <h3>✅ Das kann KI gut</h3>
+          <ul>
+            <li>Fachbegriffe einfach erklären (Kaution, Dübel, Kaltmiete …)</li>
+            <li>Materiallisten und Checklisten erstellen</li>
+            <li>Fragen strukturieren und sortieren</li>
+            <li>Vertragsklauseln in einfacher Sprache zusammenfassen</li>
+            <li>Budgets berechnen und Kosten überschlagen</li>
+            <li>Muster-Texte entwerfen (Kündigung, WG-Regeln …)</li>
+            <li>Erste Orientierung zu einem unbekannten Thema geben</li>
+            <li>Alternativen und Optionen aufzeigen</li>
+            <li>Übersetzungen und Sprachfragen klären</li>
+          </ul>
+        </div>
+        <div class="ampel-card ampel-red">
+          <h3>🚫 Das kann KI nicht</h3>
+          <ul>
+            <li>Handwerkliche Tätigkeiten zeigen oder begleiten</li>
+            <li>Einschätzen, ob eine Situation vor Ort wirklich sicher ist</li>
+            <li>Verbindliche Rechtsauskunft geben</li>
+            <li>Aktuelle Preise oder Gesetze garantiert korrekt nennen</li>
+            <li>Persönliche Verhältnisse kennen oder berücksichtigen</li>
+            <li>Zuverlässig unterscheiden, was neu und was veraltet ist</li>
+            <li>Fehler in eigenen Antworten immer selbst erkennen</li>
+            <li>Fachbetriebe, Notdienste oder Behörden ersetzen</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="hinweis h-danger">
+        <span class="hinweis-icon">🚫</span>
+        <div><strong>Keine Anleitung ersetzt Fachkräfte</strong>Eine KI-Anleitung – so detailliert und gut sie klingt – ersetzt niemals eine ausgebildete Fachkraft bei gefährlichen Arbeiten. Strom, Gas, Wasser in der Wand und tragende Strukturen sind immer Facharbeit. Kein Ausnahme, kein „ich pass schon auf".</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 3. WANN WAS NUTZEN ── -->
+    <section class="content-section" id="wann-was">
+      <div class="section-eyebrow">Thema 2</div>
+      <h2>KI, Video oder Mensch – wann was?</h2>
+      <p>Je nach Situation ist ein anderes Mittel am besten. Die drei zu kennen und sinnvoll zu kombinieren ist eine echte Alltagskompetenz.</p>
+
+      <div class="wann-grid" style="margin-bottom: 20px;">
+        <div class="wann-card">
+          <div class="wann-card-icon wi-ki">🤖</div>
+          <h3>KI nutzen, wenn …</h3>
+          <ul>
+            <li>du einen Begriff nicht kennst</li>
+            <li>du eine Liste oder ein Muster brauchst</li>
+            <li>du schnell erste Orientierung willst</li>
+            <li>du etwas durchrechnen möchtest</li>
+            <li>du einen Text formulieren willst</li>
+            <li>du mehrere Optionen vergleichen willst</li>
+          </ul>
+        </div>
+        <div class="wann-card">
+          <div class="wann-card-icon wi-video">🎥</div>
+          <h3>Video anschauen, wenn …</h3>
+          <ul>
+            <li>du einen Handgriff sehen musst</li>
+            <li>Bewegungsabläufe wichtig sind</li>
+            <li>es ums richtige Werkzeug geht</li>
+            <li>du Möbel aufbaust</li>
+            <li>du etwas zum ersten Mal machst</li>
+            <li>Fotos und Bilder die Erklärung erleichtern</li>
+          </ul>
+        </div>
+        <div class="wann-card">
+          <div class="wann-card-icon wi-person">🧑‍🔧</div>
+          <h3>Mensch fragen, wenn …</h3>
+          <ul>
+            <li>es um Sicherheit geht</li>
+            <li>du unsicher bist, ob du selbst darf</li>
+            <li>du eine Rechtsauskunft brauchst</li>
+            <li>etwas direkt vor Ort bewertet werden muss</li>
+            <li>KI und Video sich widersprechen</li>
+            <li>es um Strom, Gas oder Wasser geht</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tipp-liste">
+        <div class="tipp-item">
+          <div class="tipp-bullet">💡</div>
+          <p><strong>Kombinieren ist am klügsten.</strong> KI für den schnellen Einstieg, Video für den Handgriff, Fachmensch für die Absicherung – das Zusammenspiel der drei ist stärker als jedes einzeln.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">🔍</div>
+          <p><strong>Wenn KI und andere Quellen sich widersprechen – Quellen prüfen.</strong> Widerspricht eine KI-Antwort dem, was du auf einer seriösen Website oder in einem Fachbuch gelesen hast? Im Zweifel gilt die geprüfte Quelle.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 4. PROMPTS ── -->
+    <section class="content-section" id="prompts">
+      <div class="section-eyebrow">Thema 3</div>
+      <h2>Gute Prompts für Alltagsfragen</h2>
+      <p>Wie du eine Frage stellst, entscheidet stark über die Qualität der Antwort. Hier typische Beispiele – mit Erklärung, warum manche besser funktionieren.</p>
+
+      <div class="prompt-liste">
+
+        <div class="prompt-item">
+          <div class="prompt-header" data-target="p1">
+            <span class="prompt-tag pt-gut">✓ Gut</span>
+            <span class="prompt-text">„Erkläre mir den Unterschied zwischen Kaltmiete und Warmmiete in einfacher Sprache. Ich bin 17 und suche meine erste Wohnung."</span>
+            <span class="prompt-arrow">▾</span>
+          </div>
+          <div class="prompt-body" id="p1">
+            <p>Dieser Prompt funktioniert gut, weil er das Thema klar benennt, das Ziel erklärt (einfache Sprache) und Kontext gibt (17 Jahre, erste Wohnung). KI kann die Antwort dadurch passend anpassen – nicht zu technisch, nicht zu vereinfacht.</p>
+          </div>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-header" data-target="p2">
+            <span class="prompt-tag pt-gut">✓ Gut</span>
+            <span class="prompt-text">„Erstelle mir eine Checkliste für meine erste eigene Wohnung mit ca. 300 Euro Budget für die Grundausstattung."</span>
+            <span class="prompt-arrow">▾</span>
+          </div>
+          <div class="prompt-body" id="p2">
+            <p>Konkrete Aufgabe + konkretes Budget = sehr gute Antwort. KI kann mit klaren Rahmenbedingungen viel besser antworten als bei offenen Fragen. Das Ergebnis kann direkt genutzt oder angepasst werden.</p>
+          </div>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-header" data-target="p3">
+            <span class="prompt-tag pt-mittel">~ Geht so</span>
+            <span class="prompt-text">„Was muss ich beim Einzug alles beachten?"</span>
+            <span class="prompt-arrow">▾</span>
+          </div>
+          <div class="prompt-body" id="p3">
+            <p>Zu offen. KI antwortet, aber die Antwort ist breit und allgemein. Besser: mehr Kontext hinzufügen.</p>
+            <div class="prompt-verbessert">✅ Verbessert: „Ich ziehe Ende März in eine möblierte 1-Zimmer-Wohnung. Was muss ich in den ersten 2 Wochen erledigen – rechtlich, praktisch und organisatorisch?"</div>
+          </div>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-header" data-target="p4">
+            <span class="prompt-tag pt-gut">✓ Gut</span>
+            <span class="prompt-text">„In meinem Mietvertrag steht: 'Schönheitsreparaturen sind vom Mieter alle 3 Jahre im Bad und alle 5 Jahre in den Wohnräumen durchzuführen.' Was bedeutet das genau?"</span>
+            <span class="prompt-arrow">▾</span>
+          </div>
+          <div class="prompt-body" id="p4">
+            <p>Konkreter Vertragstext + klare Frage. Das ist ein idealer KI-Einsatz: Begriffe erklären, Bedeutung einordnen. Hinweis: Die KI kann allgemeine Erklärungen geben, aber keine verbindliche Rechtsauskunft erteilen. Im Zweifel Mieterverein fragen.</p>
+          </div>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-header" data-target="p5">
+            <span class="prompt-tag pt-schlecht">✗ Nicht so</span>
+            <span class="prompt-text">„Zeig mir wie ich das Rohr repariere."</span>
+            <span class="prompt-arrow">▾</span>
+          </div>
+          <div class="prompt-body" id="p5">
+            <p>KI kann keine Reparaturen zeigen – und sollte hier auch nicht als Anleitung verwendet werden. Wasserrohre gehören zu den Bereichen, die Fachkräfte erledigen müssen. Eine KI-Antwort auf diese Frage kann gefährlich sein, wenn sie zur Eigenreparatur ermutigt.</p>
+            <div class="prompt-verbessert" style="background: #faf0f0; color: var(--red);">🚫 Besser: Hausverwaltung oder Sanitärbetrieb kontaktieren.</div>
+          </div>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-header" data-target="p6">
+            <span class="prompt-tag pt-gut">✓ Gut</span>
+            <span class="prompt-text">„Schreib mir einen kurzen Muster-WG-Vertrag für 3 Personen mit Regelungen zu Miete, Putzdienst und Gästen."</span>
+            <span class="prompt-arrow">▾</span>
+          </div>
+          <div class="prompt-body" id="p6">
+            <p>KI ist sehr gut darin, Muster-Texte zu erstellen – Vorlagen, Briefe, Regelwerke. Das Ergebnis sollte als Entwurf gesehen und noch einmal von allen Beteiligten geprüft werden. Für rechtliche Fragen gilt: nicht blind vertrauen, im Zweifel gegenchecken.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="hinweis h-ki" style="margin-top: 14px;">
+        <span class="hinweis-icon">🤖</span>
+        <div><strong>Grundregel für gute Prompts</strong>Je mehr Kontext du gibst (Alter, Situation, Ziel, Budget), desto besser die Antwort. Und: Wenn dir eine Antwort komisch vorkommt – frag nach, oder check sie gegen eine zweite Quelle.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 5. DATENSCHUTZ ── -->
+    <section class="content-section" id="datenschutz">
+      <div class="section-eyebrow">Thema 4</div>
+      <h2>Datenschutz beim Umgang mit KI</h2>
+      <p>KI-Tools sind praktisch – aber sie sind auch Software, die auf Servern läuft und Daten verarbeitet. Was du eingibst, verlässt dein Gerät.</p>
+
+      <div class="datenschutz-box">
+        <div class="ds-title">🔒 Datenschutz-Regeln</div>
+        <h3>Was du nie in eine KI eingeben solltest</h3>
+        <p>Diese Informationen gehören nicht in ein KI-Chatfenster – egal wie vertrauenswürdig das Tool wirkt:</p>
+
+        <ul class="ds-regeln">
+          <li>
+            <div class="ds-icon">🪪</div>
+            <span><strong>Persönliche Identifikationsdaten:</strong> Voller Name, Adresse, Geburtsdatum, Personalausweisnummer, Steuernummer</span>
+          </li>
+          <li>
+            <div class="ds-icon">🏦</div>
+            <span><strong>Finanzdaten:</strong> Kontonummern, IBAN, Kreditkartendaten, Passwörter, PINs</span>
+          </li>
+          <li>
+            <div class="ds-icon">❤️</div>
+            <span><strong>Gesundheitsdaten:</strong> Diagnosen, Medikamente, Krankenversicherungsnummern – diese sind besonders schützenswert</span>
+          </li>
+          <li>
+            <div class="ds-icon">👥</div>
+            <span><strong>Daten anderer Personen:</strong> Namen, Adressen oder persönliche Infos über Mitbewohner:innen, Freunde oder Familienmitglieder</span>
+          </li>
+          <li>
+            <div class="ds-icon">🔐</div>
+            <span><strong>Zugangsdaten:</strong> Passwörter, Sicherheitsfragen, Login-Informationen jeglicher Art</span>
+          </li>
+        </ul>
+
+        <p>Die meisten KI-Anbieter ermöglichen es in den Einstellungen, das Speichern von Chatverläufen zu deaktivieren oder Chats zu löschen. Es lohnt sich, diese Optionen zu kennen und zu nutzen.</p>
+      </div>
+
+      <div class="hinweis h-data" style="margin-top: 14px;">
+        <span class="hinweis-icon">🔒</span>
+        <div><strong>Faustregel</strong>Würdest du diese Information einem Fremden auf der Straße sagen? Wenn nein – gehört sie nicht in eine KI. Für Wohnungsfragen brauchst du deine echten Daten ohnehin nie einzugeben – allgemeine Fragen funktionieren auch ohne.</div>
+      </div>
+
+      <div class="hinweis h-warn" style="margin-top: 4px;">
+        <span class="hinweis-icon">⚠️</span>
+        <div><strong>KI-Tools sind kein Rechtsberater und kein Arzt</strong>Für Themen, die rechtliche, medizinische oder finanzielle Konsequenzen haben, gilt: KI kann orientieren, aber nicht beraten. Für verbindliche Auskünfte immer qualifizierte Fachleute kontaktieren – Mieterverein, Verbraucherzentrale, Rechtsanwalt, Arzt.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 6. GESPRÄCHSANLASS ── -->
+    <section class="content-section" id="gespraech">
+      <div class="gespraech">
+        <div class="gespraech-label">💬 Gesprächsanlass</div>
+        <h3>Sprich darüber – im Unterricht oder zu Hause</h3>
+        <p>KI ist ein Werkzeug, das gerade jeden Lebensbereich verändert. Darüber nachzudenken – was es kann, was es nicht kann, wann man es nutzen sollte – ist eine wichtige Kompetenz.</p>
+        <div class="gespraech-items">
+          <div class="g-item"><span class="g-bullet">→</span><span>Hast du schon mal eine KI für eine Alltagsfrage benutzt? Was war das Ergebnis – und hast du der Antwort vertraut?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Wann würdest du eine KI-Antwort prüfen – und wann nicht? Wo ziehst du persönlich die Grenze?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Stell dir vor, eine KI sagt dir, du könntest ein Kabel selbst reparieren. Was würdest du tun?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Welche Informationen würdest du nie in eine KI eingeben – und warum?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>KI verändert sich sehr schnell. Was glaubst du, was KI in fünf Jahren besser kann als heute?</span></div>
+        </div>
+      </div>
+
+      <!-- Stand-Hinweis am Ende -->
+      <div class="stand-box" style="margin-top: 32px;">
+        <strong>📅 Hinweis zum Stand dieser Website</strong>
+        Diese Website wurde im März 2026 erstellt. Inhalte zu Gesetzen, Preisen, KI-Tools und technischen Empfehlungen können sich seither verändert haben. Besonders im Bereich KI und digitale Werkzeuge ist die Entwicklung sehr schnell – prüfe wichtige Informationen immer an aktuellen, unabhängigen Quellen. Bei rechtlichen oder finanziellen Fragen gilt: immer eine qualifizierte Beratungsstelle einschalten.
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">🏠 Erste Wohnung – Survival Guide</div>
+    <p>Stand: März 2026 · WP10-Begleitmaterial · Kein Arbeitsheft · Alle Inhalte zur freien Nutzung</p>
+  </div>
+</footer>
+
+<script>
+  // ── Burger Menu ──
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    burger.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => { navLinks.classList.remove('open'); burger.textContent = '☰'; });
+  });
+
+  // ── Prompt-Akkordeon ──
+  document.querySelectorAll('.prompt-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const item = header.closest('.prompt-item');
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.prompt-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // ── Scroll aktiv ──
+  const sections = document.querySelectorAll('.content-section');
+  const subLinks = document.querySelectorAll('.subnav a');
+  const sideLinks = document.querySelectorAll('.sidebar-nav a');
+  function updateActive() {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 130) current = s.id; });
+    subLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+    sideLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+</script>
+
+</body>
+</html>

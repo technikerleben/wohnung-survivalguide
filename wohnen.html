@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wohnen & Alltag – Erste Wohnung Survival Guide</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+    :root {
+      --sand:    #f5f0e8;
+      --warm:    #ede6d6;
+      --stone:   #c8bfae;
+      --ink:     #1c1a17;
+      --slate:   #4a4640;
+      --muted:   #7a736a;
+      --accent:  #c0632a;
+      --accent2: #3b6e8f;
+      --green:   #3d6b52;
+      --gold:    #b5892a;
+      --radius:  14px;
+      --shadow:  0 2px 16px rgba(28,26,23,.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(245,240,232,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--stone);
+      padding: 0 clamp(16px, 4vw, 48px);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; height: 60px;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem; color: var(--accent);
+      text-decoration: none; white-space: nowrap; margin-right: auto;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+    .nav-links a {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 13px; border-radius: 8px;
+      font-size: .82rem; font-weight: 500;
+      color: var(--slate); text-decoration: none;
+      transition: background .18s, color .18s; white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active { background: var(--warm); color: var(--ink); }
+    .nav-burger {
+      display: none; background: none; border: none;
+      cursor: pointer; padding: 8px; font-size: 1.4rem; color: var(--ink);
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: linear-gradient(135deg, #fff8f0 0%, #fdeede 100%);
+      border-bottom: 1px solid #e8d5c0;
+      padding: clamp(36px, 6vw, 72px) clamp(16px, 4vw, 48px) clamp(28px, 4vw, 48px);
+    }
+    .page-header-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end;
+    }
+    .breadcrumb {
+      font-size: .78rem; color: var(--muted);
+      display: flex; align-items: center; gap: 6px; margin-bottom: 14px;
+    }
+    .breadcrumb a { color: var(--accent); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .page-header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.15; margin-bottom: 14px;
+    }
+    .page-header h1 em { font-style: italic; color: var(--accent); }
+    .page-header p { font-size: 1rem; color: var(--slate); font-weight: 300; max-width: 52ch; }
+    .header-icon {
+      width: 80px; height: 80px; background: #fff0e6;
+      border-radius: 22px; display: flex; align-items: center;
+      justify-content: center; font-size: 2.4rem;
+      box-shadow: var(--shadow); flex-shrink: 0;
+    }
+
+    /* ── SUBNAV ── */
+    .subnav {
+      background: white;
+      border-bottom: 1px solid var(--warm);
+      padding: 0 clamp(16px, 4vw, 48px);
+      overflow-x: auto;
+    }
+    .subnav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; gap: 0;
+    }
+    .subnav a {
+      display: flex; align-items: center; gap: 7px;
+      padding: 14px 18px; font-size: .84rem; font-weight: 500;
+      color: var(--muted); text-decoration: none; white-space: nowrap;
+      border-bottom: 2.5px solid transparent;
+      transition: color .15s, border-color .15s;
+    }
+    .subnav a:hover { color: var(--ink); }
+    .subnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── MAIN LAYOUT ── */
+    .main-wrap {
+      max-width: 1100px; margin: 0 auto;
+      padding: 40px clamp(16px, 4vw, 48px);
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar { position: sticky; top: 80px; }
+    .sidebar-title {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+    }
+    .sidebar-nav { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-radius: 10px;
+      font-size: .86rem; font-weight: 500;
+      color: var(--slate); text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .sidebar-nav a:hover { background: var(--warm); color: var(--ink); }
+    .sidebar-nav a.active { background: #fff0e6; color: var(--accent); }
+    .sidebar-nav .sn-icon {
+      width: 28px; height: 28px; border-radius: 7px;
+      background: var(--warm); display: flex; align-items: center;
+      justify-content: center; font-size: .9rem; flex-shrink: 0;
+    }
+
+    .sidebar-divider { height: 1px; background: var(--stone); opacity: .4; margin: 16px 0; }
+
+    .sidebar-back {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px; border-radius: 10px;
+      font-size: .82rem; color: var(--muted);
+      text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .sidebar-back:hover { background: var(--warm); color: var(--ink); }
+
+    /* ── CONTENT AREA ── */
+    .content { min-width: 0; }
+
+    /* ── SECTION BLOCK ── */
+    .content-section {
+      margin-bottom: 56px;
+      scroll-margin-top: 80px;
+    }
+
+    .section-eyebrow {
+      font-size: .7rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+    }
+
+    .content-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+      margin-bottom: 12px;
+    }
+
+    .content-section > p {
+      font-size: .95rem; color: var(--slate);
+      font-weight: 300; margin-bottom: 24px; max-width: 60ch;
+    }
+
+    /* ── CARDS ── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+
+    .card {
+      background: white; border-radius: var(--radius);
+      padding: 22px; box-shadow: var(--shadow);
+      border: 1.5px solid transparent;
+    }
+
+    .card-icon {
+      font-size: 1.5rem; margin-bottom: 12px;
+      width: 46px; height: 46px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ci-orange { background: #fff0e6; }
+    .ci-blue   { background: #e8f2f8; }
+    .ci-green  { background: #e8f4ee; }
+    .ci-gold   { background: #fdf5e0; }
+    .ci-grey   { background: #f0eeec; }
+
+    .card h3 { font-size: .95rem; font-weight: 600; margin-bottom: 6px; }
+    .card p  { font-size: .84rem; color: var(--muted); line-height: 1.55; }
+
+    /* ── ACCORDION ── */
+    .accordion { display: flex; flex-direction: column; gap: 8px; }
+
+    details.acc {
+      background: white; border-radius: var(--radius);
+      border: 1.5px solid transparent; overflow: hidden;
+      transition: border-color .15s;
+    }
+    details.acc[open] { border-color: var(--stone); }
+
+    details.acc summary {
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 20px; cursor: pointer; list-style: none;
+      font-size: .93rem; font-weight: 500; user-select: none;
+    }
+    details.acc summary::-webkit-details-marker { display: none; }
+
+    .acc-icon {
+      width: 32px; height: 32px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+
+    .acc-arrow {
+      margin-left: auto; font-size: .85rem; color: var(--muted);
+      transition: transform .25s;
+    }
+    details.acc[open] .acc-arrow { transform: rotate(180deg); }
+
+    .acc-body {
+      padding: 4px 20px 22px 66px;
+      font-size: .9rem; color: var(--slate); line-height: 1.65;
+    }
+    .acc-body p + p { margin-top: 10px; }
+
+    /* ── TIPPS-LISTE ── */
+    .tipp-liste { display: flex; flex-direction: column; gap: 10px; }
+
+    .tipp-item {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: white; border-radius: 12px; padding: 16px 18px;
+      box-shadow: 0 1px 6px rgba(28,26,23,.07);
+    }
+    .tipp-bullet {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #fff0e6; color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+    }
+    .tipp-item p { font-size: .88rem; color: var(--slate); line-height: 1.55; }
+    .tipp-item strong { color: var(--ink); }
+
+    /* ── HINWEIS-BOXEN ── */
+    .hinweis {
+      display: flex; align-items: flex-start; gap: 13px;
+      padding: 16px 20px; border-radius: 12px; border-left: 4px solid;
+      font-size: .88rem; line-height: 1.55; margin: 6px 0;
+    }
+    .h-ki     { background: #f5f1fc; border-color: #9b76d4; }
+    .h-video  { background: #eef5fb; border-color: #5fa3c7; }
+    .h-person { background: #edf5f0; border-color: #5fa37e; }
+    .h-warn   { background: #fdf3e8; border-color: #d98a3a; }
+    .h-info   { background: #f0f4f8; border-color: var(--stone); }
+
+    .hinweis-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .hinweis strong { display: block; margin-bottom: 2px; font-weight: 600; }
+
+    /* ── FEHLER-TABELLE ── */
+    .fehler-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .fehler-card {
+      background: white; border-radius: 12px; padding: 18px 20px;
+      border-top: 3px solid var(--accent); box-shadow: var(--shadow);
+    }
+    .fehler-card h4 { font-size: .88rem; font-weight: 600; margin-bottom: 6px; }
+    .fehler-card p  { font-size: .82rem; color: var(--muted); line-height: 1.5; }
+    .fehler-card .besser {
+      margin-top: 10px; font-size: .8rem;
+      background: #edf5f0; color: var(--green);
+      border-radius: 6px; padding: 6px 10px;
+      font-weight: 500;
+    }
+
+    /* ── CHECKLISTE ── */
+    .checklist { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .checklist li {
+      display: flex; align-items: center; gap: 12px;
+      background: white; padding: 13px 16px; border-radius: 10px;
+      font-size: .88rem; cursor: pointer;
+      box-shadow: 0 1px 4px rgba(28,26,23,.07);
+      transition: background .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .checklist li:hover { background: var(--warm); }
+    .checklist li.checked { background: #edf5f0; color: var(--green); }
+    .check-box {
+      width: 22px; height: 22px; border-radius: 6px;
+      border: 2px solid var(--stone); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; transition: background .15s, border-color .15s;
+    }
+    .checklist li.checked .check-box {
+      background: var(--green); border-color: var(--green); color: white;
+    }
+    .checklist-meta {
+      font-size: .78rem; color: var(--muted);
+      margin-top: 12px; display: flex; justify-content: space-between;
+      align-items: center;
+    }
+    .checklist-reset {
+      background: none; border: 1px solid var(--stone);
+      border-radius: 6px; padding: 4px 12px;
+      font-size: .78rem; color: var(--muted);
+      cursor: pointer; transition: background .15s;
+    }
+    .checklist-reset:hover { background: var(--warm); }
+
+    /* ── GESPRÄCH ── */
+    .gespraech {
+      background: linear-gradient(135deg, #fff8f0, #fdeede);
+      border: 1.5px solid #e8d5c0;
+      border-radius: var(--radius);
+      padding: 24px 28px;
+    }
+    .gespraech-label {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+    }
+    .gespraech h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+    .gespraech p  { font-size: .88rem; color: var(--slate); line-height: 1.6; }
+
+    .gespraech-items {
+      display: flex; flex-direction: column; gap: 10px; margin-top: 14px;
+    }
+    .g-item {
+      display: flex; gap: 10px; align-items: flex-start;
+      font-size: .86rem; color: var(--slate);
+    }
+    .g-bullet { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      height: 1px; background: var(--stone);
+      opacity: .35; margin: 0 0 52px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--stone);
+      padding: 32px clamp(16px, 4vw, 48px);
+      margin-top: 32px;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--accent); }
+    footer p { font-size: .8rem; color: var(--muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .main-wrap { grid-template-columns: 1fr; }
+      .sidebar { position: static; display: none; }
+      .page-header-inner { grid-template-columns: 1fr; }
+      .header-icon { display: none; }
+    }
+    @media (max-width: 800px) {
+      .nav-links {
+        display: none; position: absolute; top: 60px; left: 0; right: 0;
+        background: var(--sand); border-bottom: 1px solid var(--stone);
+        flex-direction: column; padding: 12px 16px 20px; gap: 4px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 10px 16px; font-size: .9rem; }
+      .nav-burger { display: block; }
+    }
+    @media (max-width: 540px) {
+      .cards { grid-template-columns: 1fr; }
+      .fehler-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">🏠 Erste Wohnung</a>
+    <button class="nav-burger" id="burger">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">🏠 Start</a></li>
+      <li><a href="wohnen.html" class="active">🛋️ Wohnen & Alltag</a></li>
+      <li><a href="technik.html">🔧 Technik & Reparatur</a></li>
+      <li><a href="strom-wasser.html">⚡ Strom, Wasser & Heizung</a></li>
+      <li><a href="geld-vertrag.html">💸 Geld & Vertrag</a></li>
+      <li><a href="ki-hilfe.html">🤖 Digitale Hilfe & KI</a></li>
+      <li><a href="links.html">🔗 Links</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── SEITENHEADER ── -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div>
+      <div class="breadcrumb">
+        <a href="index.html">Start</a> › Wohnen & Alltag
+      </div>
+      <h1>Wohnen &amp; <em>Alltag</em></h1>
+      <p>Von der ersten Einrichtung bis zum Alltag in einer kleinen Wohnung – hier findest du kurze Orientierung zu den Dingen, die wirklich zählen.</p>
+    </div>
+    <div class="header-icon">🛋️</div>
+  </div>
+</header>
+
+<!-- ── SUBNAV (Themensprung) ── -->
+<nav class="subnav">
+  <div class="subnav-inner">
+    <a href="#grundausstattung" class="active">📦 Grundausstattung</a>
+    <a href="#einrichten">🗂️ Einrichten</a>
+    <a href="#ordnung">✨ Ordnung</a>
+    <a href="#fehler">⚠️ Typische Fehler</a>
+    <a href="#gespraech">💬 Gesprächsanlass</a>
+  </div>
+</nav>
+
+<!-- ── HAUPTINHALT ── -->
+<div class="main-wrap">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Themen auf dieser Seite</div>
+    <ul class="sidebar-nav">
+      <li>
+        <a href="#grundausstattung" class="active">
+          <span class="sn-icon">📦</span>Grundausstattung
+        </a>
+      </li>
+      <li>
+        <a href="#einrichten">
+          <span class="sn-icon">🗂️</span>Einrichten & Planen
+        </a>
+      </li>
+      <li>
+        <a href="#ordnung">
+          <span class="sn-icon">✨</span>Ordnung halten
+        </a>
+      </li>
+      <li>
+        <a href="#fehler">
+          <span class="sn-icon">⚠️</span>Typische Fehler
+        </a>
+      </li>
+      <li>
+        <a href="#gespraech">
+          <span class="sn-icon">💬</span>Gesprächsanlass
+        </a>
+      </li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <a href="technik.html" class="sidebar-back">🔧 Weiter: Technik & Reparatur →</a>
+    <a href="index.html" class="sidebar-back">← Zurück zur Startseite</a>
+  </aside>
+
+  <!-- Content -->
+  <main class="content">
+
+    <!-- ── 1. GRUNDAUSSTATTUNG ── -->
+    <section class="content-section" id="grundausstattung">
+      <div class="section-eyebrow">Thema 1</div>
+      <h2>Was brauchst du wirklich?</h2>
+      <p>Die erste Wohnung muss nicht perfekt eingerichtet sein – aber ein paar Dinge braucht man vom ersten Tag an. Und vieles, was man kaufen will, braucht man eigentlich gar nicht.</p>
+
+      <!-- Checkliste Grundausstattung -->
+      <div style="margin-bottom: 20px;">
+        <div class="section-eyebrow" style="margin-bottom: 10px;">Interaktive Checkliste – was ich schon habe</div>
+        <ul class="checklist" id="checklist">
+          <li data-key="cl_bett"><div class="check-box"></div>Bett oder Schlafunterlage</li>
+          <li data-key="cl_schrank"><div class="check-box"></div>Kleiderschrank oder Kleiderständer</li>
+          <li data-key="cl_tisch"><div class="check-box"></div>Esstisch + Stühle (oder Küchentheke)</li>
+          <li data-key="cl_sofa"><div class="check-box"></div>Sitzgelegenheit (Sofa, Stuhl oder Sessel)</li>
+          <li data-key="cl_topf"><div class="check-box"></div>Kochtopf, Pfanne, Grundbesteck</li>
+          <li data-key="cl_teller"><div class="check-box"></div>Teller, Tassen, Gläser</li>
+          <li data-key="cl_bettwaesche"><div class="check-box"></div>Bettwäsche und Handtücher</li>
+          <li data-key="cl_putzmittel"><div class="check-box"></div>Grundputzmittel (Spüli, WC-Reiniger, Schwamm)</li>
+          <li data-key="cl_lampe"><div class="check-box"></div>Mindestens eine Lampe (Deckenlampe reicht nicht immer)</li>
+          <li data-key="cl_vorhang"><div class="check-box"></div>Sichtschutz am Fenster (Vorhang oder Rollo)</li>
+        </ul>
+        <div class="checklist-meta">
+          <span id="cl-count">0 von 10 erledigt</span>
+          <button class="checklist-reset" id="cl-reset">Zurücksetzen</button>
+        </div>
+      </div>
+
+      <!-- Hinweis KI -->
+      <div class="hinweis h-ki">
+        <span class="hinweis-icon">🤖</span>
+        <div><strong>Gut mit KI klärbar</strong>„Erstelle mir eine Einkaufsliste für eine erste kleine Wohnung mit unter 300 Euro Budget" – das beantwortet KI sehr gut und kann die Liste nach deinen Wünschen anpassen.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 2. EINRICHTEN ── -->
+    <section class="content-section" id="einrichten">
+      <div class="section-eyebrow">Thema 2</div>
+      <h2>Einrichten & Planen</h2>
+      <p>Bevor du Möbel kaufst oder aufbaust: kurz nachdenken spart Frust. Kleine Räume haben ihre eigene Logik.</p>
+
+      <div class="accordion" style="margin-bottom: 24px;">
+
+        <details class="acc">
+          <summary>
+            <div class="acc-icon ci-orange">📐</div>
+            Zuerst messen, dann kaufen
+            <span class="acc-arrow">▾</span>
+          </summary>
+          <div class="acc-body">
+            <p>Klingt selbstverständlich – ist es aber nicht. Misst du vor dem Kauf nach, sparst du dir den Frust, wenn das Bett nicht durch die Tür passt oder das Regal zu hoch ist für die Nische. Wichtig: Türrahmen, Fensterbrüstungen und Schrägen mitdenken.</p>
+            <p>Hilfreich: Grundriss aufzeichnen (auf Papier oder mit einer App) und Möbel maßstabsgetreu einpassen. Das kostet 20 Minuten und spart viele Stunden.</p>
+            <div style="margin-top: 12px;">
+              <div class="hinweis h-ki">
+                <span class="hinweis-icon">🤖</span>
+                <div><strong>Gut mit KI klärbar</strong>„Ich habe ein Zimmer mit 12 m², einer Tür an der Nordseite und einem Fenster an der Westseite. Was ist eine sinnvolle Möbelaufstellung?" – solche Fragen beantwortet KI sehr brauchbar.</div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="acc">
+          <summary>
+            <div class="acc-icon ci-blue">💡</div>
+            Licht planen – unterschätzter Faktor
+            <span class="acc-arrow">▾</span>
+          </summary>
+          <div class="acc-body">
+            <p>Viele erste Wohnungen haben nur einen Deckenauslass pro Raum. Das ergibt hartes, ungemütliches Licht. Stehlampen und Nachttischlampen machen aus demselben Raum eine ganz andere Atmosphäre.</p>
+            <p>Merke: Licht von oben wirkt funktional, Licht auf Augenhöhe wirkt gemütlich. Kombination aus beidem ist ideal.</p>
+            <div style="margin-top: 12px;">
+              <div class="hinweis h-video">
+                <span class="hinweis-icon">🎥</span>
+                <div><strong>Lieber als Video anschauen</strong>„Wohnzimmer beleuchten" auf YouTube – visuelle Beispiele helfen hier viel mehr als Text.</div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="acc">
+          <summary>
+            <div class="acc-icon ci-green">🧩</div>
+            Multifunktionale Möbel – Gold wert in kleinen Räumen
+            <span class="acc-arrow">▾</span>
+          </summary>
+          <div class="acc-body">
+            <p>In einer kleinen Wohnung zahlt sich jedes Möbelstück doppelt aus, das mehrere Funktionen erfüllt: ein Bett mit Schubladen unten, ein Couchtisch mit Stauraum, eine Sitzbank mit Deckel.</p>
+            <p>Faustregel: Bevor du ein Möbelstück kaufst, frag dich – hat das hier genau eine Funktion? Dann vielleicht etwas suchen, das zwei erfüllt.</p>
+          </div>
+        </details>
+
+        <details class="acc">
+          <summary>
+            <div class="acc-icon ci-gold">🛒</div>
+            Gebraucht kaufen – wo und wie?
+            <span class="acc-arrow">▾</span>
+          </summary>
+          <div class="acc-body">
+            <p>Ebay Kleinanzeigen, Facebook Marketplace, Flohmärkte und Sozialkaufhäuser sind erste Wahl. Viele gut erhaltene Möbel werden von Leuten verkauft, die umziehen oder renovieren.</p>
+            <p>Worauf achten: Geruch (Feuchtigkeit, Rauchen), sichtbare Schäden, Vollständigkeit bei Selbstbaumöbeln (Anleitungen und Schrauben dabei?). Matratzen und Sofas mit Polstern immer kritisch prüfen.</p>
+            <div style="margin-top: 12px;">
+              <div class="hinweis h-ki">
+                <span class="hinweis-icon">🤖</span>
+                <div><strong>Gut mit KI klärbar</strong>„Worauf muss ich bei Gebrauchtmöbeln achten?" oder „Wie erkenne ich, ob ein Sofa aus dem Secondhandladen in Ordnung ist?" – gute Einstiegsfragen für KI.</div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+      </div><!-- end accordion -->
+
+      <!-- Karten: praktisch vs. nett -->
+      <div class="section-eyebrow" style="margin-bottom: 10px;">Schnelle Orientierung</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon ci-green">✅</div>
+          <h3>Wirklich praktisch</h3>
+          <p>Wandregal über dem Schreibtisch, Hakenleiste im Flur, Vorhänge die abdunkeln, eine gute Matratze, genug Steckdosenleisten.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon ci-gold">🤔</div>
+          <h3>Nett, aber nicht eilig</h3>
+          <p>Deko, Bilder, Pflanzen, Teppich, Spiegel. Schön – aber kauft man besser, wenn man weiß, wie man lebt.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon ci-orange">⏳</div>
+          <h3>Kommt mit der Zeit</h3>
+          <p>Spülmaschine, Raumteiler, passendes Bett statt Luftmatratze, zweiter Stuhl. Das wächst organisch – Druck macht keinen Sinn.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 3. ORDNUNG ── -->
+    <section class="content-section" id="ordnung">
+      <div class="section-eyebrow">Thema 3</div>
+      <h2>Ordnung in kleinen Räumen</h2>
+      <p>In einer kleinen Wohnung entscheidet Ordnung viel stärker über das Wohlgefühl als in einem großen Haus. Nicht Perfektion – aber ein System.</p>
+
+      <div class="tipp-liste" style="margin-bottom: 24px;">
+        <div class="tipp-item">
+          <div class="tipp-bullet">1</div>
+          <p><strong>Jedes Ding braucht einen Platz.</strong> Nicht perfekt sortiert – aber irgendwo, wo es hingehört. Wenn etwas keinen Platz hat, landet es überall.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">2</div>
+          <p><strong>Vertikaler Stauraum schlägt horizontalen.</strong> Regale bis zur Decke nutzen mehr Fläche als breite, niedrige Schränke – besonders in kleinen Räumen.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">3</div>
+          <p><strong>Sichtbares Chaos wirkt größer als es ist.</strong> Offene Regale mit vielen kleinen Dingen sehen unruhig aus. Körbe, Kisten und Schachteln helfen.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">4</div>
+          <p><strong>Eingangsbereich macht den Ton.</strong> Wer Schlüssel, Schuhe und Jacke beim Reinkommen ablegen kann – ohne zu suchen – beginnt zuhause ruhig.</p>
+        </div>
+        <div class="tipp-item">
+          <div class="tipp-bullet">5</div>
+          <p><strong>10-Minuten-Routine abends.</strong> Nicht aufräumen bis alles perfekt ist – sondern täglich zehn Minuten kurz alles an seinen Platz räumen. Das reicht.</p>
+        </div>
+      </div>
+
+      <div class="hinweis h-video">
+        <span class="hinweis-icon">🎥</span>
+        <div><strong>Lieber als Video anschauen</strong>„Small apartment organization" oder „kleine Wohnung ordnen" auf YouTube zeigt konkrete Lösungen viel besser als Text.</div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 4. TYPISCHE FEHLER ── -->
+    <section class="content-section" id="fehler">
+      <div class="section-eyebrow">Thema 4</div>
+      <h2>Typische Anfängerfehler beim Wohnen</h2>
+      <p>Nicht um zu erschrecken – sondern damit du nicht selbst drauf kommen musst.</p>
+
+      <div class="fehler-grid">
+        <div class="fehler-card">
+          <h4>Zu viel auf einmal kaufen</h4>
+          <p>Erst einziehen, dann merken, was wirklich fehlt. Wer vorher auf Vorrat kauft, kauft oft das Falsche.</p>
+          <div class="besser">✅ Besser: Mit dem Nötigsten starten und beobachten</div>
+        </div>
+        <div class="fehler-card">
+          <h4>Möbel ohne Maße bestellen</h4>
+          <p>Das Bett passt nicht durch die Tür, das Sofa versperrt den Heizkörper, das Regal ist zu hoch für die Nische.</p>
+          <div class="besser">✅ Besser: Erst messen, dann bestellen</div>
+        </div>
+        <div class="fehler-card">
+          <h4>Billige Matratze – teurer Fehler</h4>
+          <p>An der Matratze sparen rächt sich schnell. Schlechter Schlaf betrifft alles andere im Leben.</p>
+          <div class="besser">✅ Besser: Gebraucht kaufen, aber gute Qualität</div>
+        </div>
+        <div class="fehler-card">
+          <h4>Kein Sichtschutz am Fenster</h4>
+          <p>Wer in der ersten Nacht vergisst, dass die Straße leuchtet oder Nachbarn schauen können, schläft schlecht.</p>
+          <div class="besser">✅ Besser: Vorhang oder Rollo von Tag 1</div>
+        </div>
+        <div class="fehler-card">
+          <h4>Wohnzimmer vor Küche denken</h4>
+          <p>Couch und Deko – aber kein Topf, keine Pfanne, keine Reibe. Kochen wird dann teuer und nervig.</p>
+          <div class="besser">✅ Besser: Küche zuerst funktionsfähig machen</div>
+        </div>
+        <div class="fehler-card">
+          <h4>Zu wenig Steckdosen einplanen</h4>
+          <p>Moderne Wohnungen haben selten genug Steckdosen. Kraken-Verlängerungskabel unter dem Teppich sind eine Gefahr.</p>
+          <div class="besser">✅ Besser: Qualitativ gute Steckdosenleisten planen</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 5. GESPRÄCHSANLASS ── -->
+    <section class="content-section" id="gespraech">
+      <div class="gespraech">
+        <div class="gespraech-label">💬 Gesprächsanlass</div>
+        <h3>Sprich darüber – im Unterricht oder zu Hause</h3>
+        <p>Diese Fragen sind keine Pflicht. Sie können aber ein guter Einstieg sein, wenn du das Thema vertiefen möchtest – oder wenn du jemanden kennst, der Erfahrung hat.</p>
+        <div class="gespraech-items">
+          <div class="g-item"><span class="g-bullet">→</span><span>Was würdest du in deiner ersten Wohnung als Erstes einrichten – und warum?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Kennst du jemanden, der schon ausgezogen ist? Was war das Überraschendste für sie oder ihn?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Welche Dinge würdest du dir ausleihen, welche kaufen, welche gebraucht suchen?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Was glaubst du, kostet die Grundausstattung für eine erste Wohnung ungefähr – wenn du möglichst günstig vorgehst?</span></div>
+          <div class="g-item"><span class="g-bullet">→</span><span>Gibt es Dinge auf der Checkliste oben, bei denen du dir nicht sicher warst, was damit gemeint ist? Sprich darüber im Unterricht.</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div><!-- end main-wrap -->
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">🏠 Erste Wohnung – Survival Guide</div>
+    <p>WP10-Begleitmaterial · Kein Arbeitsheft · Alle Inhalte zur freien Nutzung</p>
+  </div>
+</footer>
+
+<script>
+  // ── Burger Menu ──
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    burger.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => { navLinks.classList.remove('open'); burger.textContent = '☰'; });
+  });
+
+  // ── Subnav aktiv markieren beim Scrollen ──
+  const sections = document.querySelectorAll('.content-section');
+  const subLinks = document.querySelectorAll('.subnav a');
+  const sideLinks = document.querySelectorAll('.sidebar-nav a');
+
+  function updateActive() {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    subLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+    sideLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+
+  // ── Interaktive Checkliste mit localStorage ──
+  const STORAGE_KEY = 'wohnen_checklist';
+
+  function loadChecklist() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+  }
+  function saveChecklist(data) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
+  }
+
+  const items = document.querySelectorAll('#checklist li');
+  const countEl = document.getElementById('cl-count');
+  let state = loadChecklist();
+
+  function updateCount() {
+    const done = document.querySelectorAll('#checklist li.checked').length;
+    countEl.textContent = `${done} von ${items.length} erledigt`;
+  }
+
+  function applyState() {
+    items.forEach(li => {
+      const key = li.dataset.key;
+      const box = li.querySelector('.check-box');
+      if (state[key]) {
+        li.classList.add('checked');
+        box.textContent = '✓';
+      } else {
+        li.classList.remove('checked');
+        box.textContent = '';
+      }
+    });
+    updateCount();
+  }
+
+  items.forEach(li => {
+    li.addEventListener('click', () => {
+      const key = li.dataset.key;
+      state[key] = !state[key];
+      saveChecklist(state);
+      applyState();
+    });
+  });
+
+  document.getElementById('cl-reset').addEventListener('click', () => {
+    state = {};
+    saveChecklist(state);
+    applyState();
+  });
+
+  applyState();
+</script>
+
+</body>
+</html>
